@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>SpringBoot12-MVC自动配置原理 - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>SpringBoot12-MVC自动配置原理</h1>
+        
+        <h2 class="headline">May 03 2020
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>![TOC]</p>
+<h1 id="MVC自动配置原理"><a href="#MVC自动配置原理" class="headerlink" title="MVC自动配置原理"></a>MVC自动配置原理</h1><h2 id="官网阅读"><a href="#官网阅读" class="headerlink" title="官网阅读"></a>官网阅读</h2><p>在进行项目编写前，我们还需要知道一个东西，就是SpringBoot对我们的SpringMVC还做了哪些配置，包括如何扩展，如何定制。</p>
+<p>只有把这些都搞清楚了，我们在之后使用才会更加得心应手。途径一：源码分析，途径二：官方文档！</p>
+<p>地址 ：<a href="https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-spring-mvc-auto-configuration</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">Spring MVC Auto-configuration</span><br><span class="line">// Spring Boot为Spring MVC提供了自动配置，它可以很好地与大多数应用程序一起工作。</span><br><span class="line">Spring Boot provides auto-configuration for Spring MVC that works well with most applications.</span><br><span class="line">// 自动配置在Spring默认设置的基础上添加了以下功能：</span><br><span class="line">The auto-configuration adds the following features on top of Spring’s defaults:</span><br><span class="line">// 包含视图解析器</span><br><span class="line">Inclusion of ContentNegotiatingViewResolver and BeanNameViewResolver beans.</span><br><span class="line">// 支持静态资源文件夹的路径，以及webjars</span><br><span class="line">Support for serving static resources, including support for WebJars </span><br><span class="line">// 自动注册了Converter：</span><br><span class="line">// 转换器，这就是我们网页提交数据到后台自动封装成为对象的东西，比如把"1"字符串自动转换为int类型</span><br><span class="line">// Formatter：【格式化器，比如页面给我们了一个2019-8-10，它会给我们自动格式化为Date对象】</span><br><span class="line">Automatic registration of Converter, GenericConverter, and Formatter beans.</span><br><span class="line">// HttpMessageConverters</span><br><span class="line">// SpringMVC用来转换Http请求和响应的的，比如我们要把一个User对象转换为JSON字符串，可以去看官网文档解释；</span><br><span class="line">Support for HttpMessageConverters (covered later in this document).</span><br><span class="line">// 定义错误代码生成规则的</span><br><span class="line">Automatic registration of MessageCodesResolver (covered later in this document).</span><br><span class="line">// 首页定制</span><br><span class="line">Static index.html support.</span><br><span class="line">// 图标定制</span><br><span class="line">Custom Favicon support (covered later in this document).</span><br><span class="line">// 初始化数据绑定器：帮我们把请求数据绑定到JavaBean中！</span><br><span class="line">Automatic use of a ConfigurableWebBindingInitializer bean (covered later in this document).</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">如果您希望保留Spring Boot MVC功能，并且希望添加其他MVC配置（拦截器、格式化程序、视图控制器和其他功能），则可以添加自己</span><br><span class="line">的@configuration类，类型为webmvcconfiguer，但不添加@EnableWebMvc。如果希望提供</span><br><span class="line">RequestMappingHandlerMapping、RequestMappingHandlerAdapter或ExceptionHandlerExceptionResolver的自定义</span><br><span class="line">实例，则可以声明WebMVCregistrationAdapter实例来提供此类组件。</span><br><span class="line">*/</span><br><span class="line">If you want to keep Spring Boot MVC features and you want to add additional MVC configuration </span><br><span class="line">(interceptors, formatters, view controllers, and other features), you can add your own </span><br><span class="line">@Configuration class of type WebMvcConfigurer but without @EnableWebMvc. If you wish to provide </span><br><span class="line">custom instances of RequestMappingHandlerMapping, RequestMappingHandlerAdapter, or </span><br><span class="line">ExceptionHandlerExceptionResolver, you can declare a WebMvcRegistrationsAdapter instance to provide such components.</span><br><span class="line"></span><br><span class="line">// 如果您想完全控制Spring MVC，可以添加自己的@Configuration，并用@EnableWebMvc进行注释。</span><br><span class="line">If you want to take complete control of Spring MVC, you can add your own @Configuration annotated with @EnableWebMvc.</span><br></pre></td></tr></table></figure>
+
+<p>我们来仔细对照，看一下它怎么实现的，它告诉我们SpringBoot已经帮我们自动配置好了SpringMVC，然后自动配置了哪些东西呢？</p>
+<h2 id="ContentNegotiatingViewResolver-内容协商视图解析器"><a href="#ContentNegotiatingViewResolver-内容协商视图解析器" class="headerlink" title="ContentNegotiatingViewResolver 内容协商视图解析器"></a><strong>ContentNegotiatingViewResolver 内容协商视图解析器</strong></h2><p>自动配置了ViewResolver，就是我们之前学习的SpringMVC的视图解析器；</p>
+<p>即根据方法的返回值取得视图对象（View），然后由视图对象决定如何渲染（转发，重定向）。</p>
+<p>我们去看看这里的源码：我们找到 WebMvcAutoConfiguration ， 然后搜索ContentNegotiatingViewResolver。找到如下方法！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@ConditionalOnBean</span>(ViewResolver<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">ConditionalOnMissingBean</span>(<span class="title">name</span> </span>= <span class="string">"viewResolver"</span>, value = ContentNegotiatingViewResolver<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">ContentNegotiatingViewResolver</span> <span class="title">viewResolver</span>(<span class="title">BeanFactory</span> <span class="title">beanFactory</span>) </span>&#123;</span><br><span class="line">    ContentNegotiatingViewResolver resolver = <span class="keyword">new</span> ContentNegotiatingViewResolver();</span><br><span class="line">    resolver.setContentNegotiationManager(beanFactory.getBean(ContentNegotiationManager<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">    <span class="comment">// ContentNegotiatingViewResolver使用所有其他视图解析器来定位视图，因此它应该具有较高的优先级</span></span><br><span class="line">    resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);</span><br><span class="line">    <span class="keyword">return</span> resolver;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以点进这类看看！找到对应的解析视图的代码；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Nullable</span> <span class="comment">// 注解说明：@Nullable 即参数可为null</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">resolveViewName</span><span class="params">(String viewName, Locale locale)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    RequestAttributes attrs = RequestContextHolder.getRequestAttributes();</span><br><span class="line">    Assert.state(attrs <span class="keyword">instanceof</span> ServletRequestAttributes, <span class="string">"No current ServletRequestAttributes"</span>);</span><br><span class="line">    List&lt;MediaType&gt; requestedMediaTypes = <span class="keyword">this</span>.getMediaTypes(((ServletRequestAttributes)attrs).getRequest());</span><br><span class="line">    <span class="keyword">if</span> (requestedMediaTypes != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 获取候选的视图对象</span></span><br><span class="line">        List&lt;View&gt; candidateViews = <span class="keyword">this</span>.getCandidateViews(viewName, locale, requestedMediaTypes);</span><br><span class="line">        <span class="comment">// 选择一个最适合的视图对象，然后把这个对象返回</span></span><br><span class="line">        View bestView = <span class="keyword">this</span>.getBestView(candidateViews, requestedMediaTypes, attrs);</span><br><span class="line">        <span class="keyword">if</span> (bestView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> bestView;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// .....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们继续点进去看，他是怎么获得候选的视图的呢？</p>
+<p>getCandidateViews中看到他是把所有的视图解析器拿来，进行while循环，挨个解析！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Iterator var5 = <span class="keyword">this</span>.viewResolvers.iterator();</span><br></pre></td></tr></table></figure>
+
+<p>所以得出结论：<strong>ContentNegotiatingViewResolver 这个视图解析器就是用来组合所有的视图解析器的</strong></p>
+<p>我们再去研究下他的组合逻辑，看到有个属性viewResolvers，看看它是在哪里进行赋值的！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initServletContext</span><span class="params">(ServletContext servletContext)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里它是从beanFactory工具中获取容器中的所有视图解析器</span></span><br><span class="line">    <span class="comment">// ViewRescolver.class 把所有的视图解析器来组合的</span></span><br><span class="line">    Collection&lt;ViewResolver&gt; matchingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(<span class="keyword">this</span>.obtainApplicationContext(), ViewResolver<span class="class">.<span class="keyword">class</span>).<span class="title">values</span>()</span>;</span><br><span class="line">    ViewResolver viewResolver;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.viewResolvers == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.viewResolvers = <span class="keyword">new</span> ArrayList(matchingBeans.size());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...............</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>既然它是在容器中去找视图解析器，我们是否可以猜想，我们就可以去实现一个视图解析器了呢？</p>
+<p>我们可以自己给容器中去添加一个视图解析器；这个类就会帮我们自动的将它组合进来；<strong>我们去实现一下</strong></p>
+<p>1、我们在我们的主程序中去写一个视图解析器来试试；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span> <span class="comment">//放到bean中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ViewResolver <span class="title">myViewResolver</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyViewResolver();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//我们写一个静态内部类，视图解析器就需要实现ViewResolver接口</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyViewResolver</span> <span class="keyword">implements</span> <span class="title">ViewResolver</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">resolveViewName</span><span class="params">(String s, Locale locale)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、怎么看我们自己写的视图解析器有没有起作用呢？</p>
+<p>我们给 DispatcherServlet 中的 doDispatch方法 加个断点进行调试一下，因为所有的请求都会走到这个方法中</p>
+<p><img src="https://img2020.cnblogs.com/blog/1418974/202003/1418974-20200320135649063-435423503.png" alt=""></p>
+<p>找到视图解析器，我们看到我们自己定义的就在这里了；</p>
+<p><img src="https://img2020.cnblogs.com/blog/1418974/202003/1418974-20200320135721808-908348729.png" alt=""></p>
+<h2 id="转换器和格式化器"><a href="#转换器和格式化器" class="headerlink" title="转换器和格式化器"></a>转换器和格式化器</h2><p>找到格式化转换器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FormattingConversionService <span class="title">mvcConversionService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 拿到配置文件中的格式化规则</span></span><br><span class="line">    WebConversionService conversionService = </span><br><span class="line">        <span class="keyword">new</span> WebConversionService(<span class="keyword">this</span>.mvcProperties.getDateFormat());</span><br><span class="line">    addFormatters(conversionService);</span><br><span class="line">    <span class="keyword">return</span> conversionService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击去：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getDateFormat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.dateFormat;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Date format to use. For instance, `dd/MM/yyyy`. 默认的</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> String dateFormat;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到在我们的Properties文件中，我们可以进行自动配置它！</p>
+<p>如果配置了自己的格式化方式，就会注册到Bean中生效，我们可以在配置文件中配置日期格式化的规则：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1418974/202003/1418974-20200320135806213-850396052.png" alt=""></p>
+<h2 id="修改SpringBoot的默认配置"><a href="#修改SpringBoot的默认配置" class="headerlink" title="修改SpringBoot的默认配置"></a>修改SpringBoot的默认配置</h2><p>这么多的自动配置，原理都是一样的，通过这个WebMVC的自动配置原理分析，我们要学会一种学习方式，通过源码探究，得出结论；这个结论一定是属于自己的，而且一通百通。</p>
+<p>SpringBoot的底层，大量用到了这些设计细节思想，所以，没事需要多阅读源码！得出结论；</p>
+<p>SpringBoot在自动配置很多组件的时候，先看容器中有没有用户自己配置的（如果用户自己配置@bean），如果有就用用户配置的，如果没有就用自动配置的；</p>
+<p>如果有些组件可以存在多个，比如我们的视图解析器，就将用户配置的和自己默认的组合起来！</p>
+<p><strong>扩展使用SpringMVC</strong> 官方文档如下：</p>
+<p>If you want to keep Spring Boot MVC features and you want to add additional MVC configuration (interceptors, formatters, view controllers, and other features), you can add your own @Configuration class of type WebMvcConfigurer but without @EnableWebMvc. If you wish to provide custom instances of RequestMappingHandlerMapping, RequestMappingHandlerAdapter, or ExceptionHandlerExceptionResolver, you can declare a WebMvcRegistrationsAdapter instance to provide such components.</p>
+<p>我们要做的就是编写一个@Configuration注解类，并且类型要为WebMvcConfigurer，还不能标注@EnableWebMvc注解；我们去自己写一个；我们新建一个包叫config，写一个类MyMvcConfig；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//应为类型要求为WebMvcConfigurer，所以我们实现其接口</span></span><br><span class="line"><span class="comment">//可以使用自定义类扩展MVC的功能</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 浏览器发送/test ， 就会跳转到test页面；</span></span><br><span class="line">        registry.addViewController(<span class="string">"/test"</span>).setViewName(<span class="string">"test"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们去浏览器访问一下：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1418974/202003/1418974-20200320135843199-499519424.png" alt=""></p>
+<p><strong>确实也跳转过来了！所以说，我们要扩展SpringMVC，官方就推荐我们这么去使用，既保SpringBoot留所有的自动配置，也能用我们扩展的配置！</strong></p>
+<p>我们可以去分析一下原理：</p>
+<p>1、WebMvcAutoConfiguration 是 SpringMVC的自动配置类，里面有一个类WebMvcAutoConfigurationAdapter</p>
+<p>2、这个类上有一个注解，在做其他自动配置时会导入：@Import(EnableWebMvcConfiguration.class)</p>
+<p>3、我们点进EnableWebMvcConfiguration这个类看一下，它继承了一个父类：DelegatingWebMvcConfiguration</p>
+<p>这个父类中有这样一段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelegatingWebMvcConfiguration</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurationSupport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> WebMvcConfigurerComposite configurers = <span class="keyword">new</span> WebMvcConfigurerComposite();</span><br><span class="line">    </span><br><span class="line">  <span class="comment">// 从容器中获取所有的webmvcConfigurer</span></span><br><span class="line">    <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setConfigurers</span><span class="params">(List&lt;WebMvcConfigurer&gt; configurers)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!CollectionUtils.isEmpty(configurers)) &#123;</span><br><span class="line">            <span class="keyword">this</span>.configurers.addWebMvcConfigurers(configurers);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、我们可以在这个类中去寻找一个我们刚才设置的viewController当做参考，发现它调用了一个</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.configurers.addViewControllers(registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5、我们点进去看一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">    Iterator var2 = <span class="keyword">this</span>.delegates.iterator();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(var2.hasNext()) &#123;</span><br><span class="line">        <span class="comment">// 将所有的WebMvcConfigurer相关配置来一起调用！包括我们自己配置的和Spring给我们配置的</span></span><br><span class="line">        WebMvcConfigurer delegate = (WebMvcConfigurer)var2.next();</span><br><span class="line">        delegate.addViewControllers(registry);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以得出结论：所有的WebMvcConfiguration都会被作用，不止Spring自己的配置类，我们自己的配置类当然也会被调用；</p>
+<h2 id="全面接管SpringMVC"><a href="#全面接管SpringMVC" class="headerlink" title="全面接管SpringMVC"></a>全面接管SpringMVC</h2><p>官方文档：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">If you want to take complete control of Spring MVC</span><br><span class="line">you can add your own @Configuration annotated with @EnableWebMvc.</span><br></pre></td></tr></table></figure>
+
+<p>全面接管即：SpringBoot对SpringMVC的自动配置不需要了，所有都是我们自己去配置！</p>
+<p>只需在我们的配置类中要加一个@EnableWebMvc。</p>
+<p>我们看下如果我们全面接管了SpringMVC了，我们之前SpringBoot给我们配置的静态资源映射一定会无效，我们可以去测试一下；</p>
+<p>不加注解之前，访问首页：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1418974/202003/1418974-20200320135956283-652116004.png" alt=""></p>
+<p> 给配置类加上注解：@EnableWebMvc</p>
+<p><img src="https://img2020.cnblogs.com/blog/1418974/202003/1418974-20200320140011816-727049449.png" alt=""></p>
+<p>我们发现所有的SpringMVC自动配置都失效了！回归到了最初的样子；</p>
+<p><strong>当然，我们开发中，不推荐使用全面接管SpringMVC</strong></p>
+<p>思考问题？为什么加了一个注解，自动配置就失效了！我们看下源码：</p>
+<p>1、这里发现它是导入了一个类，我们可以继续进去看</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Import</span>(&#123;DelegatingWebMvcConfiguration<span class="class">.<span class="keyword">class</span>&#125;)</span></span><br><span class="line"><span class="class"><span class="title">public</span> @<span class="title">interface</span> <span class="title">EnableWebMvc</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、它继承了一个父类 WebMvcConfigurationSupport</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelegatingWebMvcConfiguration</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurationSupport</span> </span>&#123;</span><br><span class="line">  <span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、我们来回顾一下Webmvc自动配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span>(proxyBeanMethods = <span class="keyword">false</span>)</span><br><span class="line"><span class="meta">@ConditionalOnWebApplication</span>(type = Type.SERVLET)</span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(&#123; Servlet<span class="class">.<span class="keyword">class</span>, <span class="title">DispatcherServlet</span>.<span class="title">class</span>, <span class="title">WebMvcConfigurer</span>.<span class="title">class</span> &#125;)</span></span><br><span class="line"><span class="class">// 这个注解的意思就是：容器中没有这个组件的时候，这个自动配置类才生效</span></span><br><span class="line"><span class="class">@<span class="title">ConditionalOnMissingBean</span>(<span class="title">WebMvcConfigurationSupport</span>.<span class="title">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">AutoConfigureOrder</span>(<span class="title">Ordered</span>.<span class="title">HIGHEST_PRECEDENCE</span> + 10)</span></span><br><span class="line"><span class="class">@<span class="title">AutoConfigureAfter</span>(</span>&#123; DispatcherServletAutoConfiguration<span class="class">.<span class="keyword">class</span>, <span class="title">TaskExecutionAutoConfiguration</span>.<span class="title">class</span>,</span></span><br><span class="line"><span class="class">    <span class="title">ValidationAutoConfiguration</span>.<span class="title">class</span> &#125;)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">WebMvcAutoConfiguration</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总结一句话：@EnableWebMvc将WebMvcConfigurationSupport组件导入进来了；</p>
+<p>而导入的WebMvcConfigurationSupport只是SpringMVC最基本的功能！</p>
+<p><strong>在SpringBoot中会有非常多的扩展配置，只要看见了这个，我们就应该多留心注意~</strong></p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/springboot/#springboot">springboot</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/03/SpringBoot12-MVC%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/ - SpringBoot12-MVC自动配置原理 @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "SpringBoot12-MVC自动配置原理",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

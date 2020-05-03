@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>springboot06-自定义Starter - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>springboot06-自定义Starter</h1>
+        
+        <h2 class="headline">May 03 2020
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>![TOC]</p>
+<h1 id="自定义Starter"><a href="#自定义Starter" class="headerlink" title="自定义Starter"></a>自定义Starter</h1><p> 我们分析完毕了源码以及自动装配的过程，我们可以尝试自定义一个启动器来玩玩！</p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>启动器模块是一个 空 jar 文件，仅提供辅助性依赖管理，这些依赖可能用于自动装配或者其他类库；</p>
+<p><strong>命名归约：</strong></p>
+<p>官方命名：</p>
+<ul>
+<li>前缀：spring-boot-starter-xxx</li>
+<li>比如：spring-boot-starter-web….</li>
+</ul>
+<p>自定义命名：</p>
+<ul>
+<li>xxx-spring-boot-starter</li>
+<li>比如：mybatis-spring-boot-starter</li>
+</ul>
+<h2 id="编写启动器"><a href="#编写启动器" class="headerlink" title="编写启动器"></a>编写启动器</h2><p>1、在IDEA中新建一个空项目 spring-boot-starter-diy</p>
+<p>2、新建一个普通Maven模块：kuang-spring-boot-starter</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200313150249974-1154004988.png" alt=""></p>
+<p> 3、新建一个Springboot模块：kuang-spring-boot-starter-autoconfigure</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200313150441188-998976750.png" alt=""></p>
+<p> 4、点击apply即可，基本结构</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200313150510375-904524951.png" alt=""></p>
+<p> 5、在我们的 starter 中 导入  autoconfigure 的依赖！</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 启动器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--  引入自动配置模块 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.kuang<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kuang-spring-boot-starter-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>6、将 autoconfigure 项目下多余的文件都删掉，Pom中只留下一个 starter，这是所有的启动器基本配置！</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200313150558941-1250231577.png" alt=""></p>
+<p> 7、我们编写一个自己的服务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    HelloProperties helloProperties;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HelloProperties <span class="title">getHelloProperties</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> helloProperties;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHelloProperties</span><span class="params">(HelloProperties helloProperties)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.helloProperties = helloProperties;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> helloProperties.getPrefix() + name + helloProperties.getSuffix();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>8、编写HelloProperties 配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 前缀 kuang.hello</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"kuang.hello"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloProperties</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String prefix;</span><br><span class="line">    <span class="keyword">private</span> String suffix;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPrefix</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> prefix;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPrefix</span><span class="params">(String prefix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.prefix = prefix;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSuffix</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> suffix;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSuffix</span><span class="params">(String suffix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.suffix = suffix;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>9、编写我们的自动配置类并注入bean，测试！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.EnableConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnWebApplication</span> <span class="comment">//web应用生效</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(HelloProperties<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">HelloServiceAutoConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    HelloProperties helloProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HelloService <span class="title">helloService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        HelloService service = <span class="keyword">new</span> HelloService();</span><br><span class="line">        service.setHelloProperties(helloProperties);</span><br><span class="line">        <span class="keyword">return</span> service;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>10、在resources编写一个自己的 META-INF\spring.factories</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Auto Configure</span></span><br><span class="line"><span class="string">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span></span><br><span class="line"><span class="string">com.kuang.HelloServiceAutoConfiguration</span></span><br></pre></td></tr></table></figure>
+
+<p>11、编写完成后，可以安装到maven仓库中！</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200313150727166-589965835.png" alt=""></p>
+<h2 id="新建项目测试我们自己写的启动器"><a href="#新建项目测试我们自己写的启动器" class="headerlink" title="新建项目测试我们自己写的启动器"></a>新建项目测试我们自己写的启动器</h2><p>1、新建一个SpringBoot 项目</p>
+<p>2、导入我们自己写的启动器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.kuang<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kuang-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、编写一个 HelloController  进行测试我们自己的写的接口！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang.controller;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    HelloService helloService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> helloService.sayHello(<span class="string">"zxc"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、编写配置文件 application.properties</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">kuang.hello.prefix="ppp"</span></span><br><span class="line"><span class="string">kuang.hello.suffix="sss"</span></span><br></pre></td></tr></table></figure>
+
+<p>5、启动项目进行测试，结果成功 !</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200313150915261-1603789635.png" alt=""></p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/springboot/#springboot">springboot</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/03/springboot06-%E8%87%AA%E5%AE%9A%E4%B9%89Starter/ - springboot06-自定义Starter @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "springboot06-自定义Starter",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

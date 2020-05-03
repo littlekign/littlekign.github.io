@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>SpringBoot07-整合JDBC - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>SpringBoot07-整合JDBC</h1>
+        
+        <h2 class="headline">May 03 2020
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>![TOC]</p>
+<h1 id="SpringData简介"><a href="#SpringData简介" class="headerlink" title="SpringData简介"></a>SpringData简介</h1><p>对于数据访问层，无论是 SQL(关系型数据库) 还是 NOSQL(非关系型数据库)，Spring Boot 底层都是采用 Spring Data 的方式进行统一处理。</p>
+<p>Spring Boot 底层都是采用 Spring Data 的方式进行统一处理各种数据库，Spring Data 也是 Spring 中与 Spring Boot、Spring Cloud 等齐名的知名项目。</p>
+<p>Sping Data 官网：<a href="https://spring.io/projects/spring-data" target="_blank" rel="noopener">https://spring.io/projects/spring-data</a></p>
+<p>数据库相关的启动器 ：可以参考官方文档：</p>
+<p><a href="https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#using-boot-starter" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#using-boot-starter</a></p>
+<h1 id="整合JDBC"><a href="#整合JDBC" class="headerlink" title="整合JDBC"></a>整合JDBC</h1><h2 id="创建测试项目测试数据源"><a href="#创建测试项目测试数据源" class="headerlink" title="创建测试项目测试数据源"></a>创建测试项目测试数据源</h2><p>1、我去新建一个项目测试：springboot-data-jdbc ; 引入相应的模块！基础模块</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200314125500009-472778612.png" alt=""></p>
+<p> 2、项目建好之后，发现自动帮我们导入了如下的启动器：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> 3、编写yaml配置文件连接数据库；</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="comment">#?serverTimezone=UTC解决时区的报错</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/springboot?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<p>4、配置完这一些东西后，我们就可以直接去使用了，因为SpringBoot已经默认帮我们进行了自动配置；去测试类测试一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SpringbootDataJdbcApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//DI注入数据源</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    DataSource dataSource;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">//看一下默认数据源</span></span><br><span class="line">        System.out.println(dataSource.getClass());</span><br><span class="line">        <span class="comment">//获得连接</span></span><br><span class="line">        Connection connection =   dataSource.getConnection();</span><br><span class="line">        System.out.println(connection);</span><br><span class="line">        <span class="comment">//关闭连接</span></span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：我们可以看到他默认给我们配置的数据源为 : class com.zaxxer.hikari.HikariDataSource ， 我们并没有手动配置</p>
+<p>我们来全局搜索一下，找到数据源的所有自动配置都在 ：DataSourceAutoConfiguration文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Import</span>(</span><br><span class="line">    &#123;Hikari<span class="class">.<span class="keyword">class</span>, <span class="title">Tomcat</span>.<span class="title">class</span>, <span class="title">Dbcp2</span>.<span class="title">class</span>, <span class="title">Generic</span>.<span class="title">class</span>, <span class="title">DataSourceJmxConfiguration</span>.<span class="title">class</span>&#125;</span></span><br><span class="line"><span class="class">)</span></span><br><span class="line"><span class="class"><span class="title">protected</span> <span class="title">static</span> <span class="title">class</span> <span class="title">PooledDataSourceConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">PooledDataSourceConfiguration</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里导入的类都在 DataSourceConfiguration 配置类下，可以看出 Spring Boot 2.2.5 默认使用HikariDataSource 数据源，而以前版本，如 Spring Boot 1.5 默认使用 org.apache.tomcat.jdbc.pool.DataSource 作为数据源；</p>
+<p><strong>HikariDataSource 号称 Java WEB 当前速度最快的数据源，相比于传统的 C3P0 、DBCP、Tomcat jdbc 等连接池更加优秀；</strong></p>
+<p><strong>可以使用 spring.datasource.type 指定自定义的数据源类型，值为 要使用的连接池实现的完全限定名。</strong></p>
+<p>关于数据源我们并不做介绍，有了数据库连接，显然就可以 CRUD 操作数据库了。但是我们需要先了解一个对象 JdbcTemplate</p>
+<h2 id="JDBCTemplate"><a href="#JDBCTemplate" class="headerlink" title="JDBCTemplate"></a>JDBCTemplate</h2><p>1、有了数据源(com.zaxxer.hikari.HikariDataSource)，然后可以拿到数据库连接(java.sql.Connection)，有了连接，就可以使用原生的 JDBC 语句来操作数据库；</p>
+<p>2、即使不使用第三方第数据库操作框架，如 MyBatis等，Spring 本身也对原生的JDBC 做了轻量级的封装，即JdbcTemplate。</p>
+<p>3、数据库操作的所有 CRUD 方法都在 JdbcTemplate 中。</p>
+<p>4、Spring Boot 不仅提供了默认的数据源，同时默认已经配置好了 JdbcTemplate 放在了容器中，程序员只需自己注入即可使用</p>
+<p>5、JdbcTemplate 的自动配置是依赖 org.springframework.boot.autoconfigure.jdbc 包下的 JdbcTemplateConfiguration 类</p>
+<p><strong>JdbcTemplate主要提供以下几类方法：</strong></p>
+<ul>
+<li>execute方法：可以用于执行任何SQL语句，一般用于执行DDL语句；</li>
+<li>update方法及batchUpdate方法：update方法用于执行新增、修改、删除等语句；batchUpdate方法用于执行批处理相关语句；</li>
+<li>query方法及queryForXXX方法：用于执行查询相关语句；</li>
+<li>call方法：用于执行存储过程、函数相关语句。</li>
+</ul>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>编写一个Controller，注入 jdbcTemplate，编写测试方法进行访问测试；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.jdbc.core.JdbcTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/jdbc"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Spring Boot 默认提供了数据源，默认提供了 org.springframework.jdbc.core.JdbcTemplate</span></span><br><span class="line"><span class="comment">     * JdbcTemplate 中会自己注入数据源，用于简化 JDBC操作</span></span><br><span class="line"><span class="comment">     * 还能避免一些常见的错误,使用起来也不用再自己来关闭数据库连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询employee表中所有数据</span></span><br><span class="line">    <span class="comment">//List 中的1个 Map 对应数据库的 1行数据</span></span><br><span class="line">    <span class="comment">//Map 中的 key 对应数据库的字段名，value 对应数据库的字段值</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/list"</span>)</span><br><span class="line">    <span class="keyword">public</span> List&lt;Map&lt;String, Object&gt;&gt; userList()&#123;</span><br><span class="line">        String sql = <span class="string">"select * from employee"</span>;</span><br><span class="line">        List&lt;Map&lt;String, Object&gt;&gt; maps = jdbcTemplate.queryForList(sql);</span><br><span class="line">        <span class="keyword">return</span> maps;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//新增一个用户</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addUser</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//插入语句，注意时间问题</span></span><br><span class="line">        String sql = <span class="string">"insert into employee(last_name, email,gender,department,birth)"</span> +</span><br><span class="line">                <span class="string">" values ('狂神说','24736743@qq.com',1,101,'"</span>+ <span class="keyword">new</span> Date().toLocaleString() +<span class="string">"')"</span>;</span><br><span class="line">        jdbcTemplate.update(sql);</span><br><span class="line">        <span class="comment">//查询</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"addOk"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//修改用户信息</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/update/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">updateUser</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>&#123;</span><br><span class="line">        <span class="comment">//插入语句</span></span><br><span class="line">        String sql = <span class="string">"update employee set last_name=?,email=? where id="</span>+id;</span><br><span class="line">        <span class="comment">//数据</span></span><br><span class="line">        Object[] objects = <span class="keyword">new</span> Object[<span class="number">2</span>];</span><br><span class="line">        objects[<span class="number">0</span>] = <span class="string">"秦疆"</span>;</span><br><span class="line">        objects[<span class="number">1</span>] = <span class="string">"24736743@sina.com"</span>;</span><br><span class="line">        jdbcTemplate.update(sql,objects);</span><br><span class="line">        <span class="comment">//查询</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"updateOk"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除用户</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/delete/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">delUser</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>&#123;</span><br><span class="line">        <span class="comment">//插入语句</span></span><br><span class="line">        String sql = <span class="string">"delete from employee where id=?"</span>;</span><br><span class="line">        jdbcTemplate.update(sql,id);</span><br><span class="line">        <span class="comment">//查询</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"deleteOk"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试请求，结果正常；</p>
+<p>到此，CURD的基本操作，使用 JDBC 就搞定了。</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/springboot/#springboot">springboot</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/05/03/SpringBoot07-%E6%95%B4%E5%90%88JDBC/ - SpringBoot07-整合JDBC @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "SpringBoot07-整合JDBC",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  
