@@ -1,7 +1,7 @@
 ---
 title: SpringBoot10-Web开发静态资源处理
 date: 2020-05-03 15:23:03
-tags:springboot
+tags:  springboot
 ---
 
 ![TOC]
