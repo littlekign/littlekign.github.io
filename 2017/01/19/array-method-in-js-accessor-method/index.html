@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>array-method-in-js-accessor-method - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>array-method-in-js-accessor-method</h1>
+        
+        <h2 class="headline">Jan 19 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The JavaScript array is a data type that consists of a list of elements. There are many useful built-in methods to work with arrays in JavaScript. Methods that modify the original array are known as <strong>mutator</strong> methods, and methods that return a new value or representation are known as <strong>accessor</strong> methods. In this tutorial, we will focus on accessor methods.</p>
+<p>In order to get the most out of this tutorial, you should have some familiarity with creating, indexing, modifying, and looping through arrays, which you can review in the tutorial Understanding Arrays in JavaScript.</p>
+<p>This tutorial will go over methods that will concatenate arrays, convert arrays to strings, copy portions of an array to a new array, and find the indices of arrays.</p>
+<blockquote>
+<p><strong>Note</strong>: Array methods are properly written out as <code>Array.prototype.method()</code>, as <code>Array.prototype</code> refers to the <code>Array</code> object itself. For simplicity, we will simply list the name as <code>method()</code>.</p>
+</blockquote>
+<h2 id="concat"><a href="#concat" class="headerlink" title="concat()"></a>concat()</h2><p>The <code>concat()</code> method merges two or more arrays together to form a new array.</p>
+<p>In the below example, we will create two arrays of types of shellfish and combine them into one new array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create arrays of monovalves and bivalves</span></span><br><span class="line"><span class="keyword">let</span> monovalves = [<span class="string">"abalone"</span>, <span class="string">"conch"</span>];</span><br><span class="line"><span class="keyword">let</span> bivalves = [<span class="string">"oyster"</span>, <span class="string">"mussel"</span>, <span class="string">"clam"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Concatenate them together into shellfish variable</span></span><br><span class="line"><span class="keyword">let</span> shellfish = monovalves.concat(bivalves);</span><br></pre></td></tr></table></figure>
+
+<p>Once we call the new array, we’ll see that it consists of a combination of the two original arrays:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shellfish;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"abalone"</span>, <span class="string">"conch"</span>, <span class="string">"oyster"</span>, <span class="string">"mussel"</span>, <span class="string">"clam"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>The <code>concat()</code> method can take multiple arguments, effectively allowing you to concatenate many arrays together with a single method.</p>
+<h2 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h2><p>The <code>join()</code> method converts all the elements of an array into a new string.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fish = [<span class="string">"piranha"</span>, <span class="string">"barracuda"</span>, <span class="string">"koi"</span>, <span class="string">"eel"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>If no argument is given, the output of <code>join()</code> will be a comma-separated string with no extra whitespace.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Join the elements of an array into a string</span></span><br><span class="line"><span class="keyword">let</span> fishString = fish.join();</span><br><span class="line"></span><br><span class="line">fishString;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">(<span class="string">"piranha,barracuda,koi,eel"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>In order to include whitespace or another separator, you can add a string of your separator as a parameter to the <code>join()</code> method. This parameter will contain the separator you would like between each array element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Join the elements of an array into a string</span></span><br><span class="line"><span class="keyword">let</span> fishString = fish.join(<span class="string">", "</span>);</span><br><span class="line"></span><br><span class="line">fishString;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">(<span class="string">"piranha, barracuda, koi, eel"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, writing ‘<code>,</code>‘ with whitespace separated the array items in a more readable fashion. An empty string provided as an argument will remove the default commas completely.</p>
+<h2 id="slice"><a href="#slice" class="headerlink" title="slice()"></a>slice()</h2><p>The <code>slice()</code> method copies a portion of an array to a new array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fish = [<span class="string">"piranha"</span>, <span class="string">"barracuda"</span>, <span class="string">"koi"</span>, <span class="string">"eel"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Suppose we would like to copy the last two items in the array to a new array. We would start with the index number of the first element we want, which is <code>2</code> for <code>koi</code>. We would end with the index number following the last element we want. Because the last element, <code>eel</code>, has the index number of 3, we would put <code>4</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Slice a new array from 2 to 5</span></span><br><span class="line"><span class="keyword">let</span> fishWithShortNames = fish.slice(<span class="number">2</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">fishWithShortNames;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"koi"</span>, <span class="string">"eel"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>In this particular case, since <code>eel</code> is the last item in the array, the second argument is actually unnecessary. <code>slice()</code> will start at the first index and stop at the end of the array if no second argument is provided.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Slice a new array from 2 to the end of the array</span></span><br><span class="line"><span class="keyword">let</span> fishWithShortNames = fish.slice(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">fishWithShortNames;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"koi"</span>, <span class="string">"eel"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p><code>slice()</code> is not to be confused with the mutator method splice(), which can add or delete items from the original array.</p>
+<h2 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf()"></a>indexOf()</h2><p>The <code>indexOf()</code> method returns the index number of the first instance of an element.</p>
+<p>In the below example, we have a string in which <code>barracuda</code> is listed twice.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fish = [<span class="string">"piranha"</span>, <span class="string">"barracuda"</span>, <span class="string">"koi"</span>, <span class="string">"barracuda"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>We will use <code>indexOf()</code> to find the first instance.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Find the first instance of an element</span></span><br><span class="line">fish.indexOf(<span class="string">"barracuda"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>If the given argument is a value that does not exist in the array, the console will return <code>-1</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fish.indexOf(<span class="string">"shark"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>indexOf()</code> method is especially useful in arrays that contain many items.</p>
+<h2 id="lastIndexOf"><a href="#lastIndexOf" class="headerlink" title="lastIndexOf()"></a>lastIndexOf()</h2><p>The <code>lastIndexOf()</code> method returns the index number of the last instance of an element.</p>
+<p>We can test on the same example from <code>indexOf()</code>, which includes <code>barracuda</code> twice.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fish = [<span class="string">"piranha"</span>, <span class="string">"barracuda"</span>, <span class="string">"koi"</span>, <span class="string">"barracuda"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Find the last instance of an element</span></span><br><span class="line">fish.lastIndexOf(<span class="string">"barracuda"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>lastIndexOf()</code> will search the array starting from the end and return the first index number it finds.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we reviewed the major built-in accessor array methods in JavaScript. Accessor methods create a new copy or representation of an array, as opposed to mutating or modifying the original.</p>
+<p>We learned how to concatenate arrays together, which combines them end-to-end, as well as how to convert arrays into comma-separated strings. We also learned how to copy portions of an array into a new array, and find the first and last indices of a given element in an array.</p>
+<p>To review the basics of arrays, read Understanding Arrays in JavaScript. To see a complete list of all array methods, view the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener">Array reference on Mozilla Developer Network</a>.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js-accessor/#js accessor">js accessor</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/19/array-method-in-js-accessor-method/ - array-method-in-js-accessor-method @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "array-method-in-js-accessor-method",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>introduction-dom - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>introduction-dom</h1>
+        
+        <h2 class="headline">Jan 11 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The <strong>Document Object Model</strong>, usually referred to as the <strong>DOM</strong>, is an essential part of making websites interactive. It is an interface that allows a programming language to manipulate the content, structure, and style of a website. JavaScript is the client-side scripting language that connects to the DOM in an internet browser.<br>gg<br>Almost any time a website performs an action, such as rotating between a slideshow of images, displaying an error when a user attempts to submit an incomplete form, or toggling a navigation menu, it is the result of JavaScript accessing and manipulating the DOM. In this article, we will learn what the DOM is, how to work with the <code>document</code> object, and the difference between HTML source code and the DOM.</p>
+<blockquote>
+<p><strong>Note</strong>: Although the DOM is language agnostic, or created to be independent from a particular programming language, throughout this resource we will focus on and refer to JavaScript’s implementation of the HTML DOM.</p>
+</blockquote>
+<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>In order to effectively understand the DOM and how it relates to working with the web, it is necessary to have an existing knowledge of <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener">HTML</a> and <a href="">CSS</a>. It is also beneficial to have familiarity with fundamental <a href="https://www.digitalocean.com/community/tutorials/understanding-syntax-and-code-structure-in-javascript" target="_blank" rel="noopener">JavaScript syntax and code structure</a>.</p>
+<h2 id="What-is-the-DOM"><a href="#What-is-the-DOM" class="headerlink" title="What is the DOM?"></a>What is the DOM?</h2><p>At the most basic level, a website consists of an HTML document. The browser that you use to view the website is a program that interprets HTML and CSS and renders the style, content, and structure into the page that you see.</p>
+<p>In addition to parsing the style and structure of the HTML and CSS, the browser creates a representation of the document known as the Document Object Model. This <strong>model</strong> allows JavaScript to access the text content and elements of the website <strong>document</strong> as <strong>objects</strong>.</p>
+<p>JavaScript is an interactive language, and it is easier to understand new concepts by doing. Let’s create a very basic website. Create an <code>index.html</code> file and save it in a new project directory.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line"></span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;Learning the DOM&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>head&gt;</span><br><span class="line"></span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;h1&gt;Document <span class="built_in">Object</span> Model&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>body&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>This code is the familiar HTML source of a new website skeleton. It contains the absolute most essential aspects of a website document — a doctype, and an <code>html</code> tag with the <code>head</code> and <code>body</code> nested inside.</p>
+<p>For our purposes, we’ll be using the Chrome browser, but you can receive similar output from other modern browser. Within Chrome, open up <code>index.html</code>. You’ll see a plain website with our heading saying “Document Object Model”. Right click anywhere on the page and select “Inspect”. This will open up Developer Tools.</p>
+<p>Under the Elements tab, you’ll see the DOM.<br><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/the-dom.png" alt=""></p>
+<p>In this case, when expanded, it looks exactly the same as the HTML source code we just wrote — a doctype, and the few other HTML tags that we added. Hovering over each element will highlight the respective element in the rendered website. Little arrows to the left of the HTML elements allow you to toggle the view of nested elements.</p>
+<h2 id="The-Document-Object"><a href="#The-Document-Object" class="headerlink" title="The Document Object"></a>The Document Object</h2><p>The <code>document</code> object is a built-in object that has many <strong>properties</strong> and <strong>methods</strong> that we can use to access and modify websites. In order to understand how to work with the DOM, you must understand how objects work in JavaScript. Review <a href="https://www.digitalocean.com/community/tutorials/understanding-objects-in-javascript" target="_blank" rel="noopener">Understanding Objects in JavaScript</a> if you don’t feel comfortable with the concept of objects.</p>
+<p>In Developer Tools on <code>index.html</code>, move to the Console tab. Type <code>document</code> into the console and press <code>ENTER</code>. You will see that what is output is the same as what you see in the Elements tab.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">document</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">#document</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line"></span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;Learning the DOM&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>head&gt;</span><br><span class="line"></span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;h1&gt;Document <span class="built_in">Object</span> Model&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>body&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Typing <code>document</code> and otherwise working directly in the console is not something that you’ll generally ever do outside of debugging, but it helps solidify exactly what the <code>document</code> object is and how to modify it, as we will discover below.</p>
+<h2 id="What-is-the-Difference-Between-the-DOM-and-HTML-Source-Code"><a href="#What-is-the-Difference-Between-the-DOM-and-HTML-Source-Code" class="headerlink" title="What is the Difference Between the DOM and HTML Source Code?"></a>What is the Difference Between the DOM and HTML Source Code?</h2><p>Currently, with this example, it seems that HTML source code and the DOM are the exact same thing. There are two instances in which the browser-generated DOM will be different than HTML source code:</p>
+<ul>
+<li>The DOM is modified by client-side JavaScript</li>
+<li>The browser automatically fixes errors in the source code</li>
+</ul>
+<p>Let’s demonstrate how the DOM can be modified by client-side JavaScript. Type the following into the console:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">document</span>.body;</span><br></pre></td></tr></table></figure>
+
+<p>The console will respond with this output:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;h1&gt;Document <span class="built_in">Object</span> Model&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>document</code> is an object, <code>body</code> is a property of that object that we have accessed with dot notation. Submitting <code>document.body</code> to the console outputs the <code>body</code> element and everything inside of it.</p>
+<p>In the console, we can change some of the live properties of the <code>body</code> object on this website. We’ll edit the <code>style</code> attribute, changing the background color to <code>fuchsia</code>. Type this into the console:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">document</span>.body.style.backgroundColor = <span class="string">"fuchsia"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>After typing and submitting the above code, you’ll see the live update to the site, as the background color changes.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/modifying-the-dom.png" alt=""></p>
+<p>Switching to the Elements tab, or typing document.body into the console again, you will see that the DOM has changed.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&lt;body style=<span class="string">"background-color: fuchsia;"</span>&gt;</span><br><span class="line">  &lt;h1&gt;Document <span class="built_in">Object</span> Model&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>Note</strong>: In order to change the <code>background-color</code> CSS property, we had to type <code>backgroundColor</code> in the JavaScript. Any hyphenated CSS property will be written in camelCase in JavaScript.</p>
+</blockquote>
+<p>The JavaScript code we typed, assigning <code>fuchsia</code> to the background color of the <code>body</code>, is now a part of the DOM.</p>
+<p>However, right click on the page and select “View Page Source”. You will notice that the source of the website does not contain the new style attribute we added via JavaScript. The source of a website will not change and will never be affected by client-side JavaScript. If you refresh the page, the new code we added in the console will disappear.</p>
+<p>The other instance in which the DOM might have a different output than HTML source code is when there are errors in the source code. One common example of this is the <code>table</code> tag — a <code>tbody</code> tag is required inside a <code>table</code>, but developers often fail to include it in their HTML. The browser will automatically correct the error and add the <code>tbody</code>, modifying the DOM. The DOM will also fix tags that have not been closed.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we defined the DOM, accessed the <code>document</code> object, used JavaScript and the console to update a property of the <code>document</code> object, and went over the difference between HTML source code and the DOM.</p>
+<p>For more in-depth information on the DOM, review the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank" rel="noopener">Document Object Model (DOM)</a> page on the Mozilla Developer Network.</p>
+<p>In the next tutorial, we will review important HTML terminology, learn about the DOM tree, discover what nodes are, learn about the most common types of nodes, and begin creating interactive scripts with JavaScript.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/Dom/#Dom">Dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/11/introduction-dom/ - introduction-dom @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "introduction-dom",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

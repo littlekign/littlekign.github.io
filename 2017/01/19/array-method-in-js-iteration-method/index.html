@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>array-method-in-js-iteration-method - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>array-method-in-js-iteration-method</h1>
+        
+        <h2 class="headline">Jan 19 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>In JavaScript, the <code>array</code> data type consists of a list of elements. There are many useful built-in methods available for JavaScript developers to work with arrays. Methods that modify the original array are known as <strong>mutator methods</strong>, and methods that return a new value or representation are known as <strong>accessor methods</strong>.</p>
+<p>There is a third class of array methods, known as <strong>iteration</strong> methods, which are methods that operate on every item in an array, one at a time. These methods are closely associated with loops. In this tutorial, we will be focusing on iteration methods.</p>
+<p>In order to get the most out of this tutorial, you should have some familiarity with creating, indexing, modifying, and looping through arrays, which you can review in the tutorial Understanding Arrays in JavaScript.</p>
+<p>In this tutorial, we will use iteration methods to loop through arrays, perform functions on each item in an array, filter the desired results of an array, reduce array items down to a single value, and search through arrays to find values or indices.</p>
+<blockquote>
+<p><strong>Note</strong>: Array methods are properly written out as <code>Array.prototype.method()</code>, as <code>Array.prototype</code> refers to the <code>Array</code> object itself. For simplicity, we will simply list the name as <code>method()</code>.</p>
+</blockquote>
+<h2 id="Understanding-Arrow-Functions"><a href="#Understanding-Arrow-Functions" class="headerlink" title="Understanding Arrow Functions"></a>Understanding Arrow Functions</h2><p>Many examples throughout this tutorial will be using JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank" rel="noopener">arrow function expressions</a>, which are represented by an equals sign followed by a greater than sign:<code>=&gt;</code>.</p>
+<p>A <strong>function</strong> is a block of reusable code that can be executed. Traditionally, a function can be written with the following syntax:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> example = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// code to execute</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">example();</span><br></pre></td></tr></table></figure>
+
+<p>The latest version of JavaScript at the time of writing allows for the use of arrow functions, which can be written with the following syntax:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> example = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// code to execute</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">example();</span><br></pre></td></tr></table></figure>
+
+<p>The parentheses in either case may contain parameters. When there is only one parameter, the parentheses can be omitted, as such:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> example = <span class="function"><span class="params">parameter1</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// code to execute</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Throughout the examples in this tutorial, we will use the arrow function syntax. To read and understand more about functions in JavaScript, read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions" target="_blank" rel="noopener">Functions reference on the Mozilla Developer Network</a>.</p>
+<h2 id="forEach"><a href="#forEach" class="headerlink" title="forEach()"></a>forEach()</h2><p>The <code>forEach()</code> method calls a function for each element in an array.</p>
+<p>Let’s start with the following array assigned to the variable <code>fish</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fish = [<span class="string">"piranha"</span>, <span class="string">"barracuda"</span>, <span class="string">"cod"</span>, <span class="string">"eel"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>We can use <code>forEach()</code> to print each item in the <code>fish</code> array to the console.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Print out each item in the array</span></span><br><span class="line">fish.forEach(<span class="function"><span class="params">individualFish</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(individualFish);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Once we do so, we’ll receive the following output:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">piranha;</span><br><span class="line">barracuda;</span><br><span class="line">cod;</span><br><span class="line">eel;</span><br></pre></td></tr></table></figure>
+
+<p>Another way to do this is using the <strong>for loop</strong> keyword and testing it against the length property of the array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Loop through the length of the array</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; fish.length; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(fish[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The above code will have the same output as using the <code>forEach()</code> method. As an iteration method specifically intended for use with arrays, <code>forEach()</code> is more concise and straightforward for this particular task.</p>
+<h2 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h2><p>The <code>map()</code> method creates a new array with the results of a function call on each element in the array.</p>
+<p>For an example of how to use the iteration method <code>map()</code>, we can print each iteration of a loop to the console. <code>map()</code> does not mutate the original array, it instead returns a new array value. Unlike <code>forEach()</code>, the <code>map()</code> method must be assigned to a new variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fish = [<span class="string">"piranha"</span>, <span class="string">"barracuda"</span>, <span class="string">"cod"</span>, <span class="string">"eel"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print out each item in the array</span></span><br><span class="line"><span class="keyword">let</span> printFish = fish.map(<span class="function"><span class="params">individualFish</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(individualFish);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">printFish;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">piranha;</span><br><span class="line">barracuda;</span><br><span class="line">cod;</span><br><span class="line">eel;</span><br></pre></td></tr></table></figure>
+
+<p>We can also use <code>map()</code> to change the values of each item in an array. To demonstrate this, we’ll add an s to the end of each item in the <code>fish</code> array to pluralize each word.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pluralize all items in the fish array</span></span><br><span class="line"><span class="keyword">let</span> pluralFish = fish.map(<span class="function"><span class="params">individualFish</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;individualFish&#125;</span>s`</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">pluralFish;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"piranhas"</span>, <span class="string">"barracudas"</span>, <span class="string">"cods"</span>, <span class="string">"eels"</span>)];</span><br></pre></td></tr></table></figure>
+
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h2><p>The <code>filter()</code> method creates a new array with the elements that pass the result of a given test.</p>
+<p>We could use <code>filter()</code> to return a new array containing only the items in a list that start with a specific letter. To do this, we can utilize <a href="https://www.digitalocean.com/community/tutorials/how-to-index-split-and-manipulate-strings-in-javascript#how-strings-are-indexed" target="_blank" rel="noopener">string indexing</a> to call the first item (or letter) in each string item of the array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> seaCreatures = [<span class="string">"shark"</span>, <span class="string">"whale"</span>, <span class="string">"squid"</span>, <span class="string">"starfish"</span>, <span class="string">"narwhal"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Filter all creatures that start with "s" into a new list</span></span><br><span class="line"><span class="keyword">let</span> filteredList = seaCreatures.filter(<span class="function"><span class="params">creature</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> creature[<span class="number">0</span>] === <span class="string">"s"</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">filteredList;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"shark"</span>, <span class="string">"squid"</span>, <span class="string">"starfish"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>We tested which items in the array have an s at the 0 index, and assigned the result into a new variable.</p>
+<p><code>filter()</code> is an iteration method, and does not mutate the original array.</p>
+<h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce()"></a>reduce()</h2><p>The <code>reduce()</code> method will reduce an array to a single value.</p>
+<p>This is seen commonly with numbers, such as finding the sum of all the numbers in an array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers = [<span class="number">42</span>, <span class="number">23</span>, <span class="number">16</span>, <span class="number">15</span>, <span class="number">4</span>, <span class="number">8</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the sum of all numerical values</span></span><br><span class="line"><span class="keyword">let</span> sum = numbers.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">sum;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">108</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>reduce()</code> can also be used with <code>strings</code> and other <code>data types</code>. The value returned by <code>reduce()</code> can be a number, string, array, or other data type. <code>reduce()</code> is an iteration method that does not mutate the original array.</p>
+<h2 id="find"><a href="#find" class="headerlink" title="find()"></a>find()</h2><p>The <code>find()</code> method returns the first value in an array that passes a given test.</p>
+<p>As an example, we will create an array of sea creatures.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> seaCreatures = [<span class="string">"whale"</span>, <span class="string">"octopus"</span>, <span class="string">"shark"</span>, <span class="string">"cuttlefish"</span>, <span class="string">"flounder"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Then we will use the <code>find()</code> method to test if any of the creatures in the array are cephalopods.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Check if a given value is a cephalopod</span></span><br><span class="line"><span class="keyword">const</span> isCephalopod = <span class="function"><span class="params">cephalopod</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> [<span class="string">"cuttlefish"</span>, <span class="string">"octopus"</span>].includes(cephalopod);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">seaCreatures.find(isCephalopod);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">octopus;</span><br></pre></td></tr></table></figure>
+
+<p>Since <code>octopus</code> was the first entry in the array to satisfy the test in the <code>isCephalopod()</code> function, it is the first value to be returned.</p>
+<p>The <code>find()</code> method can help you work with arrays that contain many values.</p>
+<h2 id="findIndex"><a href="#findIndex" class="headerlink" title="findIndex()"></a>findIndex()</h2><p>The <code>findIndex()</code> method returns the first index in an array that passes a given test.</p>
+<p>We can use the same <code>seaCreatures</code> example from the <code>find()</code> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> seaCreatures = [<span class="string">"whale"</span>, <span class="string">"octopus"</span>, <span class="string">"shark"</span>, <span class="string">"cuttlefish"</span>, <span class="string">"flounder"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Using the <code>isCephalopod</code> test, we will find the index number instead of the value of the first match.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Check if a given value is a cephalopod</span></span><br><span class="line"><span class="keyword">const</span> isCephalopod = <span class="function"><span class="params">cephalopod</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> [<span class="string">"cuttlefish"</span>, <span class="string">"octopus"</span>].includes(cephalopod);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">seaCreatures.findIndex(isCephalopod);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>octopus</code> is the first item to match the test and has an index of <code>1</code>, therefore it is the index number that is returned.</p>
+<p>If the test is not satisfied, <code>findIndex()</code> will return <code>-1</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isThereAnEel = <span class="function"><span class="params">eel</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> [<span class="string">"eel"</span>].includes(eel);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">seaCreatures.findIndex;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>findIndex()</code> method is particularly useful when working with arrays containing many items.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we reviewed the major built-in iteration array methods in JavaScript. Iteration methods operate on every item in an array, and often perform a new function. We went over how to loop through arrays, change the value of each item in an array, filter and reduce arrays, and find values and indices.</p>
+<p>To review the basics of arrays, read Understanding Arrays in JavaScript. For more info on syntax in Javascript, see our tutorial on “Understanding Syntax and Code Structure in JavaScript.”</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js-iteration/#js iteration">js iteration</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/19/array-method-in-js-iteration-method/ - array-method-in-js-iteration-method @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "array-method-in-js-iteration-method",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

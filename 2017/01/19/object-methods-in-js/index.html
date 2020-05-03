@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>object-methods-in-js - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>object-methods-in-js</h1>
+        
+        <h2 class="headline">Jan 19 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Objects in JavaScript are collections of <strong>key/value</strong> pairs. The values can consist of <strong>properties</strong> and <strong>methods</strong>, and may contain all other JavaScript data types, such as strings, numbers, and Booleans.</p>
+<p>All objects in JavaScript descend from the parent <code>Object</code> constructor. <code>Object</code> has many useful built-in methods we can use and access to make working with individual objects straightforward. Unlike Array prototype methods like <code>sort()</code> and <code>reverse()</code> that are used on the array instance, Object methods are used directly on the Object constructor, and use the object instance as a parameter. This is known as a static method.</p>
+<p>This tutorial will go over important built-in object methods, with each section below dealing with a specific method and providing an example of use.</p>
+<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>In order to get the most out of this tutorial, you should be familiar with creating, modifying, and working with objects, which you can review in the “Understanding Objects in JavaScript” article.</p>
+<p>For additional guidance on JavaScript in general, you can review our How To Code in JavaScript series.</p>
+<h2 id="Object-create"><a href="#Object-create" class="headerlink" title="Object.create()"></a>Object.create()</h2><p>The <code>Object.create()</code> method is used to create a new object and link it to the prototype of an existing object.</p>
+<p>We can create a <code>job</code> object instance, and extend it to a more specific object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object with properties and methods</span></span><br><span class="line"><span class="keyword">const</span> job = &#123;</span><br><span class="line">  position: <span class="string">"cashier"</span>,</span><br><span class="line">  type: <span class="string">"hourly"</span>,</span><br><span class="line">  isAvailable: <span class="literal">true</span>,</span><br><span class="line">  showDetails() &#123;</span><br><span class="line">    <span class="keyword">const</span> accepting = <span class="keyword">this</span>.isAvailable</span><br><span class="line">      ? <span class="string">"is accepting applications"</span></span><br><span class="line">      : <span class="string">"is not currently accepting applications"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(</span><br><span class="line">      <span class="string">`The <span class="subst">$&#123;<span class="keyword">this</span>.position&#125;</span> position is <span class="subst">$&#123;<span class="keyword">this</span>.type&#125;</span> and <span class="subst">$&#123;accepting&#125;</span>.`</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use Object.create to pass properties</span></span><br><span class="line"><span class="keyword">const</span> barista = <span class="built_in">Object</span>.create(job);</span><br><span class="line"></span><br><span class="line">barista.position = <span class="string">"barista"</span>;</span><br><span class="line">barista.showDetails();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">The barista position is hourly and is accepting applications.</span><br></pre></td></tr></table></figure>
+
+<p>The <code>barista</code> object now has one property — <code>position</code> — but all the other properties and methods from <code>job</code> are available through the prototype. <code>Object.create()</code> is useful for keeping code DRY by minimizing duplication.</p>
+<h2 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys()"></a>Object.keys()</h2><p><code>Object.keys()</code> creates an array containing the keys of an object.</p>
+<p>We can create an object and print the array of keys.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> employees = &#123;</span><br><span class="line">  boss: <span class="string">"Michael"</span>,</span><br><span class="line">  secretary: <span class="string">"Pam"</span>,</span><br><span class="line">  sales: <span class="string">"Jim"</span>,</span><br><span class="line">  accountant: <span class="string">"Oscar"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the keys of the object</span></span><br><span class="line"><span class="keyword">const</span> keys = <span class="built_in">Object</span>.keys(employees);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(keys);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"boss"</span>, <span class="string">"secretary"</span>, <span class="string">"sales"</span>, <span class="string">"accountant"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p><code>Object.keys</code> can be used to iterate through the keys and values of an object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Iterate through the keys</span></span><br><span class="line"><span class="built_in">Object</span>.keys(employees).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> value = employees[key];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;key&#125;</span>: <span class="subst">$&#123;value&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">boss: Michael;</span><br><span class="line">secretary: Pam;</span><br><span class="line">sales: Jim;</span><br><span class="line">accountant: Oscar;</span><br></pre></td></tr></table></figure>
+
+<p><code>Object.keys</code> is also useful for checking the length of an object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get the length of the keys</span></span><br><span class="line"><span class="keyword">const</span> length = <span class="built_in">Object</span>.keys(employees).length;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(length);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Using the <code>length</code> property, we were able to count the <code>4</code> properties of <code>employees</code>.</p>
+<h2 id="Object-values"><a href="#Object-values" class="headerlink" title="Object.values()"></a>Object.values()</h2><p><code>Object.values()</code> creates an array containing the values of an object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> session = &#123;</span><br><span class="line">  id: <span class="number">1</span>,</span><br><span class="line">  time: <span class="string">`26-July-2018`</span>,</span><br><span class="line">  device: <span class="string">"mobile"</span>,</span><br><span class="line">  browser: <span class="string">"Chrome"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get all values of the object</span></span><br><span class="line"><span class="keyword">const</span> values = <span class="built_in">Object</span>.values(session);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(values);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="number">1</span>, <span class="string">"26-July-2018"</span>, <span class="string">"mobile"</span>, <span class="string">"Chrome"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p><code>Object.keys()</code> and <code>Object.values()</code> allow you to return the data from an object.</p>
+<h2 id="Object-entries"><a href="#Object-entries" class="headerlink" title="Object.entries()"></a>Object.entries()</h2><p><code>Object.entries()</code> creates a nested array of the <strong>key/value</strong> pairs of an object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> operatingSystem = &#123;</span><br><span class="line">  name: <span class="string">"Ubuntu"</span>,</span><br><span class="line">  version: <span class="number">18.04</span>,</span><br><span class="line">  license: <span class="string">"Open Source"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the object key/value pairs</span></span><br><span class="line"><span class="keyword">const</span> entries = <span class="built_in">Object</span>.entries(operatingSystem);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(entries);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[[<span class="string">"name"</span>, <span class="string">"Ubuntu"</span>][(<span class="string">"version"</span>, <span class="number">18.04</span>)][(<span class="string">"license"</span>, <span class="string">"Open Source"</span>)]];</span><br></pre></td></tr></table></figure>
+
+<p>Once we have the key/value pair arrays, we can use the <code>forEach()</code> method to loop through and work with the results.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Loop through the results</span></span><br><span class="line">entries.forEach(<span class="function"><span class="params">entry</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> key = entry[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> value = entry[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;key&#125;</span>: <span class="subst">$&#123;value&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">name: Ubuntu</span><br><span class="line">version: <span class="number">18.04</span></span><br><span class="line">license: Open Source</span><br></pre></td></tr></table></figure>
+
+<p>The <code>Object.entries()</code> method will only return the object instance’s own properties, and not any properties that may be inherited through its prototype.</p>
+<h2 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign()"></a>Object.assign()</h2><p><code>Object.assign()</code> is used to copy values from one object to another.</p>
+<p>We can create two objects, and merge them with <code>Object.assign()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> name = &#123;</span><br><span class="line">  firstName: <span class="string">"Philip"</span>,</span><br><span class="line">  lastName: <span class="string">"Fry"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initialize another object</span></span><br><span class="line"><span class="keyword">const</span> details = &#123;</span><br><span class="line">  job: <span class="string">"Delivery Boy"</span>,</span><br><span class="line">  employer: <span class="string">"Planet Express"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Merge the objects</span></span><br><span class="line"><span class="keyword">const</span> character = <span class="built_in">Object</span>.assign(name, details);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(character);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">firstName</span>: <span class="string">"Philip"</span>, <span class="attr">lastName</span>: <span class="string">"Fry"</span>, <span class="attr">job</span>: <span class="string">"Delivery Boy"</span>, <span class="attr">employer</span>: <span class="string">"Planet Express"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>It is also possible to use the spread operator <code>(...)</code> to accomplish the same task. In the code below, we’ll modify how we declare <code>character</code> through merging the <code>name</code> and <code>details</code> objects.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> name = &#123;</span><br><span class="line">  firstName: <span class="string">"Philip"</span>,</span><br><span class="line">  lastName: <span class="string">"Fry"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initialize another object</span></span><br><span class="line"><span class="keyword">const</span> details = &#123;</span><br><span class="line">  job: <span class="string">"Delivery Boy"</span>,</span><br><span class="line">  employer: <span class="string">"Planet Express"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Merge the object with the spread operator</span></span><br><span class="line"><span class="keyword">const</span> character = &#123; ...name, ...details &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(character);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">firstName</span>: <span class="string">"Philip"</span>, <span class="attr">lastName</span>: <span class="string">"Fry"</span>, <span class="attr">job</span>: <span class="string">"Delivery Boy"</span>, <span class="attr">employer</span>: <span class="string">"Planet Express"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#Spread_in_object_literals" target="_blank" rel="noopener">spread syntax</a> in object literals is also known as shallow-cloning.</p>
+<h2 id="Object-freeze"><a href="#Object-freeze" class="headerlink" title="Object.freeze()"></a>Object.freeze()</h2><p><code>Object.freeze()</code> prevents modification to properties and values of an object, and prevents properties from being added or removed from an object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  username: <span class="string">"AzureDiamond"</span>,</span><br><span class="line">  password: <span class="string">"hunter2"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Freeze the object</span></span><br><span class="line"><span class="keyword">const</span> newUser = <span class="built_in">Object</span>.freeze(user);</span><br><span class="line"></span><br><span class="line">newUser.password = <span class="string">"*******"</span>;</span><br><span class="line">newUser.active = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(newUser);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">username</span>: <span class="string">"AzureDiamond"</span>, <span class="attr">password</span>: <span class="string">"hunter2"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the example above, we tried to override the password <code>hunter2</code> with <strong>***</strong>, but the <code>password</code> property remained the same. We also tried to add a new property, <code>active</code>, but it was not added.</p>
+<p><code>Object.isFrozen()</code> is available to determine whether an object has been frozen or not, and returns a Boolean.</p>
+<h2 id="Object-seal"><a href="#Object-seal" class="headerlink" title="Object.seal()"></a>Object.seal()</h2><p><code>Object.seal()</code> prevents new properties from being added to an object, but allows the modification of existing properties. This method is similar to <code>Object.freeze()</code>. Refresh your console before implementing the code below to avoid an error.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize an object</span></span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  username: <span class="string">"AzureDiamond"</span>,</span><br><span class="line">  password: <span class="string">"hunter2"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Seal the object</span></span><br><span class="line"><span class="keyword">const</span> newUser = <span class="built_in">Object</span>.seal(user);</span><br><span class="line"></span><br><span class="line">newUser.password = <span class="string">"*******"</span>;</span><br><span class="line">newUser.active = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(newUser);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">username</span>: <span class="string">"AzureDiamond"</span>, <span class="attr">password</span>: <span class="string">"*******"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The new <code>active</code> property was not added to the sealed object, but the <code>password</code> property was successfully changed.</p>
+<h2 id="Object-getPrototypeOf"><a href="#Object-getPrototypeOf" class="headerlink" title="Object.getPrototypeOf()"></a>Object.getPrototypeOf()</h2><p><code>Object.getPrototypeOf()</code> is used to get the internal hidden <code>[[Prototype]]</code> of an object, also accessible through the <code>__proto__</code> property.</p>
+<p>In this example, we can create an array, which has access to the <code>Array</code> prototype.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> employees = [<span class="string">"Ron"</span>, <span class="string">"April"</span>, <span class="string">"Andy"</span>, <span class="string">"Leslie"</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf(employees);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">[<span class="keyword">constructor</span>: ƒ, concat: ƒ, find: ƒ, findIndex: ƒ, pop: ƒ, …]</span><br></pre></td></tr></table></figure>
+
+<p>We can see in the output that the prototype of the <code>employees</code> array has access to pop, find, and other Array prototype methods. We can confirm this by testing the <code>employees</code> prototype against <code>Array.prototype</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.getPrototypeOf(employees) === <span class="built_in">Array</span>.prototype;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<p>This method can be useful to get more information about an object or ensure it has access to the prototype of another object.</p>
+<p>There is also a related [<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf" target="_blank" rel="noopener">Object.setPrototypeOf()</a> method that will add one prototype to another object. It is recommended that you use <code>Object.create()</code> instead as it is faster and more performant.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Objects have many useful methods that help us modify, protect, and iterate through them. In this tutorial, we reviewed how to create and assign new objects, iterate through the keys and/or values of an object, and freeze or seal an object.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js-object-methods/#js object methods">js object methods</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/19/object-methods-in-js/ - object-methods-in-js @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "object-methods-in-js",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

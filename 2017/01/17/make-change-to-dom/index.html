@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>make-change-to-dom - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>make-change-to-dom</h1>
+        
+        <h2 class="headline">Jan 17 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>DOM is to learn how to add, change, replace, and remove nodes. A to-do list application is one practical example of a JavaScript program in which you would need to be able to create, modify, and remove elements in the DOM.</p>
+<h2 id="Creating-New-Nodes"><a href="#Creating-New-Nodes" class="headerlink" title="Creating New Nodes"></a>Creating New Nodes</h2><p>In a static website, elements are added to the page by directly writing HTML in an <code>.html</code> file. In a dynamic web app, elements and text are often added with JavaScript. The <code>createElement()</code> and <code>createTextNode()</code> methods are used to create new nodes in the DOM.</p>
+<table>
+<thead>
+<tr>
+<th>Property/Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>createElement()</code></td>
+<td>Create a new element node</td>
+</tr>
+<tr>
+<td><code>createTextNode()</code></td>
+<td>Create a new text node</td>
+</tr>
+<tr>
+<td><code>node.textContent</code></td>
+<td>Get or set the text content of an element node</td>
+</tr>
+<tr>
+<td><code>node.innerHTML</code></td>
+<td>Get or set the HTML content of an element</td>
+</tr>
+</tbody></table>
+<p>To begin, let’s create an <code>index.html</code> file and save it in a new project directory.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Learning the DOM<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Document Object Model<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Right click anywhere on the page and select “Inspect” to open up Developer Tools, then navigate to the Console.</p>
+<p>We will use <code>createElement()</code> on the <code>document</code> object to create a new <code>p</code> element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> paragraph = <span class="built_in">document</span>.createElement(<span class="string">"p"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>We’ve created a new <code>p</code> element, which we can test out in the Console.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(paragraph);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&lt;p&gt;<span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>The <code>paragraph</code> variable outputs an empty <code>p</code> element, which is not very useful without any text. In order to add text to the element, we’ll set the <code>textContent</code> property.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">paragraph.textContent = <span class="string">"I'm a brand new paragraph."</span>;</span><br><span class="line"><span class="built_in">console</span>.log(paragraph);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&lt;p&gt;I<span class="string">'m a brand new paragraph.&lt;/p&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>A combination of <code>createElement()</code> and <code>textContent</code> creates a complete element node.</p>
+<p>An alternate method of setting the content of the element is with the <code>innerHTML</code> property, which allows you to add HTML as well as text to an element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paragraph.innerHTML = <span class="string">"I'm a paragraph with &lt;strong&gt;bold&lt;/strong&gt; text."</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>Note:</strong><br>While this will work and is a common method of adding content to an element, there is a possible cross-site scripting (XSS) risk associated with using the innerHTML method, as inline JavaScript can be added to an element. Therefore, it is recommended to use textContent instead, which will strip out HTML tags.</p>
+</blockquote>
+<p>It is also possible to create a text node with the <code>createTextNode()</code> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> text = <span class="built_in">document</span>.createTextNode(<span class="string">"I'm a new text node."</span>);</span><br><span class="line"><span class="built_in">console</span>.log(text);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">(<span class="string">"I'm a new text node."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>With these methods, we’ve created new elements and text nodes, but they are not visible on the front end of a website until they’ve been inserted into the document.</p>
+<h2 id="Inserting-Nodes-into-the-DOM"><a href="#Inserting-Nodes-into-the-DOM" class="headerlink" title="Inserting Nodes into the DOM"></a>Inserting Nodes into the DOM</h2><p>In order to see the new text nodes and elements we create on the front end, we will need to insert them into the <code>document</code>. The methods <code>appendChild()</code> and <code>insertBefore()</code> are used to add items to the beginning, middle, or end of a parent element, and <code>replaceChild()</code> is used to replace an old node with a new node.</p>
+<table>
+<thead>
+<tr>
+<th>Property/Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node.appendChild()</td>
+<td>Add a node as the last child of a parent element</td>
+</tr>
+<tr>
+<td>node.insertBefore()</td>
+<td>Insert a node into the parent element before a specified sibling node</td>
+</tr>
+<tr>
+<td>node.replaceChild()</td>
+<td>Replace an existing node with a new node</td>
+</tr>
+</tbody></table>
+<p>To practice these methods, let’s create a to-do list in HTML:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Buy groceries<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Feed the cat<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do laundry<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When you load your page in the browser, it will look like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/to-do-1.png" alt=""></p>
+<p>In order to add a new item to the end of the to-do list, we have to create the element and add text to it first, as we did in the “Creating New Nodes” section above.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// To-do list ul element</span></span><br><span class="line"><span class="keyword">const</span> todoList = <span class="built_in">document</span>.querySelector(<span class="string">"ul"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create new to-do</span></span><br><span class="line"><span class="keyword">const</span> newTodo = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">newTodo.textContent = <span class="string">"Do homework"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Now that we have a complete element for our new to-do, we can add it to the end of the list with <code>appendChild()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Add new todo to the end of the list</span></span><br><span class="line">todoList.appendChild(newTodo);</span><br></pre></td></tr></table></figure>
+
+<p>You can see the new li element has been appended to the end of the ul.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Buy groceries<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Feed the cat<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do laundry<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do homework<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/to-do-2.png" alt=""></p>
+<p>Maybe we have a higher priority task to do, and we want to add it to the beginning of the list. We’ll have to create another element, as <code>createElement()</code>only creates one element and cannot be reused.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create new to-do</span></span><br><span class="line"><span class="keyword">const</span> anotherTodo = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">anotherTodo.textContent = <span class="string">"Pay bills"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>We can add it to the beginning of the list using <code>insertBefore()</code>. This method takes two arguments — the first is the new child node to be added, and the second is the sibling node that will immediately follow the new node. In other words, you’re inserting the new node before the next sibling node. This will look similar to the following pseudocode:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parentNode.insertBefore(newNode, nextSibling);</span><br></pre></td></tr></table></figure>
+
+<p>For our to-do list example, we’ll add the new <code>anotherTodo</code> element before the first element child of the list, which is currently the <code>Buy groceries</code> list item.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Add new to-do to the beginning of the list</span></span><br><span class="line">todoList.insertBefore(anotherTodo, todoList.firstElementChild);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Pay bills<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Buy groceries<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Feed the cat<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do laundry<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do homework<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/to-do-3.png" alt=""></p>
+<p>The new node has successfully been added at the beginning of the list. Now we know how to add a node to a parent element. The next thing we may want to do is replace an existing node with a new node.</p>
+<p>We’ll modify an existing to-do to demonstrate how to replace a node. The first step of creating a new element remains the same.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> modifiedTodo = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</span><br><span class="line">modifiedTodo.textContent = <span class="string">"Feed the dog"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Like <code>insertBefore()</code>, <code>replaceChild()</code> takes two arguments — the new node, and the node to be replaced, as shown in the pseudocode below.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parentNode.replaceChild(newNode, oldNode);</span><br></pre></td></tr></table></figure>
+
+<p>We will replace the third element child of the list with the modified to-do.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Replace existing to-do with modified to-do</span></span><br><span class="line">todoList.replaceChild(modifiedTodo, todoList.children[<span class="number">2</span>]);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Pay bills<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Buy groceries<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Feed the dog<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do laundry<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do homework<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/to-do-4.png" alt=""></p>
+<p>With a combination of <code>appendChild()</code>, <code>insertBefore()</code>, and <code>replaceChild()</code>, you can insert nodes and elements anywhere in the DOM.</p>
+<h2 id="Removing-Nodes-from-the-DOM"><a href="#Removing-Nodes-from-the-DOM" class="headerlink" title="Removing Nodes from the DOM"></a>Removing Nodes from the DOM</h2><p>Now we know how to create elements, add them to the DOM, and modify existing elements. The final step is to learn to remove existing nodes from the DOM. Child nodes can be removed from a parent with <code>removeChild()</code>, and a node itself can be removed with <code>remove()</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node.removeChild()</td>
+<td>Remove child node</td>
+</tr>
+<tr>
+<td>node.remove()</td>
+<td>Remove node</td>
+</tr>
+</tbody></table>
+<p>Using the to-do example above, we’ll want to delete items after they’ve been completed. If you completed your homework, you can remove the Do homework item, which happens to be the last child of the list, with <code>removeChild()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">todoList.removeChild(todoList.lastElementChild);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Pay bills<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Buy groceries<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Feed the dog<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do laundry<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/to-do-5.png" alt=""></p>
+<p>Another method could be to remove the node itself, using the <code>remove()</code> method directly on the node.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Pay bills<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Feed the dog<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Do laundry<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/to-do-6.png" alt=""></p>
+<p>Between <code>removeChild()</code> and <code>remove()</code>, you can remove any node from the DOM. Another method you may see for removing child elements from the DOM is setting the <code>innerHTML</code> property of a parent element to an empty string (“”). This is not the preferred method because it is less explicit, but you might see it in existing code.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we learned how to use JavaScript to create new nodes and elements and insert them into the DOM, and replace and remove existing nodes and elements.</p>
+<p>At this point in the Understanding the DOM series you know how to access any element in the DOM, walk through any node in the DOM, and modify the DOM itself. You can now feel confident in creating basic front-end web apps with JavaScript.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/dom/#dom">dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/17/make-change-to-dom/ - make-change-to-dom @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "make-change-to-dom",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

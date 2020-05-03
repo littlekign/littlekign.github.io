@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>string-manipulate-string-in-js - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>string-manipulate-string-in-js</h1>
+        
+        <h2 class="headline">Jan 20 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>A <strong>string</strong> is a sequence of one or more characters that may consist of letters, numbers, or symbols. Each character in a JavaScript string can be accessed by an index number, and all strings have methods and properties available to them.</p>
+<p>In this tutorial, we will learn the difference between string primitives and the <code>String</code> object, how strings are indexed, how to access characters in a string, and common properties and methods used on strings.</p>
+<h2 id="String-Primitives-and-String-Objects"><a href="#String-Primitives-and-String-Objects" class="headerlink" title="String Primitives and String Objects"></a>String Primitives and String Objects</h2><p>First, we will clarify the two types of strings. JavaScript differentiates between the <strong>string primitive</strong>, an immutable datatype, and the <code>String</code> object.</p>
+<p>In order to test the difference between the two, we will initialize a string primitive and a string object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initializing a new string primitive</span></span><br><span class="line"><span class="keyword">const</span> stringPrimitive = <span class="string">"A new string."</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initializing a new String object</span></span><br><span class="line"><span class="keyword">const</span> stringObject = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"A new string."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>We can use the <code>typeof</code> operator to determine the type of a value. In the first example, we simply assigned a string to a variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> stringPrimitive;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">string;</span><br></pre></td></tr></table></figure>
+
+<p>In the second example, we used <code>new String()</code> to create a string object and assign it to a variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> stringObject;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">object;</span><br></pre></td></tr></table></figure>
+
+<p>Most of the time you will be creating string primitives. JavaScript is able to access and utilize the built-in properties and methods of the String object wrapper without actually changing the string primitive you’ve created into an object.</p>
+<p>While this concept is a bit challenging at first, you should be aware of the distinction between primitive and object. Essentially, there are methods and properties available to all strings, and in the background JavaScript will perform a conversion to object and back to primitive every time a method or property is called.</p>
+<h2 id="How-Strings-are-Indexed"><a href="#How-Strings-are-Indexed" class="headerlink" title="How Strings are Indexed"></a>How Strings are Indexed</h2><p>Each of the characters in a string correspond to an index number, starting with <code>0</code>.</p>
+<p>To demonstrate, we will create a string with the value <code>How are you?</code>.</p>
+<table>
+<thead>
+<tr>
+<th>H</th>
+<th>o</th>
+<th>w</th>
+<th>a</th>
+<th>r</th>
+<th>e</th>
+<th>y</th>
+<th>o</th>
+<th>u</th>
+<th>?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+</tr>
+</tbody></table>
+<p>The first character in the string is <code>H</code>, which corresponds to the index <code>0</code>. The last character is<code>?</code>, which corresponds to <code>11</code>. The whitespace characters also have an index, at <code>3</code> and <code>7</code>.</p>
+<p>Being able to access every character in a string gives us a number of ways to work with and manipulate strings.</p>
+<h2 id="Accessing-Characters"><a href="#Accessing-Characters" class="headerlink" title="Accessing Characters"></a>Accessing Characters</h2><p>We’re going to demonstrate how to access characters and indices with the How are you? string.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Using square bracket notation, we can access any character in the string.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>[<span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">r;</span><br></pre></td></tr></table></figure>
+
+<p>We can also use the <code>charAt()</code> method to return the character using the index number as a parameter.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.charAt(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">r;</span><br></pre></td></tr></table></figure>
+
+<p>Alternatively, we can use <code>indexOf()</code> to return the index number by the first instance of a character.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.indexOf(<span class="string">"o"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Although “o” appears twice in the <code>How are you</code>? string, <code>indexOf()</code> will get the first instance.</p>
+<p><code>lastIndexOf()</code> is used to find the last instance.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.lastIndexOf(<span class="string">"o"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">9</span>;</span><br></pre></td></tr></table></figure>
+
+<p>For both of these methods, you can also search for multiple characters in the string. It will return the index number of the first character in the instance.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.indexOf(<span class="string">"are"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>slice()</code> method, on the other hand, returns the characters between two index numbers. The first parameter will be the starting index number, and the second parameter will be the index number where it should end.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.slice(<span class="number">8</span>, <span class="number">11</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">you;</span><br></pre></td></tr></table></figure>
+
+<p>Note that <code>11</code> is<code>?</code>, but ? is not part of the returned output. <code>slice()</code> will return what is between, but not including, the last parameter.</p>
+<p>If a second parameter is not included, <code>slice()</code> will return everything from the parameter to the end of the string.</p>
+<p>To summarize, <code>charAt()</code> and <code>slice()</code> will help return string values based on index numbers, and indexOf() and lastIndexOf() will do the opposite, returning index numbers based on the provided string characters.</p>
+<h2 id="Finding-the-Length-of-a-String"><a href="#Finding-the-Length-of-a-String" class="headerlink" title="Finding the Length of a String"></a>Finding the Length of a String</h2><p>Using the <code>length</code> property, we can return the number of characters in a string.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.length;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">12</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Remember that the <code>length</code> property is returning the actual number of characters starting with 1, which comes out to 12, not the final index number, which starts at <code>0</code> and ends at <code>11</code>.</p>
+<h2 id="Converting-to-Upper-or-Lower-Case"><a href="#Converting-to-Upper-or-Lower-Case" class="headerlink" title="Converting to Upper or Lower Case"></a>Converting to Upper or Lower Case</h2><p>The two built-in methods <code>toUpperCase()</code> and <code>toLowerCase()</code> are helpful ways to format text and make textual comparisons in JavaScript.</p>
+<p><code>toUpperCase()</code> will convert all characters to uppercase characters.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.toUpperCase();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">HOW ARE YOU?</span><br></pre></td></tr></table></figure>
+
+<p><code>toLowerCase()</code> will convert all characters to lowercase characters.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"How are you?"</span>.toLowerCase();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">how are you?</span><br></pre></td></tr></table></figure>
+
+<p>These two formatting methods take no additional parameters.</p>
+<p>It is worth noting that these methods do not change the original string.</p>
+<h2 id="Splitting-Strings"><a href="#Splitting-Strings" class="headerlink" title="Splitting Strings"></a>Splitting Strings</h2><p>JavaScript has a very useful method for splitting a string by a character and creating a new <code>array</code> out of the sections. We will use the <code>split()</code> method to separate the array by a whitespace character, represented by <code>&quot; &quot;</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> originalString = <span class="string">"How are you?"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Split string by whitespace character</span></span><br><span class="line"><span class="keyword">const</span> splitString = originalString.split(<span class="string">" "</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(splitString);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"How"</span>, <span class="string">"are"</span>, <span class="string">"you?"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>Now that we have a new array in the <code>splitString</code> variable, we can access each section with an index number.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">splitString[<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">are;</span><br></pre></td></tr></table></figure>
+
+<p>If an empty parameter is given, <code>split()</code> will create a comma-separated array with each character in the string.</p>
+<p>By splitting strings you can determine how many words are in a sentence, and use the method as a way to determine people’s first names and last names, for example.</p>
+<h2 id="Trimming-Whitespace"><a href="#Trimming-Whitespace" class="headerlink" title="Trimming Whitespace"></a>Trimming Whitespace</h2><p>The JavaScript <code>trim()</code> method removes white space from both ends of a string, but not anywhere in between. Whitespace can be tabs or spaces.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tooMuchWhitespace = <span class="string">"     How are you?     "</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> trimmed = tooMuchWhitespace.trim();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(trimmed);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">How are you?</span><br></pre></td></tr></table></figure>
+
+<p>The <code>trim()</code> method is a simple way to perform the common task of removing excess whitespace.</p>
+<h2 id="Finding-and-Replacing-String-Values"><a href="#Finding-and-Replacing-String-Values" class="headerlink" title="Finding and Replacing String Values"></a>Finding and Replacing String Values</h2><p>We can search a string for a value, and replace it with a new value using the <code>replace()</code> method. The first parameter will be the value to be found, and the second parameter will be the value to replace it with.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> originalString = <span class="string">"How are you?"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Replace the first instance of "How" with "Where"</span></span><br><span class="line"><span class="keyword">const</span> newString = originalString.replace(<span class="string">"How"</span>, <span class="string">"Where"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(newString);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Where are you?</span><br></pre></td></tr></table></figure>
+
+<p>In addition to being able to replace a value with another string value, we can also use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="noopener">Regular Expressions</a> to make <code>replace()</code> more powerful. For instance, <code>replace()</code> only affects the first value, but we can use the <code>g</code> (global) flag to catch all instances of a value, and the i (case insensitive) flag to ignore case.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> originalString =</span><br><span class="line">  <span class="string">"Javascript is a programming language. I'm learning javascript."</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Search string for "javascript" and replace with "JavaScript"</span></span><br><span class="line"><span class="keyword">const</span> newString = originalString.replace(<span class="regexp">/javascript/gi</span>, <span class="string">"JavaScript"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(newString);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">JavaScript is a programming language. I<span class="string">'m learning JavaScript.</span></span><br></pre></td></tr></table></figure>
+
+<p>This is a very common task that makes use of Regular Expressions. Visit Regexr to practice more examples of RegEx.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Strings are one of the most frequently used data types, and there is a lot we can do with them.</p>
+<p>In this tutorial, we learned the difference between the string primitive and <code>String</code> object, how strings are indexed, and how to use the built-in methods and properties of strings to access characters, format text, and find and replace values.</p>
+<p>For a more general overview on strings, read the tutorial “How To Work with Strings in JavaScript.”</p>
+</section>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/20/string-manipulate-string-in-js/ - string-manipulate-string-in-js @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "string-manipulate-string-in-js",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

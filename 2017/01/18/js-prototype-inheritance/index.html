@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>js-prototype-inheritance - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>js-prototype-inheritance</h1>
+        
+        <h2 class="headline">Jan 18 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>JavaScript is a <strong>prototype-based language</strong>, meaning object properties and methods can be shared through generalized objects that have the ability to be cloned and extended. This is known as prototypical inheritance and differs from class inheritance. Among popular object-oriented programming languages, JavaScript is relatively unique, as other prominent languages such as PHP, Python, and Java are class-based languages, which instead define classes as blueprints for objects.</p>
+<p>In this tutorial, we will learn what object prototypes are and how to use the constructor function to extend prototypes into new objects. We will also learn about inheritance and the prototype chain</p>
+<h2 id="JavaScript-Prototypes"><a href="#JavaScript-Prototypes" class="headerlink" title="JavaScript Prototypes"></a>JavaScript Prototypes</h2><p>In Understanding Objects in JavaScript, we went over the object data type, how to create an object, and how to access and modify object properties. Now we will learn how prototypes can be used to extend objects.</p>
+<p>Every object in JavaScript has an internal property called <code>[[Prototype]]</code>. We can demonstrate this by creating a new, empty object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>This is the way we would normally create an object, but note that another way to accomplish this is with the object constructor: <code>let x = new Object()</code>.</p>
+<blockquote>
+<p>The double square brackets that enclose <code>[[Prototype]]</code>signify that it is an internal property, and cannot be accessed directly in code.</p>
+</blockquote>
+<p>To find the <code>[[Prototype]]</code> of this newly created object, we will use the <code>getPrototypeOf()</code> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.getPrototypeOf(x);</span><br></pre></td></tr></table></figure>
+
+<p>The output will consist of several built-in properties and methods.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">constructor</span>: ƒ, <span class="attr">__defineGetter__</span>: ƒ, <span class="attr">__defineSetter__</span>: ƒ, …&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Another way to find the <code>[[Prototype]]</code> is through the <code>proto</code> property. <code>proto</code> is a property that exposes the internal <code>[[Prototype]]</code> of an object.</p>
+<blockquote>
+<p>It is important to note that <code>.proto</code> is a legacy feature and should not be used in production code, and it is not present in every modern browser. However, we can use it throughout this article for demonstrative purposes.</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.__proto__;</span><br></pre></td></tr></table></figure>
+
+<p>The output will be the same as if you had used <code>getPrototypeOf()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">constructor</span>: ƒ, <span class="attr">__defineGetter__</span>: ƒ, <span class="attr">__defineSetter__</span>: ƒ, …&#125;</span><br></pre></td></tr></table></figure>
+
+<p>It is important that every object in JavaScript has a <code>[[Prototype]]</code> as it creates a way for any two or more objects to be linked.</p>
+<p>Objects that you create have a <code>[[Prototype]]</code>, as do built-in objects, such as <code>Date</code> and <code>Array</code>. A reference can be made to this internal property from one object to another via the <code>prototype</code> property, as we will see later in this tutorial.</p>
+<h2 id="Prototype-Inheritance"><a href="#Prototype-Inheritance" class="headerlink" title="Prototype Inheritance"></a>Prototype Inheritance</h2><p>When you attempt to access a property or method of an object, JavaScript will first search on the object itself, and if it is not found, it will search the object’s <code>[[Prototype]]</code>. If after consulting both the object and its <code>[[Prototype]]</code> still no match is found, JavaScript will check the prototype of the linked object, and continue searching until the end of the prototype chain is reached.</p>
+<p>At the end of the prototype chain is <code>Object.prototype</code>. All objects inherit the properties and methods of <code>Object</code>. Any attempt to search beyond the end of the chain results in <code>null</code>.</p>
+<p>In our example, <code>x</code> is an empty object that inherits from <code>Object. x</code> can use any property or method that <code>Object</code> has, such as <code>toString()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.toString();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">[object <span class="built_in">Object</span>]</span><br></pre></td></tr></table></figure>
+
+<p>This prototype chain is only one link long. <code>x -&gt; Object</code>. We know this, because if we try to chain two <code>[[Prototype]]</code> properties together, it will be <code>null</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.__proto__.__proto__;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Let’s look at another type of object. If you have experience Working with Arrays in JavaScript, you know they have many built-in methods, such as <code>pop()</code> and <code>push()</code>. The reason you have access to these methods when you create a new array is because any array you create has access to the properties and methods on the <code>Array.prototype</code>.</p>
+<p>We can test this by creating a new array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> y = [];</span><br></pre></td></tr></table></figure>
+
+<p>Keep in mind that we could also write it as an array constructor, let y = new Array().</p>
+<p>If we take a look at the <code>[[Prototype]</code> of the new <code>y</code> array, we will see that it has more properties and methods than the <code>x</code> object. It has inherited everything from <code>Array.prototype</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y.__proto__;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">constructor</span>: ƒ, concat: ƒ, pop: ƒ, push: ƒ, …]</span><br></pre></td></tr></table></figure>
+
+<p>You will notice a <code>constructor</code> property on the prototype that is set to <code>Array()</code>. The <code>constructor</code> property returns the constructor function of an object, which is a mechanism used to construct objects from functions.</p>
+<p>We can chain two prototypes together now, since our prototype chain is longer in this case. It looks like <code>y -&gt; Array -&gt; Object</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y.__proto__.__proto__;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&#123;<span class="attr">constructor</span>: ƒ, <span class="attr">__defineGetter__</span>: ƒ, <span class="attr">__defineSetter__</span>: ƒ, …&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This chain is now referring to <code>Object.prototype</code>. We can test the internal <code>[[Prototype]]</code> against the <code>prototype</code> property of the constructor function to see that they are referring to the same thing.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y.__proto__ === <span class="built_in">Array</span>.prototype; <span class="comment">// true</span></span><br><span class="line">y.__proto__.__proto__ === <span class="built_in">Object</span>.prototype; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>We can also use the <code>isPrototypeOf()</code> method to accomplish this.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.isPrototypeOf(y); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.isPrototypeOf(<span class="built_in">Array</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>We can use the <code>instanceof</code> operator to test whether the <code>prototype</code> property of a constructor appears anywhere within an object’s prototype chain.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y <span class="keyword">instanceof</span> <span class="built_in">Array</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>To summarize, all JavaScript objects have a hidden, internal <code>[[Prototype]]</code> property (which may be exposed through <code>__proto__</code> in some browsers). Objects can be extended and will inherit the properties and methods on <code>[[Prototype]]</code> of their constructor.</p>
+<p>These prototypes can be chained, and each additional object will inherit everything throughout the chain. The chain ends with the <code>Object.prototype</code>.</p>
+<h2 id="Constructor-Functions"><a href="#Constructor-Functions" class="headerlink" title="Constructor Functions"></a>Constructor Functions</h2><p><strong>Constructor functions</strong> are functions that are used to construct new objects. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new" target="_blank" rel="noopener"><code>new</code> operator</a> is used to create new instances based off a constructor function. We have seen some built-in JavaScript constructors, such as <code>new Array()</code> and <code>new Date()</code>, but we can also create our own custom templates from which to build new objects.</p>
+<p>As an example, let’s say we are creating a very simple, text-based role-playing game. A user can select a character and then choose what character class they will have, such as warrior, healer, thief, and so on.</p>
+<p>Since each character will share many characteristics, such as having a name, a level, and hit points, it makes sense to create a constructor as a template. However, since each character class may have vastly different abilities, we want to make sure each character only has access to their own abilities. Let’s take a look at how we can accomplish this with prototype inheritance and constructors.</p>
+<p>To begin, a constructor function is just a regular function. It becomes a constructor when it is called on by an instance with the <code>new</code> keyword. In JavaScript, we capitalize the first letter of a constructor function by convention.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize a constructor function for a new Hero</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Hero</span>(<span class="params">name, level</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.level = level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We have created a constructor function called <code>Hero</code> with two parameters: <code>name</code> and <code>level</code>. Since every character will have a name and a level, it makes sense for each new character to have these properties. The this keyword will refer to the new instance that is created, so setting <code>this.name</code> to the <code>name</code> parameter ensures the new object will have a <code>name</code> property set.</p>
+<p>Now we can create a new instance with <code>new</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> hero1 = <span class="keyword">new</span> Hero(<span class="string">"Bjorn"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>If we console out <code>hero1</code>, we will see a new object has been created with the new properties set as expected.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Hero &#123;<span class="attr">name</span>: <span class="string">"Bjorn"</span>, <span class="attr">level</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now if we get the <code>[[Prototype]]</code> of <code>hero1</code>, we will be able to see the <code>constructor</code> as <code>Hero()</code>. (Remember, this has the same input as <code>hero1.__proto__</code>, but is the proper method to use.)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.getPrototypeOf(hero1);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line"><span class="keyword">constructor</span>: ƒ Hero(name, level)</span><br></pre></td></tr></table></figure>
+
+<p>You may notice that we’ve only defined properties and not methods in the constructor. It is a common practice in JavaScript to define methods on the prototype for increased efficiency and code readability.</p>
+<p>We can add a method to <code>Hero</code> using <code>prototype</code>. We’ll create a <code>greet()</code> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// Add greet method to the Hero prototype</span></span><br><span class="line">Hero.prototype.greet = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> says hello.`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Since <code>greet()</code> is in the <code>prototype</code> of <code>Hero</code>, and hero1 is an instance of <code>Hero</code>, the method is available to <code>hero1</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hero1.greet();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">(<span class="string">"Bjorn says hello."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>If you inspect the <code>[[Prototype]]</code>of Hero, you will see <code>greet()</code> as an available option now.</p>
+<p>This is good, but now we want to create character classes for the heroes to use. It wouldn’t make sense to put all the abilities for every class into the <code>Hero</code> constructor, because different classes will have different abilities. We want to create new constructor functions, but we also want them to be connected to the original <code>Hero</code>.</p>
+<p>We can use the <code>call()</code> method to copy over properties from one constructor into another constructor. Let’s create a Warrior and a Healer constructor.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// Initialize Warrior constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Warrior</span>(<span class="params">name, level, weapon</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Chain constructor with call</span></span><br><span class="line">  Hero.call(<span class="keyword">this</span>, name, level);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Add a new property</span></span><br><span class="line">  <span class="keyword">this</span>.weapon = weapon;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initialize Healer constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Healer</span>(<span class="params">name, level, spell</span>) </span>&#123;</span><br><span class="line">  Hero.call(<span class="keyword">this</span>, name, level);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.spell = spell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Both new constructors now have the properties of <code>Hero</code> and a few unqiue ones. We’ll add the <code>attack()</code> method to <code>Warrior</code>, and the <code>heal()</code> method to <code>Healer</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">Warrior.prototype.attack = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> attacks with the <span class="subst">$&#123;<span class="keyword">this</span>.weapon&#125;</span>.`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Healer.prototype.heal = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> casts <span class="subst">$&#123;<span class="keyword">this</span>.spell&#125;</span>.`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>At this point, we’ll create our characters with the two new character classes available.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hero1 = <span class="keyword">new</span> Warrior(<span class="string">"Bjorn"</span>, <span class="number">1</span>, <span class="string">"axe"</span>);</span><br><span class="line"><span class="keyword">const</span> hero2 = <span class="keyword">new</span> Healer(<span class="string">"Kanin"</span>, <span class="number">1</span>, <span class="string">"cure"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>hero1</code> is now recognized as a <code>Warrior</code> with the new properties.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Warrior &#123;<span class="attr">name</span>: <span class="string">"Bjorn"</span>, <span class="attr">level</span>: <span class="number">1</span>, <span class="attr">weapon</span>: <span class="string">"axe"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We can use the new methods we set on the <code>Warrior</code> prototype.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hero1.attack();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Console;</span><br><span class="line">(<span class="string">"Bjorn attacks with the axe."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>But what happens if we try to use methods further down the prototype chain?</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hero1.greet();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Uncaught <span class="built_in">TypeError</span>: hero1.greet is not a <span class="function"><span class="keyword">function</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Prototype properties and methods are not automatically linked when you use <code>call()</code> to chain constructors. We will use <code>Object.create()</code> to link the prototypes, making sure to put it before any additional methods are created and added to the prototype.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">Warrior.prototype = <span class="built_in">Object</span>.create(Hero.prototype);</span><br><span class="line">Healer.prototype = <span class="built_in">Object</span>.create(Hero.prototype);</span><br><span class="line"></span><br><span class="line"><span class="comment">// All other prototype methods added below</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Now we can successfully use prototype methods from <code>Hero</code> on an instance of a <code>Warrior</code> or <code>Healer</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hero1.greet();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">(<span class="string">"Bjorn says hello."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Here is the full code for our character creation page.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize constructor functions</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Hero</span>(<span class="params">name, level</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.level = level;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Warrior</span>(<span class="params">name, level, weapon</span>) </span>&#123;</span><br><span class="line">  Hero.call(<span class="keyword">this</span>, name, level);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.weapon = weapon;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Healer</span>(<span class="params">name, level, spell</span>) </span>&#123;</span><br><span class="line">  Hero.call(<span class="keyword">this</span>, name, level);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.spell = spell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Link prototypes and add prototype methods</span></span><br><span class="line">Warrior.prototype = <span class="built_in">Object</span>.create(Hero.prototype);</span><br><span class="line">Healer.prototype = <span class="built_in">Object</span>.create(Hero.prototype);</span><br><span class="line"></span><br><span class="line">Hero.prototype.greet = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> says hello.`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Warrior.prototype.attack = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> attacks with the <span class="subst">$&#123;<span class="keyword">this</span>.weapon&#125;</span>.`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Healer.prototype.heal = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> casts <span class="subst">$&#123;<span class="keyword">this</span>.spell&#125;</span>.`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initialize individual character instances</span></span><br><span class="line"><span class="keyword">const</span> hero1 = <span class="keyword">new</span> Warrior(<span class="string">"Bjorn"</span>, <span class="number">1</span>, <span class="string">"axe"</span>);</span><br><span class="line"><span class="keyword">const</span> hero2 = <span class="keyword">new</span> Healer(<span class="string">"Kanin"</span>, <span class="number">1</span>, <span class="string">"cure"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>With this code we’ve created our <code>Hero</code> class with the base properties, created two character classes called <code>Warrior</code> and <code>Healer</code> from the original constructor, added methods to the prototypes and created individual character instances.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>JavaScript is a prototype-based language, and functions differently than the traditional class-based paradigm that many other object-oriented languages use.</p>
+<p>In this tutorial, we learned how prototypes work in JavaScript, and how to link object properties and methods via the hidden <code>[[Prototype]]</code> property that all objects share. We also learned how to create custom constructor functions and how prototype inheritance works to pass down property and method values.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js-inheritance-prototype/#js inheritance prototype">js inheritance prototype</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/18/js-prototype-inheritance/ - js-prototype-inheritance @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "js-prototype-inheritance",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

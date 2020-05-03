@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>The-Difference-Between-Throttling-and-Debouncing - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>The-Difference-Between-Throttling-and-Debouncing</h1>
+        
+        <h2 class="headline">Nov 17 2019
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>I got these confused the other day and someone corrected me. So I tossed it on the ol’ list of blog post ideas and here we are. Both of them are ways to limit the amount of JavaScript you are executing based on DOM events for performance reasons. But they are, you guessed it, different.</p>
+<h2 id="Throttling-enforces-a-maximum-number-of-times-a-function-can-be-called-over-time-As-in-“execute-this-function-at-most-once-every-100-milliseconds-”"><a href="#Throttling-enforces-a-maximum-number-of-times-a-function-can-be-called-over-time-As-in-“execute-this-function-at-most-once-every-100-milliseconds-”" class="headerlink" title="# Throttling enforces a maximum number of times a function can be called over time. As in “execute this function at most once every 100 milliseconds.”"></a># Throttling enforces a maximum number of times a function can be called over time. As in “execute this function at most once every 100 milliseconds.”</h2><p>Say under normal circumstances you would call this function 1,000 times over 10 seconds. If you throttle it to only once per 100 milliseconds, it would only execute that function at most 100 times</p>
+<p>(10s * 1,000) = 10,000ms<br>10,000ms / 100ms throttling = 100 maximum calls</p>
+<h2 id="Debouncing-enforces-that-a-function-not-be-called-again-until-a-certain-amount-of-time-has-passed-without-it-being-called-As-in-“execute-this-function-only-if-100-milliseconds-have-passed-without-it-being-called-”"><a href="#Debouncing-enforces-that-a-function-not-be-called-again-until-a-certain-amount-of-time-has-passed-without-it-being-called-As-in-“execute-this-function-only-if-100-milliseconds-have-passed-without-it-being-called-”" class="headerlink" title="# Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in “execute this function only if 100 milliseconds have passed without it being called.”"></a># Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in “execute this function only if 100 milliseconds have passed without it being called.”</h2><p>Perhaps a function is called 1,000 times in a quick burst, dispersed over 3 seconds, then stops being called. If you have debounced it at 100 milliseconds, the function will only fire once, at 3.1 seconds, once the burst is over. Each time the function is called during the burst it resets the debouncing timer.</p>
+<h2 id="What’s-the-point"><a href="#What’s-the-point" class="headerlink" title="# What’s the point?"></a># What’s the point?</h2><p>One major use case for these concepts is certain DOM events, like scrolling and resizing. For instance, if you attach a scroll handler to an element, and scroll that element down say 5000px, you’re likely to see 100+ events be fired. If your event handler does a bunch of work (like heavy calculations and other DOM manipulation), you may see performance issues (jank). If you can get away with executing that handler less times, without much interruption in experience, it’s probably worth it.</p>
+<p>Quick hit examples:</p>
+<ul>
+<li>Wait until the user stops resizing the window</li>
+<li>Don’t fire an ajax event until the user stops typing</li>
+<li>Measure the scroll position of the page and respond at most every 50ms</li>
+<li>Ensure good performance as you drag elements around in an app</li>
+</ul>
+<h2 id="How-to-do-it"><a href="#How-to-do-it" class="headerlink" title="# How to do it"></a># How to do it</h2><p>Functions for both are built into <a href="http://underscorejs.org/" target="_blank" rel="noopener">Underscore</a> and <a href="https://lodash.com/" target="_blank" rel="noopener">Lodash</a>. Even if you don’t use those libraries wholesale, you could always go extract the functions out of them for your own use.</p>
+<p>Simple throttled scroll:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Jquery;</span><br><span class="line">$(<span class="string">"body"</span>).on(</span><br><span class="line">  <span class="string">"scroll"</span>,</span><br><span class="line">  _.throttle(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Do expensive things</span></span><br><span class="line">  &#125;, <span class="number">100</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Simple debounced resize:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Jquery;</span><br><span class="line">$(<span class="built_in">window</span>).on(</span><br><span class="line">  <span class="string">"resize"</span>,</span><br><span class="line">  _.debounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Do expensive things</span></span><br><span class="line">  &#125;, <span class="number">100</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>Leveling up from here, you would work in the use of requestAnimationFrame, so even when the functions are executed the browser does it on it’s own ideal timing. That’s covered in <a href="http://www.html5rocks.com/en/tutorials/speed/animations/" target="_blank" rel="noopener">this Paul Lewis tutorial.</a></p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>Simple demo so you can experience the difference:</p>
+<p class="codepen" data-height="865" data-theme-id="default" data-default-tab="js,result" data-user="chriscoyier" data-slug-hash="vOZNQV" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="The Difference Between Throttling, Debouncing, and Neither">
+  <span>See the Pen <a href="https://codepen.io/chriscoyier/pen/vOZNQV" target="_blank" rel="noopener">
+  The Difference Between Throttling, Debouncing, and Neither</a> by Chris Coyier  (<a href="https://codepen.io/chriscoyier" target="_blank" rel="noopener">@chriscoyier</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js/#js">js</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/11/17/The-Difference-Between-Throttling-and-Debouncing/ - The-Difference-Between-Throttling-and-Debouncing @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "The-Difference-Between-Throttling-and-Debouncing",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

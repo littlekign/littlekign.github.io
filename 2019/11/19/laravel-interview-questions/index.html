@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>laravel-interview-questions - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>laravel-interview-questions</h1>
+        
+        <h2 class="headline">Nov 19 2019
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>[TOC]</p>
+<h2 id="Q1-What-is-the-Laravel"><a href="#Q1-What-is-the-Laravel" class="headerlink" title="Q1: What is the Laravel?"></a>Q1: What is the Laravel?</h2><p><strong>Laravel</strong> is a free, open-source PHP web framework, created by Taylor Otwell and intended for the development of web applications following the model–view–controller (MVC) architectural pattern.</p>
+<h2 id="Q2-What-are-some-benefits-of-Laravel-over-other-Php-frameworks"><a href="#Q2-What-are-some-benefits-of-Laravel-over-other-Php-frameworks" class="headerlink" title="Q2: What are some benefits of Laravel over other Php frameworks?"></a>Q2: What are some benefits of Laravel over other Php frameworks?</h2><ul>
+<li>Setup and customisation process is easy and fast as compared to others.<br>Inbuilt Authentication System</li>
+<li>Supports multiple file systems</li>
+<li>Pre-loaded packages like Laravel Socialite, Laravel cashier, Laravel elixir, Passport, Laravel Scout</li>
+<li>Eloquent ORM (Object Relation Mapping) with PHP active record implementation</li>
+<li>Built in command line tool “Artisan” for creating a code skeleton ,database structure and build their migration</li>
+</ul>
+<h2 id="Q3-Explain-Migrations-in-Laravel"><a href="#Q3-Explain-Migrations-in-Laravel" class="headerlink" title="Q3: Explain Migrations in Laravel"></a>Q3: Explain Migrations in Laravel</h2><p><strong>Laravel Migrations</strong> are like version control for the database, allowing a team to easily modify and share the application’s database schema. Migrations are typically paired with Laravel’s schema builder to easily build the application’s database schema.</p>
+<h2 id="Q4-What-is-the-Facade-Pattern-used-for"><a href="#Q4-What-is-the-Facade-Pattern-used-for" class="headerlink" title="Q4: What is the Facade Pattern used for?"></a>Q4: What is the Facade Pattern used for?</h2><p><strong>Facades</strong> provide a static interface to classes that are available in the application’s service container. Laravel facades serve as static proxies to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.</p>
+<p>All of Laravel’s facades are defined in the <code>Illuminate\Support\Facades</code> namespace. Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Support</span>\<span class="title">Facades</span>\<span class="title">Cache</span>;</span><br><span class="line"></span><br><span class="line">Route::get(<span class="string">'/cache'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Cache::get(<span class="string">'key'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q5-What-is-Service-Container"><a href="#Q5-What-is-Service-Container" class="headerlink" title="Q5: What is Service Container?"></a>Q5: What is Service Container?</h2><p>The Laravel <strong>service container</strong> is a tool for managing class dependencies and performing dependency injection.</p>
+<h2 id="Q6-What-is-Eloquent-Models"><a href="#Q6-What-is-Eloquent-Models" class="headerlink" title="Q6: What is Eloquent Models?"></a>Q6: What is Eloquent Models?</h2><p>The Eloquent ORM included with Laravel provides a beautiful, simple ActiveRecord implementation for working with your database. Each database table has a corresponding <code>Model</code> which is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the table.</p>
+<h2 id="Q7-What-are-Laravel-events"><a href="#Q7-What-are-Laravel-events" class="headerlink" title="Q7: What are Laravel events?"></a>Q7: What are Laravel events?</h2><p>Laravel event provides a simple <code>observer pattern</code> implementation, that allow to subscribe and listen for events in the application. An event is an incident or occurrence detected and handled by the program.</p>
+<p>Below are some events examples in Laravel:</p>
+<ul>
+<li>A new user has registered</li>
+<li>A new comment is posted</li>
+<li>User login/logout</li>
+<li>New product is added.</li>
+</ul>
+<h2 id="Q8-What-do-you-know-about-query-builder-in-Laravel"><a href="#Q8-What-do-you-know-about-query-builder-in-Laravel" class="headerlink" title="Q8: What do you know about query builder in Laravel?"></a>Q8: What do you know about query builder in Laravel?</h2><p>Laravel’s database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application and works on all supported database systems.</p>
+<p>The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.</p>
+<p>Some QB features:</p>
+<ul>
+<li>Chunking</li>
+<li>Aggregates</li>
+<li>Selects</li>
+<li>Raw Expressions</li>
+<li>Joins</li>
+<li>Unions</li>
+<li>Where</li>
+<li>Ordering, Grouping, Limit, &amp; Offset</li>
+</ul>
+<h2 id="Q9-How-do-you-generate-migrations"><a href="#Q9-How-do-you-generate-migrations" class="headerlink" title="Q9: How do you generate migrations?"></a>Q9: How do you generate migrations?</h2><p><strong>Migrations</strong> are like version control for your database, allowing your team to easily modify and share the application’s database schema. Migrations are typically paired with Laravel’s schema builder to easily build your application’s database schema.</p>
+<p>To create a migration, use the <code>make:migration</code> Artisan command:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:migration create_users_table</span><br></pre></td></tr></table></figure>
+
+<p>The new migration will be placed in your <code>database/migrations</code> directory. Each migration file name contains a timestamp which allows Laravel to determine the order of the migrations.</p>
+<h2 id="Q10-How-do-you-mock-a-static-facade-methods"><a href="#Q10-How-do-you-mock-a-static-facade-methods" class="headerlink" title="Q10: How do you mock a static facade methods?"></a>Q10: How do you mock a static facade methods?</h2><p>Facades provide a “static” interface to classes that are available in the application’s service container. Unlike traditional static method calls, facades may be mocked. We can mock the call to the static facade method by using the <code>shouldReceive</code> method, which will return an instance of a <code>Mockery</code> mock.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// actual code</span></span><br><span class="line">$value = Cache::get(<span class="string">'key'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// testing</span></span><br><span class="line">Cache::shouldReceive(<span class="string">'get'</span>)</span><br><span class="line">                    -&gt;once()</span><br><span class="line">                    -&gt;with(<span class="string">'key'</span>)</span><br><span class="line">                    -&gt;andReturn(<span class="string">'value'</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q11-What-is-the-benefit-of-eager-loading-when-do-you-use-it"><a href="#Q11-What-is-the-benefit-of-eager-loading-when-do-you-use-it" class="headerlink" title="Q11: What is the benefit of eager loading, when do you use it?"></a>Q11: What is the benefit of eager loading, when do you use it?</h2><p>When accessing Eloquent relationships as properties, the relationship data is “lazy loaded”. This means the relationship data is not actually loaded until you first access the property. However, Eloquent can “eager load” relationships at the time you query the parent model.</p>
+<p>Eager loading alleviates the <code>N + 1</code> query problem when we have nested objects (like books -&gt; author). We can use eager loading to reduce this operation to just 2 queries.</p>
+<h2 id="Q12-How-do-you-do-soft-deletes"><a href="#Q12-How-do-you-do-soft-deletes" class="headerlink" title="Q12: How do you do soft deletes?"></a>Q12: How do you do soft deletes?</h2><p>Scopes allow you to easily re-use query logic in your models. To define a scope, simply prefix a model method with scope:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopePopular</span><span class="params">($query)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $query-&gt;where(<span class="string">'votes'</span>, <span class="string">'&gt;'</span>, <span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopeWomen</span><span class="params">($query)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $query-&gt;whereGender(<span class="string">'W'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Usage:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$users = User::popular()-&gt;women()-&gt;orderBy(<span class="string">'created_at'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<p>Sometimes you may wish to define a scope that accepts parameters. Dynamic scopes accept query parameters:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopeOfType</span><span class="params">($query, $type)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $query-&gt;whereType($type);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Usage:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$users = User::ofType(<span class="string">'member'</span>)-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q13-What-are-named-routes-in-Laravel"><a href="#Q13-What-are-named-routes-in-Laravel" class="headerlink" title="Q13: What are named routes in Laravel?"></a>Q13: What are named routes in Laravel?</h2><p>Named routes allow referring to routes when generating redirects or Url’s more comfortably. You can specify named routes by chaining the name method onto the route definition:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Route::get(<span class="string">'user/profile'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">&#125;)-&gt;name(<span class="string">'profile'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>You can specify route names for controller actions:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Route::get(<span class="string">'user/profile'</span>, <span class="string">'UserController@showProfile'</span>)-&gt;name(<span class="string">'profile'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Once you have assigned a name to your routes, you may use the route’s name when generating URLs or redirects via the global route function:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Generating URLs...</span></span><br><span class="line">$url = route(<span class="string">'profile'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generating Redirects...</span></span><br><span class="line"><span class="keyword">return</span> redirect()-&gt;route(<span class="string">'profile'</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q14-What-is-Closure-in-Laravel"><a href="#Q14-What-is-Closure-in-Laravel" class="headerlink" title="Q14: What is Closure in Laravel?"></a>Q14: What is Closure in Laravel?</h2><p>A Closure is an anonymous function. Closures are often used as callback methods and can be used as a parameter in a function.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">(Closure $closure)</span> </span>&#123;</span><br><span class="line">    $closure(<span class="string">'Hello World!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handle(<span class="function"><span class="keyword">function</span><span class="params">($value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> $value;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q15-List-some-Aggregates-methods-provided-by-query-builder-in-Laravel"><a href="#Q15-List-some-Aggregates-methods-provided-by-query-builder-in-Laravel" class="headerlink" title="Q15: List some Aggregates methods provided by query builder in Laravel ?"></a>Q15: List some Aggregates methods provided by query builder in Laravel ?</h2><p>Aggregate function is a function where the values of multiple rows are grouped together as input on certain criteria to form a single value of more significant meaning or measurements such as a set, a bag or a list.</p>
+<p>Below is list of some Aggregates methods provided by Laravel query builder:</p>
+<ul>
+<li>count()</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$products = DB::table(‘products’)-&gt;count();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>max()</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$price = DB::table(‘orders’)-&gt;max(‘price’);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>min()</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$price = DB::table(‘orders’)-&gt;min(‘price’);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>avg()</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*$price = DB::table(‘orders’)-&gt;avg(‘price’);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>sum()</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$price = DB::table(‘orders’)-&gt;sum(‘price’);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q16-What-is-reverse-routing-in-Laravel"><a href="#Q16-What-is-reverse-routing-in-Laravel" class="headerlink" title="Q16: What is reverse routing in Laravel?"></a>Q16: What is reverse routing in Laravel?</h2><p>In Laravel reverse routing is generating URL’s based on route declarations.Reverse routing makes your application so much more flexible. For example the below route declaration tells Laravel to execute the action “login” in the users controller when the request’s URI is ‘login’.</p>
+<p><a href="http://mysite.com/login" target="_blank" rel="noopener">http://mysite.com/login</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Route::get(‘login’, ‘users@login’);</span><br></pre></td></tr></table></figure>
+
+<p>Using reverse routing we can create a link to it and pass in any parameters that we have defined. Optional parameters, if not supplied, are removed from the generated link.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; HTML::link_to_action(<span class="string">'users@login'</span>) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>It will create a link like <a href="http://mysite.com/login" target="_blank" rel="noopener">http://mysite.com/login</a> in view.</p>
+<h2 id="Q17-Why-do-we-need-Traits-in-Laravel"><a href="#Q17-Why-do-we-need-Traits-in-Laravel" class="headerlink" title="Q17: Why do we need Traits in Laravel?"></a>Q17: Why do we need Traits in Laravel?</h2><p><strong>Traits</strong> have been added to PHP for a very simple reason: PHP does not support multiple inheritance. Simply put, a class cannot extends more than on class at a time. This becomes laborious when you need functionality declared in two different classes that are used by other classes as well, and the result is that you would have to repeat code in order to get the job done without tangling yourself up in a mist of cobwebs.</p>
+<p>Enter traits. These allow us to declare a type of class that contains methods that can be reused. Better still, their methods can be directly injected into any class you use, and you can use multiple traits in the same class. Let’s look at a simple Hello World example.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> SayHello</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">hello</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello "</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">world</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"World"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">trait</span> Talk</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">speak</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;hello() . <span class="keyword">$this</span>-&gt;world();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">SayHello</span>;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">Talk</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;speak();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$message = <span class="keyword">new</span> HelloWorld(); <span class="comment">// returns "Hello World";</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q18-What-is-Autoloader-in-PHP"><a href="#Q18-What-is-Autoloader-in-PHP" class="headerlink" title="Q18: What is Autoloader in PHP?"></a>Q18: What is Autoloader in PHP?</h2><p>Autoloaders define ways to automatically include PHP classes in your code without having to use statements like require and include.</p>
+<ul>
+<li><strong>PSR-4</strong> would allow for simpler folder structures, but would prevent us from knowing the exact path of a class just by looking at the fully qualified name.</li>
+<li><strong>PSR-0</strong> on the other hand is chaotic on the hard drive, but supports developers who are stuck in the past (the underscore-in-class-name users) and helps us discern the location of a class just by looking at its name.</li>
+</ul>
+<h2 id="Q19-Let’s-create-Enumerations-for-PHP-Prove-some-code-examples"><a href="#Q19-Let’s-create-Enumerations-for-PHP-Prove-some-code-examples" class="headerlink" title="Q19: Let’s create Enumerations for PHP. Prove some code examples."></a>Q19: Let’s create Enumerations for PHP. Prove some code examples.</h2><p>And what if our code require more validation of enumeration constants and values?</p>
+<p><strong>Answer:</strong><br>Depending upon use case, I would normally use something simple like the following:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DaysOfWeek</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Sunday = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> Monday = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// etc.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$today = DaysOfWeek::Sunday;</span><br></pre></td></tr></table></figure>
+
+<p>Here’s an expanded example which may better serve a much wider range of cases:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BasicEnum</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $constCacheArray = <span class="keyword">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getConstants</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>::$constCacheArray == <span class="keyword">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">self</span>::$constCacheArray = [];</span><br><span class="line">        &#125;</span><br><span class="line">        $calledClass = get_called_class();</span><br><span class="line">        <span class="keyword">if</span> (!array_key_exists($calledClass, <span class="keyword">self</span>::$constCacheArray)) &#123;</span><br><span class="line">            $reflect = <span class="keyword">new</span> ReflectionClass($calledClass);</span><br><span class="line">            <span class="keyword">self</span>::$constCacheArray[$calledClass] = $reflect - &gt; getConstants();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>::$constCacheArray[$calledClass];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">isValidName</span><span class="params">($name, $strict = false)</span> </span>&#123;</span><br><span class="line">        $constants = <span class="keyword">self</span>::getConstants();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ($strict) &#123;</span><br><span class="line">            <span class="keyword">return</span> array_key_exists($name, $constants);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $keys = array_map(<span class="string">'strtolower'</span>, array_keys($constants));</span><br><span class="line">        <span class="keyword">return</span> in_array(strtolower($name), $keys);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">isValidValue</span><span class="params">($value, $strict = true)</span> </span>&#123;</span><br><span class="line">        $values = array_values(<span class="keyword">self</span>::getConstants());</span><br><span class="line">        <span class="keyword">return</span> in_array($value, $values, $strict);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And we could use it as:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DaysOfWeek</span> <span class="keyword">extends</span> <span class="title">BasicEnum</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Sunday = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> Monday = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">const</span> Tuesday = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">const</span> Wednesday = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">const</span> Thursday = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">const</span> Friday = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">const</span> Saturday = <span class="number">6</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DaysOfWeek::isValidName(<span class="string">'Humpday'</span>);                  <span class="comment">// false</span></span><br><span class="line">DaysOfWeek::isValidName(<span class="string">'Monday'</span>);                   <span class="comment">// true</span></span><br><span class="line">DaysOfWeek::isValidName(<span class="string">'monday'</span>);                   <span class="comment">// true</span></span><br><span class="line">DaysOfWeek::isValidName(<span class="string">'monday'</span>, $strict = <span class="keyword">true</span>);   <span class="comment">// false</span></span><br><span class="line">DaysOfWeek::isValidName(<span class="number">0</span>);                          <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">DaysOfWeek::isValidValue(<span class="number">0</span>);                         <span class="comment">// true</span></span><br><span class="line">DaysOfWeek::isValidValue(<span class="number">5</span>);                         <span class="comment">// true</span></span><br><span class="line">DaysOfWeek::isValidValue(<span class="number">7</span>);                         <span class="comment">// false</span></span><br><span class="line">DaysOfWeek::isValidValue(<span class="string">'Friday'</span>);                  <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q20-What-is-autoloading-classes-in-PHP"><a href="#Q20-What-is-autoloading-classes-in-PHP" class="headerlink" title="Q20: What is autoloading classes in PHP?"></a>Q20: What is autoloading classes in PHP?</h2><p>With autoloaders, PHP allows the last chance to load the class or interface before it fails with an error.</p>
+<p>The <code>spl_autoload_register()</code> function in PHP can register any number of autoloaders, enable classes and interfaces to autoload even if they are undefined.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spl_autoload_register(<span class="function"><span class="keyword">function</span> <span class="params">($classname)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">include</span>  $classname . <span class="string">'.php'</span>;</span><br><span class="line">&#125;);</span><br><span class="line">$object  = <span class="keyword">new</span> Class1();</span><br><span class="line">$object2 = <span class="keyword">new</span> Class2();</span><br></pre></td></tr></table></figure>
+
+<p>In the above example we do not need to include Class1.php and Class2.php. The <code>spl_autoload_register()</code> function will automatically load Class1.php and Class2.php.</p>
+<h2 id="Q21-Does-PHP-support-method-overloading"><a href="#Q21-Does-PHP-support-method-overloading" class="headerlink" title="Q21: Does PHP support method overloading?"></a>Q21: Does PHP support method overloading?</h2><p><strong>Method overloading</strong> is the phenomenon of using same method name with different signature. You cannot overload PHP functions. Function signatures are based only on their names and do not include argument lists, so you cannot have two functions with the same name.</p>
+<p>You can, however, declare a <strong>variadic function</strong> that takes in a variable number of arguments. You would use func_num_args() and func_get_arg() to get the arguments passed, and use them normally.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; func_num_args(); $i++) &#123;</span><br><span class="line">        printf(<span class="string">"Argument %d: %s\n"</span>, $i, func_get_arg($i));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Argument 0: a</span></span><br><span class="line"><span class="comment">Argument 1: 2</span></span><br><span class="line"><span class="comment">Argument 2: 3.5</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">myFunc(<span class="string">'a'</span>, <span class="number">2</span>, <span class="number">3.5</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q22-What-does-yield-mean-in-PHP"><a href="#Q22-What-does-yield-mean-in-PHP" class="headerlink" title="Q22: What does yield mean in PHP?"></a>Q22: What does yield mean in PHP?</h2><p>Explain this code and what the yield does:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">($items)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($items <span class="keyword">as</span> $item) &#123;</span><br><span class="line">        <span class="keyword">yield</span> $item + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Answer:</strong><br>The <code>yield</code> keyword returns data from a generator function. A generator function is effectively a more compact and efficient way to write an Iterator. It allows you to define a function that will calculate and return values while you are looping over it.</p>
+<p>So the function in the question is almost the same as this one without:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">($items)</span> </span>&#123;</span><br><span class="line">    $result = [];</span><br><span class="line">    <span class="keyword">foreach</span> ($items <span class="keyword">as</span> $item) &#123;</span><br><span class="line">        $result[] = $item + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>With only one difference that <code>a()</code> returns a <code>generator</code> and<code>b()</code> just a simple <code>array</code>. You can iterate on both.</p>
+<p>The generator version of the function does not allocate a full array and is therefore less memory-demanding. Generators can be used to work around memory limits. Because generators compute their yielded values only on demand, they are useful for representing sequences that would be expensive or impossible to compute at once.</p>
+<h2 id="Q23-What-does-a-mean-in-PHP"><a href="#Q23-What-does-a-mean-in-PHP" class="headerlink" title="Q23: What does a $$$ mean in PHP?"></a>Q23: What does a $$$ mean in PHP?</h2><p>A syntax such as <code>$$variable</code> is called Variable Variable. Let’s give the <code>$$$</code> a try:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$real_variable = <span class="string">'test'</span>;</span><br><span class="line">$name = <span class="string">'real_variable'</span>; <span class="comment">// variable variable for real variable</span></span><br><span class="line">$name_of_name = <span class="string">'name'</span>; <span class="comment">// variable variable for variable variable</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $name_of_name . <span class="string">'&lt;br /&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> $$name_of_name . <span class="string">'&lt;br /&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> $$$name_of_name . <span class="string">'&lt;br /&gt;'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>And here’s the output :</p>
+<p>name<br>real_variable<br>test</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/laravel/#laravel">laravel</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/11/19/laravel-interview-questions/ - laravel-interview-questions @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "laravel-interview-questions",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

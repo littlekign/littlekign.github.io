@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>js-arrays - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>js-arrays</h1>
+        
+        <h2 class="headline">Jan 18 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>An <strong>array</strong> in JavaScript is a type of global object that is used to store data. Arrays consist of an ordered collection or list containing zero or more datatypes, and use numbered indices starting from 0 to access specific items.</p>
+<p>Arrays are very useful as they store multiple values in a single variable, which can condense and organize our code, making it more readable and maintainable. Arrays can contain any <a href="https://www.digitalocean.com/community/tutorials/understanding-data-types-in-javascript" target="_blank" rel="noopener">data type</a>, including <code>numbers</code>, <code>strings</code>, and <code>objects</code>.</p>
+<p>To demonstrate how arrays can be useful, consider assigning the five oceans of the world to their own variables.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign the five oceans to five variables</span></span><br><span class="line"><span class="keyword">const</span> ocean1 = <span class="string">"Pacific"</span>;</span><br><span class="line"><span class="keyword">const</span> ocean2 = <span class="string">"Atlantic"</span>;</span><br><span class="line"><span class="keyword">const</span> ocean3 = <span class="string">"Indian"</span>;</span><br><span class="line"><span class="keyword">const</span> ocean4 = <span class="string">"Arctic"</span>;</span><br><span class="line"><span class="keyword">const</span> ocean5 = <span class="string">"Antarctic"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>This method is very verbose, and can quickly become difficult to maintain and keep track of.</p>
+<p>Using arrays, we can simplify our data.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign the five oceans</span></span><br><span class="line"><span class="keyword">let</span> oceans = [<span class="string">"Pacific"</span>, <span class="string">"Atlantic"</span>, <span class="string">"Indian"</span>, <span class="string">"Arctic"</span>, <span class="string">"Antarctic"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Instead of creating five separate variables, we now have one variable that contains all five elements. We used square brackets — <code>[]</code> — to create an array.</p>
+<p>To access a specific item, append its index to the variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Print out the first item of the oceans array</span></span><br><span class="line">oceans[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">Pacific;</span><br></pre></td></tr></table></figure>
+
+<p>In this tutorial, we will learn how to create arrays; how they are indexed; how to add, modify, remove, or access items in an array; and how to loop through arrays.</p>
+<h2 id="Creating-an-Array"><a href="#Creating-an-Array" class="headerlink" title="Creating an Array"></a>Creating an Array</h2><p>There are two ways to create an array in JavaScript:</p>
+<ul>
+<li>The array literal, which uses square brackets.</li>
+<li>The array constructor, which uses the <code>new</code> keyword.</li>
+</ul>
+<p>Let’s demonstrate how to create an array of shark species using the array literal, which is initialized with <code>[]</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize array of shark species with array literal</span></span><br><span class="line"><span class="keyword">let</span> sharks = [<span class="string">"Hammerhead"</span>, <span class="string">"Great White"</span>, <span class="string">"Tiger"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Now here is the same data created with the array constructor, which is initialized with <code>new Array()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize array of shark species with array constructor</span></span><br><span class="line"><span class="keyword">let</span> sharks = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">"Hammerhead"</span>, <span class="string">"Great White"</span>, <span class="string">"Tiger"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Both methods will create an array. However, the array literal (square brackets) method is much more common and preferred, as the <code>new Array()</code> constructor method may have inconsistencies and unexpected results. It’s useful to be aware of the array constructor in case you encounter it down the line.</p>
+<p>We can print out an entire array, which will display the same as our input.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Print out the entire sharks array</span></span><br><span class="line">sharks;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"Hammerhead"</span>, <span class="string">"Great White"</span>, <span class="string">"Tiger"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>Arrays are often used to group together lists of similar data types, but they can technically contain any value or a mix of values, including other arrays.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize array of mixed datatypes</span></span><br><span class="line"><span class="keyword">let</span> mixedData = [<span class="string">"String"</span>, <span class="literal">null</span>, <span class="number">7</span>, [<span class="string">"another"</span>, <span class="string">"array"</span>]];</span><br></pre></td></tr></table></figure>
+
+<p>After creating an array, we can manipulate them in many ways, but first we must understand how arrays are indexed.</p>
+<blockquote>
+<p><strong>Note</strong>: You may see the last item in an array with or without a final comma. This is known as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas" target="_blank" rel="noopener">trailing comma</a>. It is common to see them omitted, but generally it is becomming preferred to include them in your code, as this makes version control diffs more clear, and makes it easier to add and remove items without errors. Note that trailing commas are not allowed in <a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-json" target="_blank" rel="noopener">JSON files</a>.</p>
+</blockquote>
+<h2 id="Indexing-Arrays"><a href="#Indexing-Arrays" class="headerlink" title="Indexing Arrays"></a>Indexing Arrays</h2><p>If you’ve learned about <a href="https://www.digitalocean.com/community/tutorials/how-to-index-split-and-manipulate-strings-in-javascript" target="_blank" rel="noopener">indexing and manipulating strings in JavaScript</a>, you may be familiar with the concept of indexing arrays already, as a string is similar to an array.</p>
+<p>Arrays do not have name/value pairs. Instead, they are indexed with integer values beginning with <code>0</code>. Here is an example array, assigned to <code>seaCreatures</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> seaCreatures = [<span class="string">"octopus"</span>, <span class="string">"squid"</span>, <span class="string">"shark"</span>, <span class="string">"seahorse"</span>, <span class="string">"starfish"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Here is a breakdown of how each item in the <code>seaCreatures</code> array is indexed.</p>
+<table>
+<thead>
+<tr>
+<th>octopus</th>
+<th>squid</th>
+<th>shark</th>
+<th>seahorse</th>
+<th>starfish</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>The first item in the array is <code>octopus</code>, which is indexed at <code>0</code>. The last item is <code>starfish</code>, which is indexed at <code>4</code>. Counting starts with <code>0</code> in indices, which goes against our natural intuition to start counting at <code>1</code>, so special care must be taken to remember this until it becomes natural.</p>
+<p>We can find out how many items are in an array with the <code>length</code> property.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures.length;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Although the indices of <code>seaCreatures</code> consist of 0 to 4, the <code>length</code> property will output the actual amount of items in the array, starting with 1.</p>
+<p>If we want to find out the index number of a specific item in an array, such as <code>seahorse</code>, we can use the <code>indexOf()</code> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures.indexOf(<span class="string">"seahorse"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<p>If an index number is not found, such as for a value that does not exist, the console will return -1.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures.indexOf(<span class="string">"cuttlefish"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>With index numbers that correspond to items within an array, we’re able to access each item discretely in order to work with those items.</p>
+<h2 id="Accessing-Items-in-an-Array"><a href="#Accessing-Items-in-an-Array" class="headerlink" title="Accessing Items in an Array"></a>Accessing Items in an Array</h2><p>An item in a JavaScript array is accessed by referring to the index number of the item in square brackets.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures[<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">squid;</span><br></pre></td></tr></table></figure>
+
+<p>We know 0 will always output the first item in an array. We can also find the last item in an array by performing an operation on the <code>length</code> property and applying that as the new index number.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lastIndex = seaCreatures.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">seaCreatures[lastIndex];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">starfish;</span><br></pre></td></tr></table></figure>
+
+<p>Attempting to access an item that doesn’t exist will return <code>undefined</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="literal">undefined</span>;</span><br></pre></td></tr></table></figure>
+
+<p>In order to access items in a nested array, you would add another index number to correspond to the inner array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> nestedArray = [</span><br><span class="line">  [<span class="string">"salmon"</span>, <span class="string">"halibut"</span>],</span><br><span class="line">  [<span class="string">"coral"</span>, <span class="string">"reef"</span>]</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">nestedArray[<span class="number">1</span>][<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">coral;</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we accessed the array at position <code>1</code> of the <code>nestedArray</code> variable, then the item at position 0 in the inner array.</p>
+<h2 id="Adding-an-Item-to-an-Array"><a href="#Adding-an-Item-to-an-Array" class="headerlink" title="Adding an Item to an Array"></a>Adding an Item to an Array</h2><p>In our <code>seaCreatures</code> variable we had five items, which consisted of the indices from <code>0</code> to <code>4</code>. If we want to add a new item to the array, we can assign a value to the next index.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures[<span class="number">5</span>] = <span class="string">"whale"</span>;</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output[(<span class="string">"octopus"</span>, <span class="string">"squid"</span>, <span class="string">"shark"</span>, <span class="string">"seahorse"</span>, <span class="string">"starfish"</span>, <span class="string">"whale"</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>If we add an item and accidentally skip an index, it will create an undefined item in the array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures[<span class="number">7</span>] = <span class="string">"pufferfish"</span>;</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">[ <span class="string">'octopus'</span>,</span><br><span class="line">    <span class="string">'squid'</span>,</span><br><span class="line">    <span class="string">'shark'</span>,</span><br><span class="line">    <span class="string">'seahorse'</span>,</span><br><span class="line">    <span class="string">'starfish'</span>,</span><br><span class="line">    <span class="string">'whale'</span>,</span><br><span class="line">    ,</span><br><span class="line">    <span class="string">'pufferfish'</span> ]</span><br></pre></td></tr></table></figure>
+
+<p>Attempting to access the extra array item will return <code>undefined</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures[<span class="number">6</span>];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="literal">undefined</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Issues like that can be avoided by using the <code>push()</code> method, which adds an item to the end of an array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Append lobster to the end of the seaCreatures array</span></span><br><span class="line">seaCreatures.push(<span class="string">"lobster"</span>);</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">[ <span class="string">'octopus'</span>,</span><br><span class="line">    <span class="string">'squid'</span>,</span><br><span class="line">    <span class="string">'shark'</span>,</span><br><span class="line">    <span class="string">'seahorse'</span>,</span><br><span class="line">    <span class="string">'starfish'</span>,</span><br><span class="line">    ,</span><br><span class="line">    <span class="string">'whale'</span>,</span><br><span class="line">    <span class="string">'pufferfish'</span>,</span><br><span class="line">    <span class="string">'lobster'</span> ]</span><br></pre></td></tr></table></figure>
+
+<p>On the other end of the spectrum, the <code>unshift()</code> method will add an item to the beginning of an array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Append dragonfish to the beginning of the seaCreatures array</span></span><br><span class="line">seaCreatures.unshift(<span class="string">"dragonfish"</span>);</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">[ <span class="string">'dragonfish'</span>,</span><br><span class="line">    <span class="string">'octopus'</span>,</span><br><span class="line">    <span class="string">'squid'</span>,</span><br><span class="line">    <span class="string">'shark'</span>,</span><br><span class="line">    <span class="string">'seahorse'</span>,</span><br><span class="line">    <span class="string">'starfish'</span>,</span><br><span class="line">    <span class="string">'whale'</span>,</span><br><span class="line">    ,</span><br><span class="line">    <span class="string">'pufferfish'</span>,</span><br><span class="line">    <span class="string">'lobster'</span> ]</span><br></pre></td></tr></table></figure>
+
+<p>Between <code>push()</code> and <code>unshift()</code> you will be able to apend items to the beginning and end of an array.</p>
+<h2 id="Removing-an-Item-from-an-Array"><a href="#Removing-an-Item-from-an-Array" class="headerlink" title="Removing an Item from an Array"></a>Removing an Item from an Array</h2><p>When we want to remove a specific item from an array, we use the <code>splice()</code> method. In the <code>seaCreatures</code> array, we accidentally created an undefined array item earlier, so let’s remove that now.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">seaCreatures.splice(<span class="number">7</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Output[</span><br><span class="line">  (<span class="string">"dragonfish"</span>,</span><br><span class="line">  <span class="string">"octopus"</span>,</span><br><span class="line">  <span class="string">"squid"</span>,</span><br><span class="line">  <span class="string">"shark"</span>,</span><br><span class="line">  <span class="string">"seahorse"</span>,</span><br><span class="line">  <span class="string">"starfish"</span>,</span><br><span class="line">  <span class="string">"whale"</span>,</span><br><span class="line">  <span class="string">"pufferfish"</span>,</span><br><span class="line">  <span class="string">"lobster"</span>)</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>In the <code>splice()</code> method, the first parameter stands for the index number to be removed (in this case, <code>7</code>), and the second parameter is how many items should be removed. We put <code>1</code>, signifying that only one item will be removed.</p>
+<p>The <code>splice()</code> method will change the original variable. If you would like the original variable to remain unchanged, use <code>slice()</code> and assign the result to a new variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newArray = slice(<span class="number">7</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>The <code>pop()</code> method will remove the last item in an array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Remove the last item from the seaCreatures array</span></span><br><span class="line">seaCreatures.pop();</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Output[</span><br><span class="line">  (<span class="string">"dragonfish"</span>,</span><br><span class="line">  <span class="string">"octopus"</span>,</span><br><span class="line">  <span class="string">"squid"</span>,</span><br><span class="line">  <span class="string">"shark"</span>,</span><br><span class="line">  <span class="string">"seahorse"</span>,</span><br><span class="line">  <span class="string">"starfish"</span>,</span><br><span class="line">  <span class="string">"whale"</span>,</span><br><span class="line">  <span class="string">"pufferfish"</span>)</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p><code>lobster</code> has been removed as the last item of the array. In order to remove the first item of the array, we will use the <code>shift()</code> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Remove the first item from the seaCreatures array</span></span><br><span class="line">seaCreatures.shift();</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Output[</span><br><span class="line">  (<span class="string">"octopus"</span>, <span class="string">"squid"</span>, <span class="string">"shark"</span>, <span class="string">"seahorse"</span>, <span class="string">"starfish"</span>, <span class="string">"whale"</span>, <span class="string">"pufferfish"</span>)</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>By using <code>pop()</code> and <code>shift()</code>, we can remove items from the beginning and the end of arrays. Using <code>pop()</code> is preferred wherever possible, as the rest of the items in the array retain their original index numbers.</p>
+<h2 id="Modifying-Items-in-Arrays"><a href="#Modifying-Items-in-Arrays" class="headerlink" title="Modifying Items in Arrays"></a>Modifying Items in Arrays</h2><p>We can overwrite any value in an array by assigning a new value using the assignment operator, just like we would with a regular variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign manatee to the first item in the seaCreatures array</span></span><br><span class="line">seaCreatures[<span class="number">0</span>] = <span class="string">"manatee"</span>;</span><br><span class="line"></span><br><span class="line">seaCreatures;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Output[</span><br><span class="line">  (<span class="string">"manatee"</span>, <span class="string">"squid"</span>, <span class="string">"shark"</span>, <span class="string">"seahorse"</span>, <span class="string">"starfish"</span>, <span class="string">"whale"</span>, <span class="string">"pufferfish"</span>)</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>Another way to modify a value is using the <code>splice()</code> method with a new parameter. If we wanted to change the value of <code>seahorse</code>, which is the item at index <code>3</code>, we could remove it and add a new item in its place.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Replace seahorse with sea lion using splice method</span></span><br><span class="line">seaCreatures.splice(<span class="number">3</span>, <span class="number">1</span>, <span class="string">"sea lion"</span>);</span><br><span class="line"></span><br><span class="line">seaCreatures();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Output[</span><br><span class="line">  (<span class="string">"manatee"</span>, <span class="string">"squid"</span>, <span class="string">"shark"</span>, <span class="string">"sea lion"</span>, <span class="string">"starfish"</span>, <span class="string">"whale"</span>, <span class="string">"pufferfish"</span>)</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we removed <code>seahorse</code> from the array, and pushed a new value into index <code>3</code>.</p>
+<h2 id="Looping-Through-an-Array"><a href="#Looping-Through-an-Array" class="headerlink" title="Looping Through an Array"></a>Looping Through an Array</h2><p>We can loop through the entirety of the array with the <code>for</code> keyword, taking advantage of the <code>length</code> property. In this example, we can create an array of <code>shellfish</code> and print out each index number as well as each value to the console.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create an array of shellfish species</span></span><br><span class="line"><span class="keyword">let</span> shellfish = [<span class="string">"oyster"</span>, <span class="string">"shrimp"</span>, <span class="string">"clam"</span>, <span class="string">"mussel"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Loop through the length of the array</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; shellfish.length; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(i, shellfish[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line"><span class="number">0</span> <span class="string">'oyster'</span></span><br><span class="line"><span class="number">1</span> <span class="string">'shrimp'</span></span><br><span class="line"><span class="number">2</span> <span class="string">'clam'</span></span><br><span class="line"><span class="number">3</span> <span class="string">'mussel'</span></span><br></pre></td></tr></table></figure>
+
+<p>We can also use the <code>for...of</code> loop, a newer feature of JavaScript.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create an array of aquatic mammals</span></span><br><span class="line"><span class="keyword">let</span> mammals = [<span class="string">"dolphin"</span>, <span class="string">"whale"</span>, <span class="string">"manatee"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Loop through each mammal</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> mammal <span class="keyword">of</span> mammals) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(mammal);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">dolphin;</span><br><span class="line">whale;</span><br><span class="line">manatee;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>for...of</code> loop does not retrieve the index number of the elements in the array, but it is generally a simpler, more concise way to loop through an array.</p>
+<p>Using loops is extremely useful for printing out the whole value of an array, such as when displaying the items from a database on a website.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Arrays are an extremely versatile and fundamental part of programming in JavaScript. In this tutorial, we learned how to create an array, how arrays are indexed, and some of the most common tasks of working in arrays, such as creating, removing, and modifying items. We also learned two methods of looping through arrays, which is used as a common method to display data.</p>
+<p>You can read more about other data types in JavaScript by reading our tutorial <a href="https://www.digitalocean.com/community/tutorials/understanding-data-types-in-javascript" target="_blank" rel="noopener">Data Types in JavaScript</a>.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js-arrays/#js arrays">js arrays</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/18/js-arrays/ - js-arrays @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "js-arrays",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

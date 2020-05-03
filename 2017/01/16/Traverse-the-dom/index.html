@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>Traverse-the-dom - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>Traverse-the-dom</h1>
+        
+        <h2 class="headline">Jan 16 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>The previous tutorial in this series, How to Access Elements in the DOM, covers how to use the built-in methods of the <code>document</code> object to access HTML elements by ID, class, tag name, and query selectors. We know that the DOM is structured as a tree of nodes with the <code>document</code> node at the root and every other node (including elements, comments, and text nodes) as the various branches.</p>
+<p>Often, you will want to move through the DOM without specifying each and every element beforehand. Learning how to navigate up and down the DOM tree and move from branch to branch is essential to understanding how to work with JavaScript and HTML.</p>
+<p>In this tutorial, we will go over how to traverse the DOM (also known as walking or navigating the DOM) with parent, child, and sibling properties.</p>
+<h2 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h2><p>To begin, we will create a new file called <code>nodes.html</code> comprised of the following code.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Learning About Nodes<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">      * &#123;</span><br><span class="line"><span class="css">        <span class="selector-tag">border</span>: 2<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#dedede</span>;</span></span><br><span class="line">        padding: 15px;</span><br><span class="line">        margin: 15px;</span><br><span class="line">      &#125;</span><br><span class="line">      html &#123;</span><br><span class="line">        margin: 0;</span><br><span class="line">        padding: 0;</span><br><span class="line">      &#125;</span><br><span class="line">      body &#123;</span><br><span class="line">        max-width: 600px;</span><br><span class="line">        font-family: sans-serif;</span><br><span class="line"><span class="css">        <span class="selector-tag">color</span>: <span class="selector-id">#333</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Shark World<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">      The world's leading source on <span class="tag">&lt;<span class="name">strong</span>&gt;</span>shark<span class="tag">&lt;/<span class="name">strong</span>&gt;</span> related information.</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Types of Sharks<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span>Hammerhead<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span>Tiger<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span>Great White<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> h1 = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"h1"</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> p = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"p"</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> ul = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"ul"</span>)[<span class="number">0</span>];</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When we load the file in a web browser, we’ll see rendering that looks like the following screenshot.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/nodes-before-modification.png" alt=""></p>
+<p>In this example website, we have an HTML document with a few elements. Some basic CSS has been added in a <code>style</code> tag to make each element obviously visible, and a few variables have been created in the <code>script</code> for ease of access of a few elements. Since there is only one of each <code>h1</code>, <code>p</code>, and <code>ul</code>, we can access the first index on each respective <code>getElementsByTagName</code> property.</p>
+<h2 id="Root-Nodes"><a href="#Root-Nodes" class="headerlink" title="Root Nodes"></a>Root Nodes</h2><p>The <code>document</code> object is the root of every node in the DOM. This object is actually a property of the <code>window</code> object, which is the global, top-level object representing a tab in the browser. The <code>window</code> object has access to such information as the toolbar, height and width of the window, prompts, and alerts. The <code>document</code> consists of what is inside of the inner <code>window</code>.</p>
+<p>Below is a chart consisting of the root elements that every document will contain. Even if a blank HTML file is loaded into a browser, these three nodes will be added and parsed into the DOM.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Node</th>
+<th>Node Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document</td>
+<td>#document</td>
+<td>DOCUMENT_NODE</td>
+</tr>
+<tr>
+<td>document.documentElement</td>
+<td>html ELEMENT_NODE</td>
+<td>ELEMENT_NODE</td>
+</tr>
+<tr>
+<td>document.head head</td>
+<td>ELEMENT_NODE</td>
+<td>ELEMENT_NODE</td>
+</tr>
+<tr>
+<td>document.body body</td>
+<td>ELEMENT_NODE</td>
+<td>ELEMENT_NODE</td>
+</tr>
+</tbody></table>
+<p>Since the <code>html</code>, <code>head</code>, and <code>body</code> elements are so common, they have their own properties on the <code>document</code>.</p>
+<p>Open the Console in DevTools and test each of these four properties by submitting them and viewing the output. You can also test <code>h1</code>, <code>p</code>, and <code>ul</code> which will return the elements due to the variables we added in the <code>script</code> tag.</p>
+<h2 id="Parent-Nodes"><a href="#Parent-Nodes" class="headerlink" title="Parent Nodes"></a>Parent Nodes</h2><p>The nodes in the DOM are referred to as parents, children, and siblings, depending on their relation to other nodes. The <strong>parent</strong> of any node is the node that is one level above it, or closer to the <code>document</code> in the DOM hierarchy. There are two properties to get the parent — <code>parentNode</code> and parentElement.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Gets</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>parentNode</td>
+<td>Parent Node</td>
+</tr>
+<tr>
+<td>parentElement</td>
+<td>Parent Element Node</td>
+</tr>
+</tbody></table>
+<p>In our <code>nodes.html</code> example:</p>
+<ul>
+<li><code>html</code> is the parent of <code>head</code>, <code>body</code>, and <code>script</code>.</li>
+<li><code>body</code> is the parent of <code>h1</code>, <code>h2</code>, <code>p</code> and <code>ul</code>, but not <code>li</code>, since <code>li</code> is two levels down from body.</li>
+</ul>
+<p>We can test what the parent of our p element is with the parentNode property. This p variable comes from our custom <code>document.getElementsByTagName(&#39;p&#39;)[0]</code> declaration.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.parentNode;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output ►</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The parent of <code>p</code> is body, but how can we get the grandparent, which is two levels above? We can do so by chaining properties together.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.parentNode.parentNode;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output ►</span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Using <code>parentNode</code> twice, we retrieved the grandparent of <code>p</code>.</p>
+<p>There are properties to retrieve the parent of a node, but only one small difference between them, as demonstrated in this snippet below.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign html object to html variable</span></span><br><span class="line"><span class="keyword">const</span> html = <span class="built_in">document</span>.documentElement;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(html.parentNode); <span class="comment">// &gt; #document</span></span><br><span class="line"><span class="built_in">console</span>.log(html.parentElement); <span class="comment">// &gt; null</span></span><br></pre></td></tr></table></figure>
+
+<p>The parent of almost any node is an element node, as text and comments cannot be parents to other nodes. However, the parent of <code>html</code> is a document node, so <code>parentElement</code> returns null. Generally, <code>parentNode</code> is more commonly used when traversing the DOM.</p>
+<h2 id="Children-Nodes"><a href="#Children-Nodes" class="headerlink" title="Children Nodes"></a>Children Nodes</h2><p>The <strong>children</strong> of a node are the nodes that are one level below it. Any nodes beyond one level of nesting are usually referred to as descendants.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Gets</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>childNodes Child Nodes</td>
+<td></td>
+</tr>
+<tr>
+<td>firstChild</td>
+<td>First Child Node</td>
+</tr>
+<tr>
+<td>lastChild</td>
+<td>Last Child Node</td>
+</tr>
+<tr>
+<td>children</td>
+<td>Element Child Nodes</td>
+</tr>
+<tr>
+<td>firstElementChild</td>
+<td>First Child Element Node</td>
+</tr>
+<tr>
+<td>lastElementChild</td>
+<td>Last Child Element Node</td>
+</tr>
+</tbody></table>
+<p>The <code>childNodes</code> property will return a live list of every child of a node. You might expect the <code>ul</code> element to get three <code>li</code> elements. Let’s test what it retrieves.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ul.childNodes;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">► (<span class="number">7</span>) [text, li, text, li, text, li, text]</span><br></pre></td></tr></table></figure>
+
+<p>In addition to the three <code>li</code> elements, it also gets four text nodes. This is because we wrote our own HTML (it was not generated by JavaScript) and the indentation between elements is counted in the DOM as text nodes. This is not intuitive, as the Elements tab of DevTools strips out white space nodes.</p>
+<p>If we attempted to change the background color of the first child node using the <code>firstChild</code> property, it would fail because the first node is text.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ul.firstChild.style.background = <span class="string">"yellow"</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Uncaught <span class="built_in">TypeError</span>: Cannot <span class="keyword">set</span> property 'background' of undefined</span><br></pre></td></tr></table></figure>
+
+<p>The <code>children</code>, <code>firstElementChild</code> and <code>lastElementChild</code> properties exist in these types of situations to retrieve only the element nodes. <code>ul.children</code> will only return the three <code>li</code> elements.</p>
+<p>Using <code>firstElementChild</code>, we can change the background color of the first <code>li</code> in the ul.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ul.firstElementChild.style.background = <span class="string">"yellow"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>When you run the code above, your webpage will be updated to modify the background color.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/traverse-1.png" alt=""></p>
+<p>When doing basic DOM manipulation such as in this example, the element-specific properties are extremely helpful. In JavaScript-generated web apps, the properties that select all nodes are more likely to be used, as white-space newlines and indentation will not exist in this case.</p>
+<p>A <code>for...of</code> loop can be used to iterate through all <code>children</code> elements.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> element <span class="keyword">of</span> ul.children) &#123;</span><br><span class="line">  element.style.background = <span class="string">"yellow"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now, each child element will have a yellow background.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/traverse-2.png" alt=""></p>
+<p>Since our p element has both text and elements inside of it, the <code>childNodes</code> property is helpful for accessing that information.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> element <span class="keyword">of</span> p.childNodes) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(element);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line"><span class="string">"The world's leading source on "</span></span><br><span class="line">&lt;strong&gt;​shark​&lt;<span class="regexp">/strong&gt;​</span></span><br><span class="line"><span class="regexp">" related information."</span></span><br></pre></td></tr></table></figure>
+
+<p><code>childNodes</code> and <code>children</code> do not return arrays with all the <a href="https://www.digitalocean.com/community/tutorial_series/working-with-arrays-in-javascript" target="_blank" rel="noopener">Array properties and methods</a>, but they appear and behave similarly to JavaScript arrays. You can access nodes by index number, or find their length property.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.children[<span class="number">3</span>].lastElementChild.style.background = <span class="string">"fuchsia"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The above code will find the last element child (<code>li</code>) of the fourth child element (<code>ul</code>) of body and apply a style.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/traverse-3.png" alt=""></p>
+<p>Using parent and child properties, you can retrieve any node in the DOM.</p>
+<h2 id="Sibling-Nodes"><a href="#Sibling-Nodes" class="headerlink" title="Sibling Nodes"></a>Sibling Nodes</h2><p>The <strong>siblings</strong> of a node are any node on the same tree level in the DOM. Siblings do not have to be the same type of node - text, element, and comment nodes can all be siblings.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Gets</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>previousSibling</td>
+<td>Previous Sibling Node</td>
+</tr>
+<tr>
+<td>nextSibling</td>
+<td>Next Sibling Node</td>
+</tr>
+<tr>
+<td>previousElementSibling</td>
+<td>Previous Sibling Element Node</td>
+</tr>
+<tr>
+<td>nextElementSibling</td>
+<td>Next Sibling Element Node</td>
+</tr>
+</tbody></table>
+<p>Sibling properties work the same way as the children nodes, in that there is a set of properties to traverse all nodes, and a set of properties for only element nodes. <code>previousSibling</code> and <code>nextSibling</code> will get the next node that immediately precedes or follows the specified node, and <code>previousElementSibling</code> and <code>nextElementSibling</code> will only get element nodes.</p>
+<p>In our <code>nodes.html</code> example, let’s select the middle element of ul.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tiger = ul.children[<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+
+<p>Since we created our DOM from scratch and not as a JavaScript web app, we will need to use the element sibling properties to access the previous and next element nodes, as there is white space in the DOM.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tiger.nextElementSibling.style.background = <span class="string">"coral"</span>;</span><br><span class="line">tiger.previousElementSibling.style.background = <span class="string">"aquamarine"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Running this code should have applied coral to the background of <code>Hammerhead</code> and <code>aquamarine</code> to the background of <code>Great White</code>.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/traverse-4.png" alt=""></p>
+<p>Sibling properties can be chained together, just like parent and node properties.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we covered how to access the root nodes of every HTML document and how to walk the DOM tree through parent, child, and sibling properties.</p>
+<p>With what you learned in How to Access Elements in the DOM and this tutorial, you should be able to confidently access any node in the DOM of any website.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/dom/#dom">dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/16/Traverse-the-dom/ - Traverse-the-dom @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "Traverse-the-dom",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

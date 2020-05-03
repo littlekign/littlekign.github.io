@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>events-in-javascript - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>events-in-javascript</h1>
+        
+        <h2 class="headline">Jan 18 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>In the Understanding the DOM series, we have discussed the DOM tree and how to access, traverse, add and remove, and modify nodes and elements using the Developer Tools Console.</p>
+<p>Although at this point we can now make almost any change we want to the DOM, from a user perspective it is not very helpful because we have only manually triggered changes. By learning about events, we will understand how to tie everything together to make interactive websites.</p>
+<p><strong>Events</strong> are actions that take place in the browser that can be initiated by either the user or the browser itself. Below are a few examples of common events that can happen on a website:</p>
+<ul>
+<li>The page finishes loading</li>
+<li>The user clicks a button</li>
+<li>The user hovers over a dropdown</li>
+<li>The user submits a form</li>
+<li>The user presses a key on their keyboard</li>
+</ul>
+<p>By coding JavaScript responses that execute upon an event, developers can display messages to users, validate data, react to a button click, and many other actions.</p>
+<p>In this article, we will go over event handlers, event listeners, and event objects. We’ll also go over three different ways to write code to handle events, and a few of the most common events. By learning about events, you’ll be able to make a more interactive web experience for end users.</p>
+<h2 id="Event-Handlers-and-Event-Listeners"><a href="#Event-Handlers-and-Event-Listeners" class="headerlink" title="Event Handlers and Event Listeners"></a>Event Handlers and Event Listeners</h2><p>When a user clicks a button or presses a key, an event is fired. These are called a click event or a keypress event, respectively.</p>
+<p>An <strong>event handler</strong> is a JavaScript function that runs when an event fires.</p>
+<p>An <strong>event listener</strong> attaches a responsive interface to an element, which allows that particular element to wait and “listen” for the given event to fire.</p>
+<p>There are three ways to assign events to elements:</p>
+<ul>
+<li>Inline event handlers</li>
+<li>Event handler properties</li>
+<li>Event listeners</li>
+</ul>
+<p>We will go over all three methods to ensure that you are familiar with each way an event can be triggered, then discuss the pros and cons of each method.</p>
+<h2 id="Inline-Event-Handler-Attributes"><a href="#Inline-Event-Handler-Attributes" class="headerlink" title="Inline Event Handler Attributes"></a>Inline Event Handler Attributes</h2><p>To begin learning about event handlers, we’ll first consider the <strong>inline event handler</strong>. Let’s start with a very basic example that consists of a <code>button</code> element and a <code>p</code> element. We want the user to click the <code>button</code> to change the text content of the <code>p</code>.</p>
+<p>Let’s begin with an HTML page with a button in the body. We’ll be referencing a JavaScript file that we’ll add code to in a bit.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en-US"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Events<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Add button --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Try to change me.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- Reference JavaScript file --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/events.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Directly on the <code>button</code>, we will add an attribute called <code>onclick</code>. The attribute value will be a function we create called <code>changeText()</code>.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en-US"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Events<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"changeText()"</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Try to change me.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/events.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s create our <code>events.js</code> file, which we placed in the <code>js/</code> directory here. Within it, we will create the <code>changeText()</code> function, which will modify the <code>textContent</code> of the <code>p</code> element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function to modify the text content of the paragraph</span></span><br><span class="line"><span class="keyword">const</span> changeText = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="built_in">document</span>.querySelector(<span class="string">"p"</span>);</span><br><span class="line"></span><br><span class="line">  p.textContent = <span class="string">"I changed because of an inline event handler."</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>When you first load the <code>events.html</code>, you’ll see a page that looks like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-1.png" alt=""></p>
+<p>However, when either you or another user clicks on the button, the text of the <code>p</code> tag will change from <code>Try to change me</code>. to <code>I changed because of an inline event handler</code>.:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-2.png" alt=""></p>
+<p>Inline event handlers are a straightforward way to begin understanding events, but they generally should not be used beyond testing and educational purposes.</p>
+<p>You can compare inline event handlers to inline CSS styles on an HTML element. It is much more practical to maintain a separate stylesheet of classes than create inline styles on every element, just as it is more feasible to maintain JavaScript that is handled entirely through a separate script file than add handlers to every element.</p>
+<h2 id="Event-Handler-Properties"><a href="#Event-Handler-Properties" class="headerlink" title="Event Handler Properties"></a>Event Handler Properties</h2><p>The next step up from an inline event handler is the <strong>event handler property</strong>. This works very similarly to an inline handler, except we’re setting the property of an element in JavaScript instead of the attribute in the HTML.</p>
+<p>The setup will be the same here, except we no longer include the <code>onclick=&quot;changeText()</code>“ in the markup:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>I will change.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Our function will remain similar as well, except now we need to access the <code>button</code> element in the JavaScript. We can simply access <code>onclick</code> just as we would access <code>style</code> or id or any other element property, then assign the function reference.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function to modify the text content of the paragraph const changeText = () =&gt;</span></span><br><span class="line">&#123; <span class="keyword">const</span> p = <span class="built_in">document</span>.querySelector(<span class="string">'p'</span>); p.textContent = <span class="string">"I changed because of</span></span><br><span class="line"><span class="string">an event handler property."</span>; &#125; <span class="comment">// Add event handler as a property of the button</span></span><br><span class="line">element <span class="keyword">const</span> button = <span class="built_in">document</span>.querySelector(<span class="string">'button'</span>); button.onclick =</span><br><span class="line">changeText;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>Note</strong>: Event handlers do not follow the camelCase convention that most JavaScript code adheres to. Notice that the code is <code>onclick</code>, not <code>onClick</code>.</p>
+</blockquote>
+<p>When you first load the page, the browser will display the following:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-3.png" alt=""></p>
+<p>Now when you click the button, it will have a similar effect as before:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-4.png" alt=""></p>
+<p>Note that when passing a function reference to the <code>onclick</code> property, we do not include parentheses, as we are not invoking the function in that moment, but only passing a reference to it.</p>
+<p>The event handler property is slightly more maintainable than the inline handler, but it still suffers from some of the same hurdles. For example, trying to set multiple, separate <code>onclick</code> properties will cause all but the last one to be overwritten, as demonstrated below.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="built_in">document</span>.querySelector(<span class="string">"p"</span>);</span><br><span class="line"><span class="keyword">const</span> button = <span class="built_in">document</span>.querySelector(<span class="string">"button"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> changeText = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  p.textContent = <span class="string">"Will I change?"</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> alertText = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  alert(<span class="string">"Will I alert?"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Events can be overwritten</span></span><br><span class="line">button.onclick = changeText;</span><br><span class="line">button.onclick = alertText;</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, the <code>button</code> click would only display an alert, and not change the <code>p</code> text, since the <code>alert()</code> code was the last one added to the property.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-5.png" alt=""></p>
+<p>With an understanding of both inline event handlers and event handler properties, let’s move onto event listeners.</p>
+<h2 id="Event-Listeners"><a href="#Event-Listeners" class="headerlink" title="Event Listeners"></a>Event Listeners</h2><p>The latest addition to JavaScript event handlers are <strong>event listeners</strong>. An event listener watches for an event on an element. Instead of assigning the event directly to a property on the element, we will use the <code>addEventListener()</code> method to listen for the event.</p>
+<p><code>addEventListener()</code> takes two mandatory parameters — the event it is to be listening for, and the listener callback function.</p>
+<p>The HTML for our event listener will be the same as the previous example.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>I will change.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>We will still be using the same <code>changeText()</code> function as before. We’ll attach the <code>addEventListener()</code> method to the button.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function to modify the text content of the paragraph</span></span><br><span class="line"><span class="keyword">const</span> changeText = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="built_in">document</span>.querySelector(<span class="string">"p"</span>);</span><br><span class="line"></span><br><span class="line">  p.textContent = <span class="string">"I changed because of an event listener."</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Listen for click event</span></span><br><span class="line"><span class="keyword">const</span> button = <span class="built_in">document</span>.querySelector(<span class="string">"button"</span>);</span><br><span class="line">button.addEventListener(<span class="string">"click"</span>, changeText);</span><br></pre></td></tr></table></figure>
+
+<p>Notice that with the first two methods, a click event was referred to as <code>onclick</code>, but with event listeners it is referred to as <code>click</code>. Every event listener drops the on from the word. In the next section, we will look at more examples of other types of events.</p>
+<p>When you reload the page with the JavaScript code above, you’ll receive the following output:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-6.png" alt=""></p>
+<p>At first look, event listeners seem very similar to event handler properties, but they have a few advantages. We can set multiple event listeners on the same element, as demonstrated in the example below.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> p = <span class="built_in">document</span>.querySelector(<span class="string">"p"</span>);</span><br><span class="line"><span class="keyword">const</span> button = <span class="built_in">document</span>.querySelector(<span class="string">"button"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> changeText = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  p.textContent = <span class="string">"Will I change?"</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> alertText = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  alert(<span class="string">"Will I alert?"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Multiple listeners can be added to the same event and element</span></span><br><span class="line">button.addEventListener(<span class="string">"click"</span>, changeText);</span><br><span class="line">button.addEventListener(<span class="string">"click"</span>, alertText);</span><br></pre></td></tr></table></figure>
+
+<p>In this example, both events will fire, providing the user with both an alert and modified text once clicking out of the alert.</p>
+<p>Often, anonymous functions will be used instead of a function reference on an event listener. Anonymous functions are functions that are not named.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// An anonymous function on an event listener</span></span><br><span class="line">button.addEventListener(<span class="string">"click"</span>, () =&gt; &#123;</span><br><span class="line">  p.textContent = <span class="string">"Will I change?"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>It is also possible to use the <code>removeEventListener()</code>function to remove one or all events from an element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Remove alert function from button element</span></span><br><span class="line">button.removeEventListener(<span class="string">"click"</span>, alertText);</span><br></pre></td></tr></table></figure>
+
+<p>Furthermore, you can use <code>addEventListener()</code> on the <code>document</code> and <code>window</code> object.</p>
+<p>Event listeners are currently the most common and preferred way to handle events in JavaScript.</p>
+<h2 id="Common-Events"><a href="#Common-Events" class="headerlink" title="Common Events"></a>Common Events</h2><p>We have learned about inline event handlers, event handler properties, and event listeners using the click event, but there are many more events in JavaScript. We will go over a few of the most common events below.</p>
+<h2 id="Mouse-Events"><a href="#Mouse-Events" class="headerlink" title="Mouse Events"></a>Mouse Events</h2><p>Mouse events are among the most frequently used events. They refer to events that involve clicking buttons on the mouse or hovering and moving the mouse pointer. These events also correspond to the equivalent action on a touch device.</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>click</td>
+<td>Fires when the mouse is pressed and released on an element</td>
+</tr>
+<tr>
+<td>dblclick</td>
+<td>Fires when an element is clicked twice</td>
+</tr>
+<tr>
+<td>mouseenter</td>
+<td>Fires when a pointer enters an element</td>
+</tr>
+<tr>
+<td>mouseleave</td>
+<td>Fires when a pointer leaves an element</td>
+</tr>
+<tr>
+<td>mousemove</td>
+<td>Fires every time a pointer moves inside an element</td>
+</tr>
+</tbody></table>
+<p>A <code>click</code> is a compound event that is comprised of combined <code>mousedown</code> and <code>mouseup</code> events, which fire when the mouse button is pressed down or lifted, respectively.</p>
+<p>Using <code>mouseenter</code> and <code>mouseleave</code> in tandem recreates a hover effect that lasts as long as a mouse pointer is on the element.</p>
+<h2 id="Form-Events"><a href="#Form-Events" class="headerlink" title="Form Events"></a>Form Events</h2><p>Form events are actions that pertain to forms, such as <code>input</code> elements being selected or unselected, and forms being submitted.</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>submit</td>
+<td>Fires when a form is submitted</td>
+</tr>
+<tr>
+<td>focus</td>
+<td>Fires when an element (such as an input) receives focus</td>
+</tr>
+<tr>
+<td>blur</td>
+<td>Fires when an element loses focus</td>
+</tr>
+</tbody></table>
+<p><em>Focus</em> is achieved when an element is selected, for example, through a mouse click or navigating to it via the <code>TAB</code> key.</p>
+<p>JavaScript is often used to submit forms and send the values through to a backend language. The advantage of using JavaScript to send forms is that it does not require a page reload to submit the form, and JavaScript can be used to validate required input fields.</p>
+<h2 id="Keyboard-Events"><a href="#Keyboard-Events" class="headerlink" title="Keyboard Events"></a>Keyboard Events</h2><p>Keyboard events are used for handling keyboard actions, such as pressing a key, lifting a key, and holding down a key.</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keydown</td>
+<td>Fires once when a key is pressed</td>
+</tr>
+<tr>
+<td>keyup</td>
+<td>Fires once when a key is released</td>
+</tr>
+<tr>
+<td>keypress</td>
+<td>Fires continuously while a key is pressed</td>
+</tr>
+</tbody></table>
+<p>Although they look similar, <code>keydown</code> and <code>keypress</code> events do not access all the exact same keys. While <code>keydown</code> will acknowledge every key that is pressed, <code>keypress</code> will omit keys that do not produce a character, such as <code>SHIFT</code>, <code>ALT</code>, or <code>DELETE</code>.</p>
+<p>Keyboard events have specific properties for accessing individual keys.</p>
+<p>If a parameter, known as an <code>event</code> object, is passed through to the event listener, we can access more information about the action that took place. Three properties that pertain to keyboard objects include <code>keyCode</code>, <code>key</code>, and <code>code</code>.</p>
+<p>For example, if the user presses the letter <code>a</code> key on their keyboard, the following properties pertaining to that key will surface:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keyCode</td>
+<td>A number pertaining to the key</td>
+<td>65</td>
+</tr>
+<tr>
+<td>key</td>
+<td>Represents the character name</td>
+<td>a</td>
+</tr>
+<tr>
+<td>code</td>
+<td>Represents the physical key being pressed</td>
+<td>KeyA</td>
+</tr>
+</tbody></table>
+<p>To show how to gather that information via the JavaScript Console, we can write the following lines of code.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Test the keyCode, key, and code properties</span></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"keydown"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"key: "</span> + event.keyCode);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"key: "</span> + event.key);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"code: "</span> + event.code);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Once we press <code>ENTER</code> on the Console, we can now press a key on the keyboard, in this example, we’ll press <code>a</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">keyCode: <span class="number">65</span>;</span><br><span class="line">key: a;</span><br><span class="line">code: KeyA;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>keyCode</code> property is a number that pertains to the <code>key</code> that has been pressed. The key property is the name of the character, which can change — for example, pressing a with <code>SHIFT</code> would result in a <code>key</code> of <code>A</code>. The <code>code</code> property represents the physical key on the keyboard.</p>
+<blockquote>
+<p>Note that <code>keyCode</code> is in the process of being deprecated and it is preferable to use <code>code</code> in new projects.</p>
+</blockquote>
+<p>To learn more, you can view the <a href="https://developer.mozilla.org/en-US/docs/Web/Events" target="_blank" rel="noopener">complete list of events on the Mozilla Developer Network</a>.</p>
+<h2 id="Event-Objects"><a href="#Event-Objects" class="headerlink" title="Event Objects"></a>Event Objects</h2><p>The <code>Event</code> object consists of properties and methods that all events can access. In addition to the generic <code>Event</code> object, each type of even has its own extensions, such as<code>KeyboardEvent</code>and<code>MouseEvent</code>.</p>
+<p>The <code>Event</code> object is passed through a listener function as a parameter. It is usually written as <code>event</code> or <code>e</code>. We can access the <code>code</code> property of the <code>keydown</code> event to replicate the keyboard controls of a PC game.</p>
+<p>To try it out, create a basic HTML file with <code>&lt;p&gt;</code> tags and load it into a browser.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en-US"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Events<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Then, type the following JavaScript code into your browser’s <a href="https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-developer-console" target="_blank" rel="noopener">Developer Console</a>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pass an event through to a listener</span></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">"keydown"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="keyword">var</span> element = <span class="built_in">document</span>.querySelector(<span class="string">"p"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Set variables for keydown codes</span></span><br><span class="line">  <span class="keyword">var</span> a = <span class="string">"KeyA"</span>;</span><br><span class="line">  <span class="keyword">var</span> s = <span class="string">"KeyS"</span>;</span><br><span class="line">  <span class="keyword">var</span> d = <span class="string">"KeyD"</span>;</span><br><span class="line">  <span class="keyword">var</span> w = <span class="string">"KeyW"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Set a direction for each code</span></span><br><span class="line">  <span class="keyword">switch</span> (event.code) &#123;</span><br><span class="line">    <span class="keyword">case</span> a:</span><br><span class="line">      element.textContent = <span class="string">"Left"</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> s:</span><br><span class="line">      element.textContent = <span class="string">"Down"</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> d:</span><br><span class="line">      element.textContent = <span class="string">"Right"</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> w:</span><br><span class="line">      element.textContent = <span class="string">"Up"</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>When you press one of the keys — <code>a</code>, <code>s</code>, <code>d</code>, or <code>w</code> — you’ll see output similar to the following:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-7.png" alt=""></p>
+<p>From here, you can continue to develop how the browser will respond and to the user pressing those keys, and can create a more dynamic website.</p>
+<p>Next, we’ll go over one of the most frequently used event properties: the <code>target</code> property. In the following example, we have three div elements inside one <code>section</code>.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en-US"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Events<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"one"</span>&gt;</span>One<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"two"</span>&gt;</span>Two<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"three"</span>&gt;</span>Three<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Using <code>event.target</code> with JavaScript in our browser’s Developer Console, we can place one event listener on the outer <code>section</code> element and get the most deeply nested element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> section = <span class="built_in">document</span>.querySelector(<span class="string">"section"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print the selected target</span></span><br><span class="line">section.addEventListener(<span class="string">"click"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(event.target);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Clicking on any one of those elements will return output of the relevant specific element to the Console using <code>event.target</code>. This is extremely useful, as it allows you to place only one event listener that can be used to access many nested elements.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/events-8.png" alt=""></p>
+<p>With the <code>Event</code> object, we can set up responses related to all events, including generic events and more specific extensions.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Events are actions that take place on a website, such as clicking, hovering, submitting a form, loading a page, or pressing a key on the keyboard. JavaScript becomes truly interactive and dynamic when we are able to make websites respond to actions the user has taken.</p>
+<p>In this tutorial, we learned what events are, examples of common events, the difference between event handlers and event listeners, and how to access the <code>Event</code> object. Using this knowledge, you will be able to begin making dynamic websites and applications.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/dom/#dom">dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/18/events-in-javascript/ - events-in-javascript @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "events-in-javascript",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

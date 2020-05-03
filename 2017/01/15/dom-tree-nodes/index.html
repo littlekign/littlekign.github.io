@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>dom-tree-nodes - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>dom-tree-nodes</h1>
+        
+        <h2 class="headline">Jan 15 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Understanding-the-DOM-Tree-and-Nodes"><a href="#Understanding-the-DOM-Tree-and-Nodes" class="headerlink" title="Understanding the DOM Tree and Nodes"></a>Understanding the DOM Tree and Nodes</h2><p>The DOM is often referred to as the <strong>DOM tree</strong>, and consists of a tree of objects called <strong>nodes</strong>. In the <a href="https://littlekign.github.io/2017/01/11/introduction-dom/" target="_blank" rel="noopener">Introduction to the DOM</a>, we went over what the Document Object Model (DOM) is, how to access the <code>document</code> object and modify its properties with the <code>console</code>, and the difference between HTML source code and the DOM.</p>
+<p>In this tutorial, we will review HTML terminology, which is essential to working with JavaScript and the DOM, and we will learn about the DOM tree, what nodes are, and how to identify the most common node types. Finally, we will move beyond the console and create a JavaScript program to interactively modify the DOM.</p>
+<h2 id="HTML-Terminology"><a href="#HTML-Terminology" class="headerlink" title="HTML Terminology"></a>HTML Terminology</h2><p>Understanding HTML and JavaScript terminology is essential to understanding how to work with the DOM. Let’s briefly review some HTML terminology.</p>
+<p>To begin, let’s take a look at this HTML element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=<span class="string">"index.html"</span>&gt;Home&lt;<span class="regexp">/a&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Here we have an anchor element, which is a link to <code>index.html</code>.</p>
+<ul>
+<li>a is the tag</li>
+<li>href is the attribute</li>
+<li>index.html is the attribute value</li>
+<li>Home is the text.</li>
+</ul>
+<p>Everything between the opening and closing tag combined make the entire HTML <strong>element</strong>.</p>
+<p>The simplest way to access an element with JavaScript is by the id attribute. Let’s add the link we have above into our index.html file with an id of nav.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Document Object Model<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"nav"</span> <span class="attr">href</span>=<span class="string">"index.html"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Load or reload the page in your browser window and look at the DOM to ensure that the code has been updated.</p>
+<p>We’re going to use the <code>getElementById()</code> method to access the entire element. In the console, type the following:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">document</span>.getElementById(<span class="string">'nav'</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">&lt;a id=<span class="string">"nav"</span> href=<span class="string">"index.html"</span>&gt;Home&lt;<span class="regexp">/a&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>We have retrieved the entire element using <code>getElementById()</code>. Now, instead of typing that object and method every time we want to access the <code>nav</code> link, we can place the element into a variable to work with it more easily.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="keyword">let</span> navLink = <span class="built_in">document</span>.getElementById(<span class="string">'nav'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>The <code>navLink</code> variable contains our anchor element. From here, we can easily modify attributes and values. For example, we can change where the link goes by changing the <code>href</code> attribute:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; navLink.href = <span class="string">"https://www.wikipedia.org"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>We can also change the text content by reassigning the <code>textContent</code> property:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">navLink.textContent = <span class="string">"Navigate to Wikipedia"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Now when we view our element, either in the console or by checking the Elements tag, we can see how the element has been updated.</p>
+<p>navLink;</p>
+<p>Output<br><a id="nav" href="https://www.wikipedia.org/" target="_blank" rel="noopener">Navigate to Wikipedia</a></p>
+<p>This is also reflected on the front-end of the website.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/updated-DOM-link.png" alt=""></p>
+<p>Refreshing the page will revert everything back to their original values.</p>
+<p>At this point, you should understand how to use a <code>document</code> method to access an element, how to assign an element to a variable, and how to modify properties and values in the element.</p>
+<h2 id="The-DOM-Tree-and-Nodes"><a href="#The-DOM-Tree-and-Nodes" class="headerlink" title="The DOM Tree and Nodes"></a>The DOM Tree and Nodes</h2><p>All items in the DOM are defined as <strong>nodes</strong>. There are many types of nodes, but there are three main ones that we work with most often:</p>
+<ul>
+<li>Element nodes</li>
+<li>Text nodes</li>
+<li>Comment nodes</li>
+</ul>
+<p>When an HTML element is an item in the DOM, it is referred to as an <strong>element node</strong>. Any lone text outside of an element is a <strong>text node</strong>, and an HTML comment is a <strong>comment node</strong>. In addition to these three node types, the <code>document</code> itself is a <strong>document</strong> node, which is the root of all other nodes.</p>
+<p>The DOM consists of a <strong>tree</strong> structure of nested nodes, which is often referred to as the <strong>DOM tree</strong>. You may be familiar with an ancestral family tree, which consists of parents, children, and siblings. The nodes in the DOM are also referred to as parents, children, and siblings, depending on their relation to other nodes.</p>
+<p>To demonstrate, create a <code>nodes.html</code> file. We’ll add text, comment, and element nodes.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Learning About Nodes<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>An element node<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- a comment node --&gt;</span></span><br><span class="line">    A text node.</span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The <code>html</code> element node is the parent node. <code>head</code> and <code>body</code> are siblings, children of <code>html</code>. <code>body</code> contains three child nodes, which are all siblings — the type of node does not change the level at which it is nested.</p>
+<blockquote>
+<p><strong>Note</strong>: When working with an HTML-generated DOM, the indentation of the HTML source code will create many empty text nodes, which won’t be visible from the DevTools Elements tab. Read about <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace_in_the_DOM" target="_blank" rel="noopener">Whitespace in the DOM</a></p>
+</blockquote>
+<h2 id="Identifying-Node-Type"><a href="#Identifying-Node-Type" class="headerlink" title="Identifying Node Type"></a>Identifying Node Type</h2><p>Every node in a document has a <strong>node type</strong>, which is accessed through the <code>nodeType</code> property. The Mozilla Developer Network has an up-to-date list of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType" target="_blank" rel="noopener">all node type constants</a>. Below is a chart of the most common node types that we are working with in this tutorial.</p>
+<table>
+<thead>
+<tr>
+<th>Node Type</th>
+<th>Value</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ELEMENT_NODE</td>
+<td>1</td>
+<td>The <code>&lt;body&gt;</code> element</td>
+</tr>
+<tr>
+<td>TEXT_NODE</td>
+<td>3</td>
+<td>Text that is not part of an element</td>
+</tr>
+<tr>
+<td>COMMENT_NODE</td>
+<td>8</td>
+<td><code>&lt;!-- an HTML comment --&gt;</code></td>
+</tr>
+</tbody></table>
+<p>In the Elements tab of Developer Tools, you may notice that whenever you click on and highlight any line in the DOM the value of <code>== $0</code> will appear next to it. This is a very handy way to access the currently active element in Developer Tools by typing <code>$0</code>.</p>
+<p>In the console of <strong>nodes.html</strong>, click on the first element in the <code>body</code>, which is an <code>h1</code> element.</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/highlighted-line.png" alt=""></p>
+<p>In the console, get the <strong>node type</strong> of the currently selected node with the <code>nodeType</code> property.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; $<span class="number">0.n</span>odeType;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>With the <code>h1</code> element selected, you would see <code>1</code> as the output, which we can see correlates to <code>ELEMENT_NODE</code>. Do the same for the text and the comment, and they will output <code>3</code> and <code>8</code> respectively.</p>
+<p>When you know how to access an element, you can see the node type without highlighting the element in the DOM.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.nodeType;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line"><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>In addition to <code>nodeType</code>, you can also use the <code>nodeValue</code> property to get the value of a text or comment node, and <code>nodeName</code> to get the tag name of an element.</p>
+<h2 id="Modifying-the-DOM-with-Events"><a href="#Modifying-the-DOM-with-Events" class="headerlink" title="Modifying the DOM with Events"></a>Modifying the DOM with Events</h2><p>Up until now, we’ve only seen how to modify the DOM in the console, which we have seen is temporary; every time the page is refreshed, the changes are lost. In the Introduction to the DOM tutorial, we used the console to update the background color of the body. We can combine what we’ve learned throughout this tutorial to create an interactive button that does this when clicked.</p>
+<p>Let’s go back to our <code>index.html</code> file and add a <code>button</code> element with an <code>id</code>. We’ll also add a link to a new file in a new <code>js</code> directory <code>js/scripts.js</code>.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Learning the DOM<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Document Object Model<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"changeBackground"</span>&gt;</span>Change Background Color<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"scripts.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>An <strong>event</strong> in JavaScript is an action the user has taken. When the user hovers their mouse over an element, or clicks on an element, or presses a specific key on the keyboard, these are all types of events. In this particular case, we want our button to listen and be ready to perform an action when the user clicks on it. We can do this by adding an <strong>event listener</strong> to our button.</p>
+<p>Create <code>scripts.js</code> and save it in the new <code>js</code> directory. Within the file, we’ll first find the <code>button</code> element and assign it to a variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> button = <span class="built_in">document</span>.getElementById(<span class="string">"changeBackground"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Using the <code>addEventListener()</code> method, we will tell the button to listen for a click, and perform a function once clicked.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">button.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="comment">// action will go here</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Finally, inside of the function, we will write the same code from the previous tutorial to change the background color to <code>fuchsia</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="built_in">document</span>.body.style.backgroundColor = <span class="string">'fuchsia'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Here is our entire script:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> button = <span class="built_in">document</span>.getElementById(<span class="string">"changeBackground"</span>);</span><br><span class="line"></span><br><span class="line">button.addEventListener(<span class="string">"click"</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">document</span>.body.style.backgroundColor = <span class="string">"fuchsia"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Once you save this file, refresh <code>index.html</code> in the browser. Click the button, and the event will fire.<br><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/event-button.png" alt=""></p>
+<p>The background color of the page has changed to fuchsia due to the JavaScript event.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we reviewed terminology that will allow us to understand and modify the DOM. We learned how the DOM is structured as a tree of nodes that will usually be HTML elements, text, or comments, and we created a script that would allow a user to modify a website without having to manually type code into the developer console.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/Dom/#Dom">Dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/15/dom-tree-nodes/ - dom-tree-nodes @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "dom-tree-nodes",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

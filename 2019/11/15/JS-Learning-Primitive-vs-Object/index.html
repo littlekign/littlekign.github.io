@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>JS Learning Primitive vs Object - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>JS Learning Primitive vs Object</h1>
+        
+        <h2 class="headline">Nov 15 2019
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h4 id="Javascript-有两种基本数据类型，Primitive-和-Object。Object-是-properties-的聚合，其-property-可以是-Object-也可以是-Primitive。Primitive-只有-value-没有-properties。Javascript-有五种-Primitive"><a href="#Javascript-有两种基本数据类型，Primitive-和-Object。Object-是-properties-的聚合，其-property-可以是-Object-也可以是-Primitive。Primitive-只有-value-没有-properties。Javascript-有五种-Primitive" class="headerlink" title="Javascript 有两种基本数据类型，Primitive 和 Object。Object 是 properties 的聚合，其 property 可以是 Object 也可以是 Primitive。Primitive 只有 value, 没有 properties。Javascript 有五种 Primitive:"></a>Javascript 有两种基本数据类型，Primitive 和 Object。Object 是 properties 的聚合，其 property 可以是 Object 也可以是 Primitive。Primitive 只有 value, 没有 properties。Javascript 有五种 Primitive:</h4><ul>
+<li>string</li>
+<li>number</li>
+<li>boolean</li>
+<li>null</li>
+<li>undefined</li>
+</ul>
+<p>除了 null 和 undefined，其余 Primitive 都有对应的 Object 封装，如 Object String 对应 string。</p>
+<h1 id="Stack-vs-Heap"><a href="#Stack-vs-Heap" class="headerlink" title="Stack vs Heap"></a>Stack vs Heap</h1><p>Javascript 是一门动态语言，同一个变量在不同时候可能被赋予不同数据类型，比如前面是 number 而后面变成 Object。所以 Javascript 变量值所占用的内存空间应该是可以动态变化的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line">a = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>实际上，不管是 Primitive 还是 Object，这些 Javascript 变量的值都存储在可以动态分配空间的 heap 上。而它在 stack 上保存的则是一个固定 size 的包含该值所在 heap 位置信息的引用（类似 pointer）。JS engine 通过对引用指向的修改来实现同一个变量指向不同的数据类型</p>
+<p><img src="http://tva1.sinaimg.cn/large/0080xEK2ly1g8yqay5bdwj30xc0onjs6.jpg" alt="Javascript memory model"></p>
+<blockquote>
+<p>It’s wrong to state that primitives are allocated from the stack and only objects are allocated from the heap. This is the biggest difference between C and JavaScript.</p>
+</blockquote>
+<p>最新的 JS engine 做了很多优化，使得内存分配更为高效但也更为复杂，具体可参考该 <a href="http://stackoverflow.com/a/10618981/3697757" target="_blank" rel="noopener">StackOverflow</a> 回答。</p>
+<h1 id="值传递-vs-引用传递"><a href="#值传递-vs-引用传递" class="headerlink" title="值传递 vs 引用传递"></a>值传递 vs 引用传递</h1><p>Primitive 是值传递（passed by value），Object 是引用传递（passed by reference）。</p>
+<p>上面说到，Javascript 变量在 stack 保存的是地址引用，为什么又说 Primitive 是值传递呢？Javascript 中所有 Primitive 都是 immutable 的。在传递 Primitive 时，JS engine 在 heap 上复制一个值相同的 Primitive，然后把新变量的引用传递出去，这就是所谓 JS 中的值传递。对于 Object，JS engine 并不会复制一个新的 Object，而是直接传递它的地址引用（与 C++/Java 中的引用传递类似）。</p>
+<blockquote>
+<p>该引用能识别其指向的变量是 Primitive 还是 Object，所以它不是一个简单的 pointer，而是包含所指向变量类型信息的“智能引用”。</p>
+</blockquote>
+<h1 id="对-Prototype-影响"><a href="#对-Prototype-影响" class="headerlink" title="对 Prototype 影响"></a>对 Prototype 影响</h1><p>在 Javascript 中，子类修改父类的 property 会影响到所有继承该父类的子类。但这影响会根据父类 property 是属于 Primitive 还是 Object 而有微妙差别。我们设想有一个父类 father，和两个继承了他的子类 son1 和 son2。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> father = &#123;</span><br><span class="line">  primitive: <span class="number">1</span>,</span><br><span class="line">  object: &#123;</span><br><span class="line">    fruit: <span class="string">"APPLE"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> son1 = <span class="built_in">Object</span>.create(father);</span><br><span class="line"><span class="keyword">var</span> son2 = <span class="built_in">Object</span>.create(father);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Primitive-Property"><a href="#Primitive-Property" class="headerlink" title="Primitive Property"></a>Primitive Property</h1><p>如果父类的 property 是 Primitive，该 property 通过 passed by value 传递到子类。这时，子类修改该 property 不会影响到父类本身，更不会传递到其他子类上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"father's primitive is "</span> + father.primitive);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son1's primitive is "</span> + son1.primitive);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son2's primitive is "</span> + son2.primitive);</span><br><span class="line"><span class="comment">// father's primitive is 1</span></span><br><span class="line"><span class="comment">// son1's primitive is 1</span></span><br><span class="line"><span class="comment">// son2's primitive is 1</span></span><br><span class="line"></span><br><span class="line">son1.primitive = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"father's primitive is "</span> + father.primitive);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son1's primitive is "</span> + son1.primitive);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son2's primitive is "</span> + son2.primitive);</span><br><span class="line"><span class="comment">// father's primitive is 1</span></span><br><span class="line"><span class="comment">// son1's primitive is 2</span></span><br><span class="line"><span class="comment">// son2's primitive is 1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Object-Property"><a href="#Object-Property" class="headerlink" title="Object Property"></a>Object Property</h1><p>如果父类的 property 是 Object，该 property 通过 passed by reference 传递到子类上。子类修改该 property 会通过父类传递到所有继承它的子类上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"father's fruit is "</span> + father.object.fruit);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son1's fruit is "</span> + son1.object.fruit);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son2's fruit is "</span> + son2.object.fruit);</span><br><span class="line"><span class="comment">// father's fruit is APPLE</span></span><br><span class="line"><span class="comment">// son1's fruit is APPLE</span></span><br><span class="line"><span class="comment">// son2's fruit is APPLE</span></span><br><span class="line"></span><br><span class="line">son1.object.fruit = <span class="string">"GRAPE"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"father's fruit is "</span> + father.object.fruit);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son1's fruit is "</span> + son1.object.fruit);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"son2's fruit is "</span> + son2.object.fruit);</span><br><span class="line"><span class="comment">// father's fruit is GRAPE</span></span><br><span class="line"><span class="comment">// son1's fruit is GRAPE</span></span><br><span class="line"><span class="comment">// son2's fruit is GRAPE</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://stackoverflow.com/a/13268731/3697757" target="_blank" rel="noopener">Primitive value vs Reference value</a><br><a href="http://stackoverflow.com/a/10618981/3697757" target="_blank" rel="noopener">How variables are allocated memory in Javascript?</a></p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js/#js">js</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/11/15/JS-Learning-Primitive-vs-Object/ - JS Learning Primitive vs Object @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "JS Learning Primitive vs Object",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

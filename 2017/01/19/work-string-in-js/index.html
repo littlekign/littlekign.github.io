@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>work-string-in-js - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>work-string-in-js</h1>
+        
+        <h2 class="headline">Jan 19 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>A <strong>string</strong> is a sequence of one or more characters that may consist of letters, numbers, or symbols. Strings in JavaScript are primitive <code>data types</code> and immutable, which means they are unchanging.</p>
+<p>As strings are the way we display and work with text, and text is our main way of communicating and understanding through computers, strings are one of the most fundamental concepts of programming to be familiar with.</p>
+<p>In this article, we’re going to learn how to create and view the output of strings, how to concatenate strings, how to store strings in variables, and the rules of using quotes, apostrophes, and newlines within strings in JavaScript.</p>
+<h2 id="Creating-and-Viewing-the-Output-of-Strings"><a href="#Creating-and-Viewing-the-Output-of-Strings" class="headerlink" title="Creating and Viewing the Output of Strings"></a>Creating and Viewing the Output of Strings</h2><p>In JavaScript, there are three ways to write a string — they can be written inside single quotes (<code>&#39; &#39;</code>), double quotes (<code>&quot; &quot;</code>), or backticks <code>(``)</code>. The type of quote used must match on both sides, however it is possible that all three styles can be used throughout the same script.</p>
+<p>Strings using double quotes and single quotes are effectively the same. As there is no convention or official preference for single- or double-quoted strings, all that matters is keeping consistent within project program files.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"This string uses single quotes."</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"This string uses double quotes."</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The third and newest way to create a string is called a <strong>template literal</strong>. Template literals use the backtick (also known as a grave accent) and work the same way as regular strings with a few additional bonuses, which we will cover in this article.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`This string uses backticks.`</span>;</span><br></pre></td></tr></table></figure>
+
+<p>The easiest way to view the output of a string is to print it to the console, with <code>console.log()</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"This is a string in the console."</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">This is a string <span class="keyword">in</span> the <span class="built_in">console</span>.</span><br></pre></td></tr></table></figure>
+
+<p>Another simple way to output a value is to send an alert popup to the browser with <code>alert()</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="string">"This is a string in an alert."</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Running the line above will produce the following output in the browser’s user interface:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/js-strings/js-alert-string-output.png" alt=""></p>
+<p><code>alert()</code> is a less common method of testing and viewing output, as it can quickly become tedious to close the alerts.</p>
+<h2 id="Storing-a-String-in-a-Variable"><a href="#Storing-a-String-in-a-Variable" class="headerlink" title="Storing a String in a Variable"></a>Storing a String in a Variable</h2><p>Variables in JavaScript are named containers that store a value, using the keywords <code>var</code>, <code>const</code> or <code>let</code>. We can assign the value of a string to a named variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newString = <span class="string">"This is a string assigned to a variable."</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Now that the <code>newString</code> variable contains our string, we can reference it and print it to the console.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(newString);</span><br></pre></td></tr></table></figure>
+
+<p>This will output the string value.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">This is a string assigned to a variable.</span><br></pre></td></tr></table></figure>
+
+<p>By using variables to stand in for strings, we do not have to retype a string each time we want to use it, making it simpler for us to work with and manipulate strings within our programs.</p>
+<h2 id="String-Concatenation"><a href="#String-Concatenation" class="headerlink" title="String Concatenation"></a>String Concatenation</h2><p><strong>Concatenation</strong> means joining two or more strings together to create a new string. In order to concatenate, we use the concatenation operator, represented by a <code>+</code> symbol. The <code>+</code> symbol is also the addition operator when used with arithmetic operations.</p>
+<p>Let’s create a simple instance of concatenation, between “<code>Sea</code>“ and “<code>horse</code>“.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"Sea"</span> + <span class="string">"horse"</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output;</span><br><span class="line">Seahorse;</span><br></pre></td></tr></table></figure>
+
+<p>We join strings and variables containing string values with concatenation.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> poem = <span class="string">"The Wide Ocean"</span>;</span><br><span class="line"><span class="keyword">const</span> author = <span class="string">"Pablo Neruda"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> favePoem = <span class="string">"My favorite poem is "</span> + poem + <span class="string">" by "</span> + author <span class="string">"."</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">My favorite poem is The Wide Ocean by Pablo Neruda.</span><br></pre></td></tr></table></figure>
+
+<p>When we combine two or more strings through concatenation we are creating a new string that we can use throughout our program.</p>
+<h2 id="Variables-in-Strings-with-Template-Literals"><a href="#Variables-in-Strings-with-Template-Literals" class="headerlink" title="Variables in Strings with Template Literals"></a>Variables in Strings with Template Literals</h2><p>One special feature of the template literal feature is the ability to include expressions and variables within a string. Instead of having to use concatenation, we can use the <code>${}</code> syntax to insert a variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> poem = <span class="string">"The Wide Ocean"</span>;</span><br><span class="line"><span class="keyword">const</span> author = <span class="string">"Pablo Neruda"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> favePoem = <span class="string">`My favorite poem is <span class="subst">$&#123;poem&#125;</span> by <span class="subst">$&#123;author&#125;</span>.`</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">My favorite poem is The Wide Ocean by Pablo Neruda.</span><br></pre></td></tr></table></figure>
+
+<p>As we can see, including expressions in template literals is another way to accomplish the same result. In this case, using template literals might be easier to write and more convenient.</p>
+<h2 id="String-Literals-and-String-Values"><a href="#String-Literals-and-String-Values" class="headerlink" title="String Literals and String Values"></a>String Literals and String Values</h2><p>You might notice that the strings we write in the source code are encased in quotes or backticks, but the actual printed output does not include any quotations.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"Beyond the Sea"</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Beyond the Sea</span><br></pre></td></tr></table></figure>
+
+<p>There is a distinction when referring to each of these. A <strong>string literal</strong> is the string as it is written in the source code, including quotations. A <strong>string value</strong> is what we see in the output, and does not include quotations.</p>
+<p>In the above example, “·” is a string literal, and <code>Beyond the Sea</code> is a string value.</p>
+<h2 id="Escaping-Quotes-and-Apostrophes-in-Strings"><a href="#Escaping-Quotes-and-Apostrophes-in-Strings" class="headerlink" title="Escaping Quotes and Apostrophes in Strings"></a>Escaping Quotes and Apostrophes in Strings</h2><p>Due to the fact that quotation marks are used to denote strings, special considerations must be made when using apostrophes and quotes in strings. Attempting to use an apostrophe in the middle of a single-quoted string, for example, will end the string, and JavaScript will attempt to parse the rest of the intended string as code.</p>
+<p>We can see this by attempting to use an apostrophe in the <code>I&#39;m</code> contraction below:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> brokenString = <span class="string">'I'</span>m a broken string<span class="string">';</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">console.log(brokenString);</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">unknown: Unexpected token (<span class="number">1</span>:<span class="number">24</span>)</span><br></pre></td></tr></table></figure>
+
+<p>The same would apply to attempting to use quotes in a double-quoted string.</p>
+<p>In order to avoid an error being thrown in these situations, we have a few options that we can use:</p>
+<ul>
+<li>Opposite string syntax</li>
+<li>Escape characters</li>
+<li>bTemplate literals</li>
+</ul>
+<p>We will explore these options below.</p>
+<h2 id="Using-the-Alternate-String-Syntax"><a href="#Using-the-Alternate-String-Syntax" class="headerlink" title="Using the Alternate String Syntax"></a>Using the Alternate String Syntax</h2><p>An easy way to get around isolated cases of potentially broken strings is to use the opposite string syntax of the one you’re currently using.</p>
+<p>For example, apostrophes in strings built with <code>&quot;</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"We're safely using an apostrophe in double quotes."</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Quotation marks in strings built with <code>&#39;</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'Then he said, "Hello, World!"'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>In the way we combine single and double quotes, we can control the display of quotation marks and apostrophes within our strings. However, when we are working to use consistent syntax within project programming files, this can be difficult to maintain throughout a codebase.</p>
+<p>Using the Escape Character ()<br>We can use the backslash () escape character to prevent JavaScript from interpreting a quote as the end of the string.</p>
+<p>The syntax of &#39; will always be a single quote, and the syntax of &quot; will always be a double quote, without any fear of breaking the string.</p>
+<p>Using this method, we can use apostrophes in strings built with “.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'We\'re safely using an apostrophe in single quotes.'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>We can also use quotation marks in strings built with “.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"Then he said, \"Hello, World!\""</span>;</span><br></pre></td></tr></table></figure>
+
+<p>This method is a bit messier looking, but you may need to use both an apostrophe and a quotation mark within the same string, which will make escaping necessary.</p>
+<h2 id="Using-Template-Literals"><a href="#Using-Template-Literals" class="headerlink" title="Using Template Literals"></a>Using Template Literals</h2><p>Template literals are defined with backticks, and therefore both quotes and apostrophes can be used safely without any sort of extra escaping or consideration.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">`We're safely using apostrophes and "quotes" in a template literal.`</span>;</span><br></pre></td></tr></table></figure>
+
+<p>In addition to preventing the need for character escaping and allowing embedded expressions, template literals provide multi-line support as well, which we will discuss in the next section.</p>
+<p>With alternating string syntax, using escape characters, and using template literals, there are several ways to safely create a string.</p>
+<h2 id="Long-Strings-and-Newlines"><a href="#Long-Strings-and-Newlines" class="headerlink" title="Long Strings and Newlines"></a>Long Strings and Newlines</h2><p>There are times you may want to insert a newline character, or carriage return in your string. The <code>\n</code> or <code>\r</code> escape characters can be used to insert a newline in the output of code.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> threeLines = <span class="string">"This is a string\nthat spans across\nthree lines."</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">This is a string</span><br><span class="line">that spans across</span><br><span class="line">three lines.</span><br></pre></td></tr></table></figure>
+
+<p>This technically works to get our output on multiple lines. However, writing a very long string on a single line will quickly become very hard to read and work with. We can use the concatenation operator to show the string on multiple lines.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> threeLines =</span><br><span class="line">  <span class="string">"This is a string\n"</span> + <span class="string">"that spans across\n"</span> + <span class="string">"three lines."</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Instead of concatenating multiple strings, we can use the <code>\</code> escape character to escape the newline.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> threeLines =</span><br><span class="line">  <span class="string">"This is a string\n\</span></span><br><span class="line"><span class="string">that spans across\n\</span></span><br><span class="line"><span class="string">three lines."</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>Note</strong>: This method is not preferred, as it may cause issues with some browsers and minifiers.</p>
+</blockquote>
+<p>In order to make code more readable, we can instead use template literal strings. These eliminate the need for concatenation or escaping on long strings containing newlines. The string as well as newlines will be preserved.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> threeLines = <span class="string">`This is a string</span></span><br><span class="line"><span class="string">that spans across</span></span><br><span class="line"><span class="string">three lines.`</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">This is a string</span><br><span class="line">that spans across</span><br><span class="line">three lines.</span><br></pre></td></tr></table></figure>
+
+<p>It’s important to be aware of all the ways of creating newlines and strings that span across multiple lines, as different code bases may be using various standards.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this article, we went over the basics of working with strings in JavaScript, from creating and displaying string literals using single and double quotes, creating template literals, concatenation, escaping, and assigning string values to variables.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js-string/#js string">js string</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/19/work-string-in-js/ - work-string-in-js @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "work-string-in-js",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

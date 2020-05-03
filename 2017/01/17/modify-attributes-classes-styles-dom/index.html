@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>modify-attributes-classes-styles-don - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>modify-attributes-classes-styles-don</h1>
+        
+        <h2 class="headline">Jan 17 2017
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>In this tutorial, we will learn how to further alter the DOM by modifying styles, classes, and other attributes of HTML element nodes. This will give you a greater understanding of how to manipulate essential elements within the DOM.</p>
+<h2 id="Review-of-Selecting-Elements"><a href="#Review-of-Selecting-Elements" class="headerlink" title="Review of Selecting Elements"></a>Review of Selecting Elements</h2><p>Until recently, a popular JavaScript library called <code>jQuery</code> was most often used to select and modify elements in the DOM. jQuery simplified the process of selecting one or more elements and applying changes to all of them at the same time. In “How To Access Elements in the DOM,” we reviewed the DOM methods for grabbing and working with nodes in vanilla JavaScript.</p>
+<p>To review, <code>document.querySelector()</code> and <code>document.getElementById()</code> are the methods that are used to access a single element. Using a <code>div</code> with an id attribute in the example below, we can access that element either way.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo-id"</span>&gt;</span>Demo ID<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The <code>querySelector()</code> method is more robust in that it can select an element on the page by any type of selector.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Both methods will return a single element</span></span><br><span class="line"><span class="keyword">const</span> demoId = <span class="built_in">document</span>.querySelector(<span class="string">"#demo-id"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Accessing a single element, we can easily update a part of the element such as the text inside.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Change the text of one element</span></span><br><span class="line">demoId.textContent = <span class="string">"Demo ID text updated."</span>;</span><br></pre></td></tr></table></figure>
+
+<p>However, when accessing multiple elements by a common selector, such as a specific class, we have to loop through all the elements in the list. In the code below, we have two <code>div</code> elements with a common class value.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-class"</span>&gt;</span>Demo Class 1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-class"</span>&gt;</span>Demo Class 2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>We’ll use <code>querySelectorAll()</code> to grab all elements with <code>demo-class</code> applied to them, and <code>forEach()</code> to loop through them and apply a change. It is also possible to access a specific element with <code>querySelectorAll()</code> the same way you would with an array — by using bracket notation.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get a NodeList of all .demo elements</span></span><br><span class="line"><span class="keyword">const</span> demoClasses = <span class="built_in">document</span>.querySelectorAll(<span class="string">".demo-class"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change the text of multiple elements with a loop</span></span><br><span class="line">demoClasses.forEach(<span class="function"><span class="params">element</span> =&gt;</span> &#123;</span><br><span class="line">  element.textContent = <span class="string">"All demo classes updated."</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Access the first element in the NodeList</span></span><br><span class="line">demoClasses[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+<p>This is one of the most important differences to be aware of when progressing from jQuery to vanilla JavaScript. Many examples of modifying elements will not explain the process of applying those methods and properties to multiple elements.</p>
+<p>The properties and methods in this article will often be attached to <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener" target="_blank" rel="noopener">event listeners</a> in order to respond to clicks, hovers, or other triggers.</p>
+<blockquote>
+<p><strong>Note</strong>: The methods <code>getElementsByClassName()</code> and <code>getElementsByTagName()</code> will return HTML collections which do not have access to the <code>forEach()</code> method that <code>querySelectorAll()</code> has. In these cases, you will need to use a standard <code>for loop</code> to iterate through the collection.</p>
+</blockquote>
+<h2 id="Modifying-Attributes"><a href="#Modifying-Attributes" class="headerlink" title="Modifying Attributes"></a>Modifying Attributes</h2><p>Attributes are values that contain additional information about HTML elements. They usually come in <code>name/value</code> pairs, and may be essential depending on the element.</p>
+<p>Some of the most common HTML attributes are the <code>src</code> attribute of an <code>img</code> tag, the <code>href</code> of an a tag, <code>class</code>, <code>id</code>, and <code>style</code>. For a full list of HTML attributes, view the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes" target="_blank" rel="noopener">attribute list</a> on the Mozilla Developer Network. Custom elements that are not part of the HTML standard will be prepended with <code>data-</code>.</p>
+<p>In JavaScript, we have four methods for modifying element attributes:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hasAttribute()</code></td>
+<td>Returns a <code>true</code> or <code>false</code> boolean</td>
+<td><code>element.hasAttribute(&#39;href&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>getAttribute()</code></td>
+<td>Returns the value of a specified attribute or <code>null</code></td>
+<td><code>element.getAttribute(&#39;href&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>setAttribute()</code></td>
+<td>Adds or updates value of a specified attribute</td>
+<td><code>element.setAttribute(&#39;href&#39;, &#39;index.html&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>removeAttribute()</code></td>
+<td>Removes an attribute from an element</td>
+<td><code>element.removeAttribute(&#39;href&#39;)</code>;</td>
+</tr>
+</tbody></table>
+<p>Let’s create a new HTML file with an <code>img</code> tag with one attribute. We’ll link to a public image available via a URL, but you can swap it out for an alternate local image if you’re working offline.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://js-tutorials.nyc3.digitaloceanspaces.com/shark.png"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When you load the above HTML file into a modern web browser and open the built-in Developer Console, you should see something like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-shark.png" alt=""></p>
+<p>Now, we can test all the attribute methods on the fly.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign image element</span></span><br><span class="line"><span class="keyword">const</span> img = <span class="built_in">document</span>.querySelector(<span class="string">"img"</span>);</span><br><span class="line"></span><br><span class="line">img.hasAttribute(<span class="string">"src"</span>); <span class="comment">// returns true</span></span><br><span class="line">img.getAttribute(<span class="string">"src"</span>); <span class="comment">// returns "...shark.png"</span></span><br><span class="line">img.removeAttribute(<span class="string">"src"</span>); <span class="comment">// remove the src attribute and value</span></span><br></pre></td></tr></table></figure>
+
+<p>At this point, you will have removed the src attribute and value associated with <code>img</code>, but you can reset that attribute and assign the value to an alternate image with <code>img.setAttribute()</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">img.setAttribute(</span><br><span class="line">  <span class="string">"src"</span>,</span><br><span class="line">  <span class="string">"https://js-tutorials.nyc3.digitaloceanspaces.com/octopus.png"</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-octopus.png" alt=""></p>
+<p>Finally, we can modify the attribute directly by assigning a new value to the attribute as a property of the element, setting the <code>src</code> back to the <code>shark.png</code>file</p>
+<p>Any attribute can be edited this way as well as with the above methods.</p>
+<p>The <code>hasAttribute()</code> and <code>getAttribute()</code> methods are usually used with <a href="https://www.digitalocean.com/community/tutorials/how-to-write-conditional-statements-in-javascript" target="_blank" rel="noopener">conditional statements</a>, and the <code>s</code>etAttribute()<code>and</code>removeAttribute()` methods are used to directly modify the DOM.</p>
+<h2 id="Modifying-Classes"><a href="#Modifying-Classes" class="headerlink" title="Modifying Classes"></a>Modifying Classes</h2><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class" target="_blank" rel="noopener">class</a> attribute corresponds to <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors" target="_blank" rel="noopener">CSe class selectors</a>. This is not to be confused with <a href="https://www.digitalocean.com/community/tutorials/understanding-classes-in-javascript" target="_blank" rel="noopener">ES6 classes</a>, a special type of JavaScript function.</p>
+<p>CSS classes are used to apply styles to multiple elements, unlike IDs which can only exist once per page. In JavaScript, we have the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className" target="_blank" rel="noopener">className</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList" target="_blank" rel="noopener">classList</a> properties to work with the class attribute.</p>
+<table>
+<thead>
+<tr>
+<th>Method/Property</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>className</code></td>
+<td>Gets or sets class value</td>
+<td><code>element.className</code>;</td>
+</tr>
+<tr>
+<td><code>classList.add()</code></td>
+<td>Adds one or more class values</td>
+<td><code>element.classList.add(&#39;active&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>classList.toggle()</code></td>
+<td>Toggles a class on or off</td>
+<td><code>element.classList.toggle(&#39;active&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>classList.contains()</code></td>
+<td>Checks if class value exists</td>
+<td><code>element.classList.contains(&#39;active&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>classList.replace()</code></td>
+<td>Replace an existing class value with a new class value</td>
+<td><code>element.classList.replace(&#39;old&#39;, &#39;new&#39;)</code>;</td>
+</tr>
+<tr>
+<td><code>classList.remove()</code></td>
+<td>Remove a class value</td>
+<td><code>element.classList.remove(&#39;active&#39;)</code>;</td>
+</tr>
+</tbody></table>
+<p>We’ll make another HTML file to work with the class methods, with two elements and a few classes.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    body &#123;</span><br><span class="line">      max-width: 600px;</span><br><span class="line">      margin: 0 auto;</span><br><span class="line">      font-family: sans-serif;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="css">    <span class="selector-class">.active</span> &#123;</span></span><br><span class="line">      border: 2px solid blue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.warning</span> &#123;</span></span><br><span class="line">      border: 2px solid red;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.hidden</span> &#123;</span></span><br><span class="line">      display: none;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    div &#123;</span><br><span class="line">      border: 2px dashed lightgray;</span><br><span class="line">      padding: 15px;</span><br><span class="line">      margin: 5px;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>Div 1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"active"</span>&gt;</span>Div 2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When you open the <code>classes.html</code> file into a web browser, you should receive a rendering that looks similar to the following:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-classes-1.png" alt=""></p>
+<p>The <code>className</code> property was introduced to prevent conflicts with the <code>class</code> keyword found in JavaScript and other languages that have access to the DOM. You can use <code>className</code> to assign a value directly to the class.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Select the first div</span></span><br><span class="line"><span class="keyword">const</span> div = <span class="built_in">document</span>.querySelector(<span class="string">"div"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Assign the warning class to the first div</span></span><br><span class="line">div.className = <span class="string">"warning"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>We have assigned the <code>warning</code> class defined in the CSS values of <code>classes.html</code> to the first <code>div</code>. You’ll receive the following output:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-classes-2.png" alt=""></p>
+<p>Note that if any classes already exist on the element, this will override them. You can add multiple space delimited classes using the <code>className</code> property, or use it without assignment operators to get the value of the class on the element.</p>
+<p>The other way to modify classes is via the <code>classList</code> property, which comes with a few helpful methods. These methods are similar to the jQuery <code>addClass</code>, <code>removeClass</code>, and <code>toggleClass</code> methods.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Select the second div by class name</span></span><br><span class="line"><span class="keyword">const</span> activeDiv = <span class="built_in">document</span>.querySelector(<span class="string">".active"</span>);</span><br><span class="line"></span><br><span class="line">activeDiv.classList.add(<span class="string">"hidden"</span>); <span class="comment">// Add the hidden class</span></span><br><span class="line">activeDiv.classList.remove(<span class="string">"hidden"</span>); <span class="comment">// Remove the hidden class</span></span><br><span class="line">activeDiv.classList.toggle(<span class="string">"hidden"</span>); <span class="comment">// Switch between hidden true and false</span></span><br><span class="line">activeDiv.classList.replace(<span class="string">"active"</span>, <span class="string">"warning"</span>); <span class="comment">// Replace active class with warning class</span></span><br></pre></td></tr></table></figure>
+
+<p>After performing the above methods, your web page will look like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-classes-3.png" alt=""></p>
+<p>Unlike in the <code>className</code> example, using <code>classList.add()</code>will add a new class to the list of existing classes. You can also add multiple classes as comma-separated strings. It is also possible to use <code>setAttribute</code> to modify the class of an element.</p>
+<h2 id="Modifying-Styles"><a href="#Modifying-Styles" class="headerlink" title="Modifying Styles"></a>Modifying Styles</h2><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style" target="_blank" rel="noopener">style</a> property repesents the inline styles on an HTML element. Often, styles will be applied to elements via a stylesheet as we have done previously in this article, but sometimes we have to add or edit an inline style directly.</p>
+<p>We will make a short example to demonstrate editing styles with JavaScript. Below is a new HTML file with a <code>div</code> that has some inline styles applied to display a square.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span></span></span><br><span class="line"><span class="tag">      <span class="attr">style</span>=<span class="string">"height: 100px;</span></span></span><br><span class="line"><span class="tag"><span class="string">                width: 100px;</span></span></span><br><span class="line"><span class="tag"><span class="string">                border: 2px solid black;"</span></span></span><br><span class="line"><span class="tag">    &gt;</span></span><br><span class="line">      Div</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When opened in a web browser, the styles.html will look something like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-style-1.png" alt=""></p>
+<p>One option to edit the styles is with <code>setAttribute()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Select div</span></span><br><span class="line"><span class="keyword">const</span> div = <span class="built_in">document</span>.querySelector(<span class="string">"div"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Apply style to div</span></span><br><span class="line">div.setAttribute(<span class="string">"style"</span>, <span class="string">"text-align: center"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>However, this will remove all existing inline styles from the element. Since this is likely not the intended effect, it is better to use the <code>style</code> attribute directly</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">div.style.height = <span class="string">"100px"</span>;</span><br><span class="line">div.style.width = <span class="string">"100px"</span>;</span><br><span class="line">div.style.border = <span class="string">"2px solid black"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>CSS properties are written in kebab-case, which is lowercase words separated by dashes. It is important to note that kebab-case CSS properties cannot be used on the JavaScript style property. Instead, they will be replaced with their camelCase equivalent, which is when the first word is lowercase, and all subsequent words are capitalized. In other words, instead of <code>text-align</code> we will use <code>textAlign</code> for the JavaScript style property.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make div into a circle and vertically center the text</span></span><br><span class="line">div.style.borderRadius = <span class="string">"50%"</span>;</span><br><span class="line">div.style.display = <span class="string">"flex"</span>;</span><br><span class="line">div.style.justifyContent = <span class="string">"center"</span>;</span><br><span class="line">div.style.alignItems = <span class="string">"center"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>After completing the above style modifications, your final rendering of <code>styles.html</code> will show a circle:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/attributes-style-2.png" alt=""></p>
+<p>If many stylistic changes are to be applied to an element, the best course of action is to apply the styles to a class and add a new class. However, there are some cases in which modifying the inline style attribute will be necessary or more straightforward.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>HTML elements often have additional information assigned to them in the form of attributes. Attributes may consist of name/value pairs, and a few of the most common attributes are <code>class</code> and <code>style</code>.</p>
+<p>In this tutorial, we learned how to access, modify, and remove attributes on an HTML element in the DOM using plain JavaScript. We also learned how to add, remove, toggle, and replace CSS classes on an element, and how to edit inline CSS styles. For additional reading, check out the documentation on <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes" target="_blank" rel="noopener">attributes</a> on the Mozilla Developer Network.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/dom/#dom">dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2017/01/17/modify-attributes-classes-styles-dom/ - modify-attributes-classes-styles-don @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "modify-attributes-classes-styles-don",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

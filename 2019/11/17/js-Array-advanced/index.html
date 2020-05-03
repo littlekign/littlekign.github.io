@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>js-Array-advanced - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>js-Array-advanced</h1>
+        
+        <h2 class="headline">Nov 17 2019
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>在 Javascript 中，array 是一个类数组的 object。顾名思义，它能够在一个变量上存储多个值。</p>
+<blockquote>
+<p>数组是值的有序集合。每个值叫做一个元素，而每个元素在数组中有一个位置，以数字表示，称为索引。JavaScript 数组是无类型：数组元素可以是任意类型，并且同一个数组中的不同元素也可能有不同的类型。 –《JavaScript 权威指南(第六版)》</p>
+</blockquote>
+<p>array 在一般 Javascript object 基础上，有自己额外的属性。它采用 numbered index 作为的 key，有一个 length property 跟踪数组长度，还有如 push/pop、shift/unshift 等数组特有操作。</p>
+<h1 id="本质是-object"><a href="#本质是-object" class="headerlink" title="本质是 object"></a>本质是 object</h1><p>作为一个 object，我们可以在 array 上面进行所有 object 的合法操作，比如设置一个 named key。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> test = [];</span><br><span class="line">test.fruit = <span class="string">"APPLE"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(test.fruit); <span class="comment">// APPLE</span></span><br></pre></td></tr></table></figure>
+
+<p>上面仅仅把 array 作为一个普通的 Javascript object 使用，等价于 var test = {}。在这种场合，我们应该选择普通的 Javascirpt object，而非 array。</p>
+<h1 id="Numbered-index"><a href="#Numbered-index" class="headerlink" title="Numbered index"></a>Numbered index</h1><p>Javascript 中的 array object 采用了一个很朴素的思想来实现数组 —— 用数字来充当 object 的 keys。这样在表面上延续了我们在 C++/Java 上使用数组的编程体验。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    0 : item0,</span><br><span class="line">    1 : item1,</span><br><span class="line">    2 : item2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>array 的这种实现方式导致了一些尴尬问题，比如删除元素、元素遍历。我们会在后面谈到这些问题。</p>
+<h1 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h1><p>delete operator（不推荐）</p>
+<p>和一般 Javascript object 一样，我们可以使用 delete 来删除 object 中的 property。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>];</span><br><span class="line"><span class="keyword">delete</span> arr[<span class="number">1</span>];</span><br><span class="line"><span class="built_in">console</span>.log(arr);</span><br><span class="line"><span class="built_in">console</span>.log(arr[<span class="number">1</span>]);</span><br><span class="line"><span class="comment">// [ 'a', , 'c', 'd' ]</span></span><br><span class="line"><span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们使用 delete 来删除某一个元素 arr[1]时，arr 中 key 1 和 value b 之间的连接被切断，key 1 对应的值被重置为 undefined。注意，这时候，array 中其他元素并没有改变自身的 index 来填补这 key 1 这个空洞，而是保持原值。这样，key 1 就变成了 arr 中的一个洞了！</p>
+<p>除非有特殊需求，比如需要用到 sparse array，一般情况下并不推荐使用 delete operator 来删除 array 中的元素。</p>
+<p>splice() （推荐）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"Banana"</span>, <span class="string">"Orange"</span>, <span class="string">"Apple"</span>, <span class="string">"Mango"</span>];</span><br><span class="line">fruits.splice(<span class="number">0</span>, <span class="number">1</span>); <span class="comment">// Removes the first element of fruits</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个参数 (0) 定义新元素要从哪个位置插入。第二个参数 (1) 定义新元素插入位置开始有多少元素要被删除。后面的参数被忽略掉了，表示并没有要插入的元素。</p>
+<p>filter()（推荐）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">"Banana"</span>, <span class="string">"Orange"</span>, <span class="string">"Apple"</span>, <span class="string">"Mango"</span>];</span><br><span class="line"><span class="keyword">var</span> toDelete = <span class="string">"Apple"</span>;</span><br><span class="line">fruits = fruits.filter(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value != toDelete;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// [ 'Banana', 'Orange', 'Mango' ]</span></span><br></pre></td></tr></table></figure>
+
+<p>理解 length</p>
+<p>length 是 array object 的一个 property， 根据名字来看，似乎是记录 array 的长度。其实，length 的本质是跟踪 array 中的 max_index，并始终保持值是 max_index + 1。</p>
+<p>这和记录长度有什么区别呢？</p>
+<p>还记得使用 delete 来删除元素的情形吧？中间元素被删了，但是其他元素没有改变自身的 index 来填补空间。这时候即使 delete 了多个元素，数组的 length 可能并没有发生变化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array_object = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="built_in">console</span>.log(array_object.length); <span class="comment">// 3</span></span><br><span class="line"><span class="keyword">delete</span> array_object[<span class="number">1</span>];</span><br><span class="line"><span class="built_in">console</span>.log(array_object.length); <span class="comment">// 3!</span></span><br></pre></td></tr></table></figure>
+
+<p>Array 遍历</p>
+<p>如果 array 中没有“洞”， for loop 和 forEach 两种遍历方式区别不大。在 array 有洞的情况下，两者略有不同，其中 forEach 会跳过这些洞，而传统的 for loop 并不会。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array_object = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">delete</span> array_object[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不跳过洞</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; array_object.length; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(array_object[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//1 undefined 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//跳过洞</span></span><br><span class="line">array_object.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(s);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 1 3</span></span><br></pre></td></tr></table></figure>
+
+<p>遍历 array 的方法还有其他，更多方法可以参考这篇<a href="http://stackoverflow.com/q/3010840/3697757" target="_blank" rel="noopener">StackOverflow 问答。</a></p>
+<p>[] vs. new Array()</p>
+<p>当新建一个 array 时候，我们有下面两种方式: array literal [] 或 array constructor new Array(arg)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arrayA = [];</span><br><span class="line"><span class="keyword">var</span> arrayB = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br></pre></td></tr></table></figure>
+
+<p>当使用[]时候， JS engine 会直接调用 global Array 的 constructor 新建一个 array 变量并返回。当使用 new Array()时候， JS engine 会沿着 Execution Context 往上追溯到名为 Array 的 constructor function，并据此生成一个 object。这时候，虽然不大可能，Array 可能会在中间某个 Execution Context 中被用户重新定义。下面是 coderjoe 在 <a href="http://stackoverflow.com/a/1273936/3697757" target="_blank" rel="noopener">StackOverflow</a> 中提出的例子。在例子中，我们最后得到的并不是我们期待的原生 Array。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Array</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.is = <span class="string">"SPARTA"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">var</span> b = [];</span><br><span class="line">alert(a.is);</span><br><span class="line"><span class="comment">// =&gt; 'SPARTA'</span></span><br><span class="line">alert(b.is);</span><br><span class="line"><span class="comment">// =&gt; undefineda.push('Woa');</span></span><br><span class="line"><span class="comment">// =&gt; TypeError: a.push is not a functionb.push('Woa');</span></span><br><span class="line"><span class="comment">// =&gt; 1 (OK)</span></span><br></pre></td></tr></table></figure>
+
+<p>大部分 Javascirpt 社区推荐使用[]来新建 array。</p>
+<blockquote>
+<p>You never need to use new Object() in JavaScript. Use the object literal {} instead. Similarly, don’t use new Array(), use the array literal [] instead. Arrays in JavaScript work nothing like the arrays in Java, and use of the Java-like syntax will confuse you. <a href="http://yuiblog.com/blog/2006/11/13/javascript-we-hardly-new-ya/" target="_blank" rel="noopener">LINK</a></p>
+</blockquote>
+<p>Array 复制</p>
+<p>浅度复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];</span><br><span class="line"><span class="keyword">var</span> arr2 = arr1;</span><br><span class="line">arr2[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 对数组arr2的元素进行修改</span></span><br><span class="line"><span class="built_in">console</span>.log(arr1); <span class="comment">// [1, 'b', 'c']</span></span><br></pre></td></tr></table></figure>
+
+<p>深度复制</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1 = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>];</span><br><span class="line"><span class="keyword">var</span> arr2 = arr1.concat(); <span class="comment">// 使用concat()方法，返回新的数组</span></span><br><span class="line">arr2[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(arr1); <span class="comment">// =&gt; ['a', 'b', 'c', 'd', 'e']：数组arr1的元素没变更</span></span><br><span class="line"><span class="built_in">console</span>.log(arr2); <span class="comment">// =&gt; [ 1, 'b', 'c', 'd', 'e']：数组arr2的元素发生了变更</span></span><br></pre></td></tr></table></figure>
+
+<p>Associate Array</p>
+<p>在计算机科学中，采用 named index 而非 numbered index 的数组被称为<a href="https://en.wikipedia.org/wiki/Associative_array" target="_blank" rel="noopener">Associative Array。</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> associative_array = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">associative_array[<span class="string">"one"</span>] = <span class="string">"Lorem"</span>;</span><br><span class="line">associative_array[<span class="string">"two"</span>] = <span class="string">"Ipsum"</span>;</span><br><span class="line">associative_array[<span class="string">"three"</span>] = <span class="string">"dolor"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> associative_array) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// one two three</span></span><br></pre></td></tr></table></figure>
+
+<p>上面操作可以应用在任何 Javascript object 上，array object 也不例外。但是在 Javascript array 上进行这种操作是很糟糕的。当需要使用 named string 作为 key 时候，我们应该使用一般的 object，而非 array。</p>
+<h1 id="Javascript-里面并不支持-named-index-的-array。"><a href="#Javascript-里面并不支持-named-index-的-array。" class="headerlink" title="Javascript 里面并不支持 named index 的 array。"></a>Javascript 里面并不支持 named index 的 array。</h1><blockquote>
+<p>If you use a named index, JavaScript will redefine the array to a standard object. After that, all array methods and properties will produce incorrect results… In JavaScript, arrays always use numbered indexes. <a href="http://www.w3schools.com/js/js_arrays.asp" target="_blank" rel="noopener">LINK</a></p>
+</blockquote>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://stackoverflow.com/a/13847793/3697757" target="_blank" rel="noopener">Iterating over an array with “holes” in JavaScript</a></li>
+<li><a href="http://stackoverflow.com/a/5665204/3697757" target="_blank" rel="noopener">Create an empty object in JavaScript with {} or new Object()?</a></li>
+<li><a href="http://stackoverflow.com/q/931872/3697757" target="_blank" rel="noopener">What’s the difference between “Array and “[]” while declaring a JavaScript array?</a></li>
+<li><a href="http://www.cnblogs.com/polk6/p/3542523.html" target="_blank" rel="noopener">JavaScript Array 对象</a></li>
+</ul>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/js/#js">js</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/11/17/js-Array-advanced/ - js-Array-advanced @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "js-Array-advanced",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

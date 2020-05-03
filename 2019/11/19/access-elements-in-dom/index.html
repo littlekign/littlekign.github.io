@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>access-elements-in-dom - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>access-elements-in-dom</h1>
+        
+        <h2 class="headline">Nov 19 2019
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>In Understanding the DOM Tree and Nodes, we went over how the DOM is structured as a tree of objects called nodes, and that nodes can be text, comments, or elements. Usually when we access content in the DOM, it will be through an HTML element node.</p>
+<p>In order to be proficient at accessing elements in the DOM, it is necessary to have a working knowledge of CSS selectors, syntax and terminology as well as an understanding of HTML elements. In this tutorial, we will go over several ways to access elements in the DOM: by ID, class, tag, and query selectors.</p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>Here is a table overview of the five methods we will cover in this tutorial.</p>
+<table>
+<thead>
+<tr>
+<th>Gets</th>
+<th>Selector Syntax</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ID</td>
+<td>#demo</td>
+<td>getElementById()</td>
+</tr>
+<tr>
+<td>Class</td>
+<td>.demo</td>
+<td>getElementsByClassName()</td>
+</tr>
+<tr>
+<td>Tag</td>
+<td>demo</td>
+<td>getElementsByTagName()</td>
+</tr>
+<tr>
+<td>Selector</td>
+<td></td>
+<td>(single) querySelector()</td>
+</tr>
+<tr>
+<td>Selector</td>
+<td></td>
+<td>(all) querySelectorAll()</td>
+</tr>
+</tbody></table>
+<p>It is important when studying the DOM to type the examples on your own computer to ensure that you are understanding and retaining the information you learn.</p>
+<p>You can save this HTML file, <code>access.html</code>, to your own project to work through the examples along with this article. If you are unsure how to work with <a href="https://www.digitalocean.com/community/tutorials/how-to-add-javascript-to-html" target="_blank" rel="noopener">JavaScript and HTML</a> locally, review our How To Add JavaScript to HTML tutorial.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Accessing Elements in the DOM<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">      html &#123;</span><br><span class="line">        font-family: sans-serif;</span><br><span class="line"><span class="css">        <span class="selector-tag">color</span>: <span class="selector-id">#333</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line">      body &#123;</span><br><span class="line">        max-width: 500px;</span><br><span class="line">        margin: 0 auto;</span><br><span class="line">        padding: 0 15px;</span><br><span class="line">      &#125;</span><br><span class="line">      div,</span><br><span class="line">      article &#123;</span><br><span class="line">        padding: 10px;</span><br><span class="line">        margin: 5px;</span><br><span class="line"><span class="css">        <span class="selector-tag">border</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#dedede</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Accessing Elements in the DOM<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>ID (#demo)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span>Access me by ID<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Class (.demo)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo"</span>&gt;</span>Access me by class (1)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo"</span>&gt;</span>Access me by class (2)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Tag (article)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">article</span>&gt;</span>Access me by tag (1)<span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">article</span>&gt;</span>Access me by tag (2)<span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Query Selector<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo-query"</span>&gt;</span>Access me by query<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Query Selector All<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-query-all"</span>&gt;</span>Access me by query all (1)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-query-all"</span>&gt;</span>Access me by query all (2)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>In this HTML file, we have many elements that we will access with different document methods. When we render the file in a browser, it will look similar to this:<br><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/html-rendering.png" alt=""></p>
+<p>We’ll be using the different methods that we outlined in the Overview above to access the available elements in the file.</p>
+<h2 id="Accessing-Elements-by-ID"><a href="#Accessing-Elements-by-ID" class="headerlink" title="Accessing Elements by ID"></a>Accessing Elements by ID</h2><p>The easiest way to access a single element in the DOM is by its unique ID. We can grab an element by ID with the <code>getElementById()</code> method of the <code>document</code> object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById();</span><br></pre></td></tr></table></figure>
+
+<p>In order to be accessed by ID, the HTML element must have an <code>id</code> attribute. We have a <code>div</code> element with an ID of <code>demo</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"demo"</span>&gt;Access me by ID&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>In the Console, let’s get the element and assign it to the <code>demoId</code> variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> demoId = <span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Logging <code>demoId</code> to the console will return our entire HTML element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(demoId);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span>Access me by ID<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>We can be sure we’re accessing the correct element by changing the <code>border</code> property to <code>purple</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">demoId.style.border = <span class="string">"1px solid purple"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Once we do so, our live page will look like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/id-element.png" alt=""></p>
+<p>Accessing an element by ID is an effective way to get an element quickly in the DOM. However, it has drawbacks; an ID must always be unique to the page, and therefore you will only ever be able to access a single element at a time with the <code>getElementById()</code> method. If you wanted to add a function to many elements throughout the page, your code would quickly become repititious.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementsByClassName();</span><br></pre></td></tr></table></figure>
+
+<p>Now we want to access more than one element, and in our example we have two elements with a <code>demo</code> class.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo"</span>&gt;</span>Access me by class (1)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo"</span>&gt;</span>Access me by class (2)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s access our elements in the Console and put them in a variable called <code>demoClass</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> demoClass = <span class="built_in">document</span>.getElementsByClassName(<span class="string">"demo"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>At this point, you might think you can modify the elements the same way you did with the ID example. However, if we try to run the following code and change the <code>border</code> property of the class demo elements to orange, we will get an error.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">demoClass.style.border = <span class="string">"1px solid orange"</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Uncaught <span class="built_in">TypeError</span>: Cannot <span class="keyword">set</span> property 'border' of undefined</span><br></pre></td></tr></table></figure>
+
+<p>The reason this doesn’t work is because instead of just getting one element, we have an array-like object of elements.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(demoClass);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Output(<span class="number">2</span>)[(div.demo, div.demo)];</span><br></pre></td></tr></table></figure>
+
+<p><strong>JavaScript arrays</strong> must be accessed with an index number. We can therefore change the first element of this array by using an index of 0.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">demoClass[<span class="number">0</span>].style.border = <span class="string">"1px solid orange"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Generally when accessing elements by class, we want to apply a change to all the elements in the document with that particular class, not just one. We can do this by creating a for loop, and looping through every item in the array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; demoClass.length; i++) &#123;</span><br><span class="line">  demoClass[i].style.border = <span class="string">"1px solid orange"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>When we run this code, our live page will be rendered like this:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/class-element.png" alt=""></p>
+<p>We have now selected every element on the page that has a <code>demo</code> class, and changed the <code>border</code> property to <code>orange</code>.</p>
+<h2 id="Accessing-Elements-by-Tag"><a href="#Accessing-Elements-by-Tag" class="headerlink" title="Accessing Elements by Tag"></a>Accessing Elements by Tag</h2><p>A less specific way to access multiple elements on the page would be by its HTML tag name. We access an element by tag with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName" target="_blank" rel="noopener">getElementsByTagName()</a> method.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementsByTagName();</span><br></pre></td></tr></table></figure>
+
+<p>For our tag example, we’re using <code>article</code> elements.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span>Access me by tag (1)<span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span>Access me by tag (2)<span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Just like accessing an element by its class, <code>getElementsByTagName()</code> will return an array-like object of elements, and we can modify every tag in the document with a for loop.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> demoTag = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"article"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; demoTag.length; i++) &#123;</span><br><span class="line">  demoTag[i].style.border = <span class="string">"1px solid blue"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Upon running the code, the live page will be modified like so:</p>
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/tag-element.png" alt=""></p>
+<p>The loop changed the <code>border</code> property of all <code>article</code> elements to <code>blue</code>.</p>
+<h2 id="Query-Selectors"><a href="#Query-Selectors" class="headerlink" title="Query Selectors"></a>Query Selectors</h2><p>If you have any experience with the <a href="https://jquery.com/" target="_blank" rel="noopener">jQuery</a> API, you may be familiar with jQuery’s method of accessing the DOM with CSS selectors.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#demo"</span>); <span class="comment">// returns the demo ID element in jQuery</span></span><br></pre></td></tr></table></figure>
+
+<p>We can do the same in plain JavaScript with the <code>querySelector()</code> and <code>querySelectorAll()</code> methods.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.querySelector();</span><br><span class="line"><span class="built_in">document</span>.querySelectorAll();</span><br></pre></td></tr></table></figure>
+
+<p>To access a single element, we will use the <code>querySelector()</code> method. In our HTML file, we have a <code>demo-query</code> element</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo-query"</span>&gt;</span>Access me by query<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The selector for an <code>id</code> attribute is the hash symbol <code>(#).</code> We can assign the element with the <code>demo-query</code> id to the <code>demoQuery</code> variable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> demoQuery = <span class="built_in">document</span>.querySelector(<span class="string">"#demo-query"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>In the case of a selector with multiple elements, such as a class or a tag, <code>querySelector()</code> will return the first element that matches the query. We can use the <code>querySelectorAll()</code> method to collect all the elements that match a specific query.</p>
+<p>In our example file, we have two elements with the <code>demo-query-all</code> class applied to them.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-query-all"</span>&gt;</span>Access me by query all (1)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-query-all"</span>&gt;</span>Access me by query all (2)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>The selector for a class attribute is a period or full stop <code>(.),</code> so we can access the class with <code>.demo-query-all</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> demoQueryAll = <span class="built_in">document</span>.querySelectorAll(<span class="string">".demo-query-all"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Using the <code>forEach()</code> method, we can apply the color <code>green</code> to the <code>border</code> property of all matching elements.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> demoQueryAll = <span class="built_in">document</span>.querySelectorAll(<span class="string">".demo-query-all"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">demoQueryAll.forEach(<span class="function"><span class="params">query</span> =&gt;</span> &#123;</span><br><span class="line">  query.style.border = <span class="string">"1px solid green"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://assets.digitalocean.com/articles/eng_javascript/dom/query-selector.png" alt=""></p>
+<p>With <code>querySelector()</code>, comma-separated values function as an OR operator. For example, <code>querySelector(&#39;div, article&#39;)</code> will match <code>div</code> or <code>article</code>, whichever appears first in the document. With <code>querySelectorAll()</code>, comma-separated values function as an AND operator, and <code>querySelectorAll(&#39;div, article&#39;)</code> will match all <code>div</code> and <code>article</code> values in the document.</p>
+<p>Using the query selector methods is extremely powerful, as you can access any element or group of elements in the DOM the same way you would in a CSS file. For a complete list of selectors, review <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors" target="_blank" rel="noopener">CSS Selectors</a> on the Mozilla Developer Network.</p>
+<h2 id="Complete-JavaScript-Code"><a href="#Complete-JavaScript-Code" class="headerlink" title="Complete JavaScript Code"></a>Complete JavaScript Code</h2><p>Below is the complete script of the work we did above. You can use it to access all the elements on our example page. Save the file as access.js and load it in to the HTML file right before the closing body tag.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign all elements</span></span><br><span class="line"><span class="keyword">const</span> demoId = <span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>);</span><br><span class="line"><span class="keyword">const</span> demoClass = <span class="built_in">document</span>.getElementsByClassName(<span class="string">"demo"</span>);</span><br><span class="line"><span class="keyword">const</span> demoTag = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"article"</span>);</span><br><span class="line"><span class="keyword">const</span> demoQuery = <span class="built_in">document</span>.querySelector(<span class="string">"#demo-query"</span>);</span><br><span class="line"><span class="keyword">const</span> demoQueryAll = <span class="built_in">document</span>.querySelectorAll(<span class="string">".demo-query-all"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change border of ID demo to purple</span></span><br><span class="line">demoId.style.border = <span class="string">"1px solid purple"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change border of class demo to orange</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; demoClass.length; i++) &#123;</span><br><span class="line">  demoClass[i].style.border = <span class="string">"1px solid orange"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change border of tag demo to blue</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; demoTag.length; i++) &#123;</span><br><span class="line">  demoTag[i].style.border = <span class="string">"1px solid blue"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change border of ID demo-query to red</span></span><br><span class="line">demoQuery.style.border = <span class="string">"1px solid red"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Change border of class query-all to green</span></span><br><span class="line">demoQueryAll.forEach(<span class="function"><span class="params">query</span> =&gt;</span> &#123;</span><br><span class="line">  query.style.border = <span class="string">"1px solid green"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Your final HTML file will look like this:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Accessing Elements in the DOM<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">      html &#123;</span><br><span class="line">        font-family: sans-serif;</span><br><span class="line"><span class="css">        <span class="selector-tag">color</span>: <span class="selector-id">#333</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line">      body &#123;</span><br><span class="line">        max-width: 500px;</span><br><span class="line">        margin: 0 auto;</span><br><span class="line">        padding: 0 15px;</span><br><span class="line">      &#125;</span><br><span class="line">      div,</span><br><span class="line">      article &#123;</span><br><span class="line">        padding: 10px;</span><br><span class="line">        margin: 5px;</span><br><span class="line"><span class="css">        <span class="selector-tag">border</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#dedede</span>;</span></span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Accessing Elements in the DOM<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>ID (#demo)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo"</span>&gt;</span>Access me by ID<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Class (.demo)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo"</span>&gt;</span>Access me by class (1)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo"</span>&gt;</span>Access me by class (2)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Tag (article)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">article</span>&gt;</span>Access me by tag (1)<span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">article</span>&gt;</span>Access me by tag (2)<span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Query Selector<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"demo-query"</span>&gt;</span>Access me by query<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Query Selector All<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-query-all"</span>&gt;</span>Access me by query all (1)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-query-all"</span>&gt;</span>Access me by query all (2)<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"access.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>You can continue to work on these template files to make additional changes by accessing HTML elements.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>In this tutorial, we went over 5 ways to access HTML elements in the DOM — by ID, by class, by HTML tag name, and by selector. The method you will use to get an element or group of elements will depend on browser support and how many elements you will be manipulating. You should now feel confident to access any HTML element in a document with JavaScript through the DOM.</p>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/dom/#dom">dom</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/11/19/access-elements-in-dom/ - access-elements-in-dom @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "access-elements-in-dom",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  

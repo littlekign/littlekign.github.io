@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="collection of tech">
+
+
+	<meta name="keywords" content="js">
+
+<link rel="alternate" href="/atom.xml" title="LK" type="application/atom+xml">
+<meta name="theme-color" content="#red">
+<title>php-baisc-interview-questions - LK</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>php-baisc-interview-questions</h1>
+        
+        <h2 class="headline">Nov 19 2019
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><p>[TOC]</p>
+<h2 id="Q1-What-is-the-difference-between-and"><a href="#Q1-What-is-the-difference-between-and" class="headerlink" title="Q1: What is the difference between == and ===?"></a>Q1: What is the difference between == and ===?</h2><ul>
+<li>The operator == casts between two different types if they are different</li>
+<li>The === operator performs a ‘typesafe comparison’</li>
+</ul>
+<p>That means that it will only return true if both operands have the same type and the same value.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> === <span class="number">1</span>: <span class="keyword">true</span></span><br><span class="line"><span class="number">1</span> == <span class="number">1</span>: <span class="keyword">true</span></span><br><span class="line"><span class="number">1</span> === <span class="string">"1"</span>: <span class="keyword">false</span> <span class="comment">// 1 is an integer, "1" is a string</span></span><br><span class="line"><span class="number">1</span> == <span class="string">"1"</span>: <span class="keyword">true</span> <span class="comment">// "1" gets casted to an integer, which is 1</span></span><br><span class="line"><span class="string">"foo"</span> === <span class="string">"foo"</span>: <span class="keyword">true</span> <span class="comment">// both operands are strings and have the same value</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q2-How-can-you-pass-a-variable-by-reference"><a href="#Q2-How-can-you-pass-a-variable-by-reference" class="headerlink" title="Q2: How can you pass a variable by reference?"></a>Q2: How can you pass a variable by reference?</h2><p>To be able to pass a variable by <strong>reference</strong>, we use an ampersand in front of it, as follows:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$var1 = &amp;$var2</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q3-What-does-GLOBALS-mean"><a href="#Q3-What-does-GLOBALS-mean" class="headerlink" title="Q3: What does $GLOBALS mean?"></a>Q3: What does $GLOBALS mean?</h2><p><code>$GLOBALS</code> is associative array including references to all variables which are currently defined in the global scope of the script.</p>
+<h2 id="Q4-What-is-the-use-of-ini-set"><a href="#Q4-What-is-the-use-of-ini-set" class="headerlink" title="Q4: What is the use of ini_set()?"></a>Q4: What is the use of ini_set()?</h2><p>PHP allows the user to modify some of its settings mentioned in php.ini using ini_set(). This function requires two string arguments. First one is the name of the setting to be modified and the second one is the new value to be assigned to it.</p>
+<p>Given line of code will enable the display_error setting for the script if it’s disabled.</p>
+<p><code>ini_set(&#39;display_errors&#39;, &#39;1&#39;);</code></p>
+<p>We need to put the above statement, at the top of the script so that, the setting remains enabled till the end. Also, the values set via ini_set() are applicable, only to the current script. Thereafter, PHP will start using the original values from php.ini.</p>
+<h2 id="Q5-When-should-I-use-require-vs-include"><a href="#Q5-When-should-I-use-require-vs-include" class="headerlink" title="Q5: When should I use require vs. include?"></a>Q5: When should I use require vs. include?</h2><p>The <code>require()</code> function is identical to <code>include()</code>, except that it handles errors differently. If an error occurs, the <code>include()</code> function generates a warning, but the script will continue execution. The <code>require()</code> generates a fatal error, and the script will stop.</p>
+<p>My suggestion is to just use <code>require_once</code> 99.9% of the time.</p>
+<p>Using <code>require</code> or <code>include</code> instead implies that your code is not <strong>reusable</strong> elsewhere, i.e. that the scripts you’re pulling in actually execute code instead of making available a class or some function libraries.</p>
+<h2 id="Q6-What-is-stdClass-in-PHP"><a href="#Q6-What-is-stdClass-in-PHP" class="headerlink" title="Q6: What is stdClass in PHP?"></a>Q6: What is stdClass in PHP?</h2><p><code>stdClass</code> is just a generic ‘empty’ class that’s used when casting other types to objects. <code>stdClass</code> is <strong>not</strong> the base class for objects in PHP. This can be demonstrated fairly easily:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span></span>&#123;&#125;</span><br><span class="line">$foo = <span class="keyword">new</span> Foo();</span><br><span class="line"><span class="keyword">echo</span> ($foo <span class="keyword">instanceof</span> stdClass)?<span class="string">'Y'</span>:<span class="string">'N'</span>; <span class="comment">// outputs 'N'</span></span><br></pre></td></tr></table></figure>
+
+<p>It is useful for anonymous objects, dynamic properties, etc.</p>
+<p>An easy way to consider the <code>StdClass</code> is as an alternative to associative array. See this example below that shows how <code>json_decode()</code> allows to get an <code>StdClass</code> instance or an associative array. Also but not shown in this example, <code>SoapClient::__soapCall</code> returns an <code>StdClass</code> instance.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Example with StdClass</span></span><br><span class="line">$json = <span class="string">'&#123; "foo": "bar", "number": 42 &#125;'</span>;</span><br><span class="line">$stdInstance = json_decode($json);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $stdInstance - &gt; foo.PHP_EOL; <span class="comment">//"bar"</span></span><br><span class="line"><span class="keyword">echo</span> $stdInstance - &gt; number.PHP_EOL; <span class="comment">//42</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Example with associative array</span></span><br><span class="line">$array = json_decode($json, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $array[<span class="string">'foo'</span>].PHP_EOL; <span class="comment">//"bar"</span></span><br><span class="line"><span class="keyword">echo</span> $array[<span class="string">'number'</span>].PHP_EOL; <span class="comment">//42</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q7-What-are-the-differences-between-die-and-exit-functions-in-PHP"><a href="#Q7-What-are-the-differences-between-die-and-exit-functions-in-PHP" class="headerlink" title="Q7: What are the differences between die() and exit() functions in PHP?"></a>Q7: What are the differences between die() and exit() functions in PHP?</h2><p>There’s no difference - they are the same. The only advantage of choosing die() over exit(), might be the time you spare on typing an extra letter.</p>
+<h2 id="Q8-What-are-the-main-differences-between-const-vs-define"><a href="#Q8-What-are-the-main-differences-between-const-vs-define" class="headerlink" title="Q8: What are the main differences between const vs define"></a>Q8: What are the main differences between const vs define</h2><p>The fundamental difference between <code>const</code> vs <code>define</code> is that <code>const</code> defines constants at compile time, whereas <code>define</code> defines them at run time.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> FOO = <span class="string">'BAR'</span>;</span><br><span class="line">define(<span class="string">'FOO'</span>, <span class="string">'BAR'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// but</span></span><br><span class="line"><span class="keyword">if</span> (...) &#123;</span><br><span class="line">    <span class="keyword">const</span> FOO = <span class="string">'BAR'</span>;    <span class="comment">// Invalid</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (...) &#123;</span><br><span class="line">    define(<span class="string">'FOO'</span>, <span class="string">'BAR'</span>); <span class="comment">// Valid</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Also until PHP 5.3, <code>const</code> could not be used in the global scope. You could only use this from within a class. This should be used when you want to set some kind of constant option or setting that pertains to that class. Or maybe you want to create some kind of enum. An example of good <code>const</code> usage is to get rid of magic numbers.</p>
+<p><code>Define</code> can be used for the same purpose, but it can only be used in the global scope. It should only be used for global settings that affect the entire application.</p>
+<p>Unless you need any type of conditional or expressional definition, use <code>consts</code> instead of <code>define()</code>- simply for the sake of readability!</p>
+<h2 id="Q9-What’s-the-difference-between-isset-and-array-key-exists"><a href="#Q9-What’s-the-difference-between-isset-and-array-key-exists" class="headerlink" title="Q9: What’s the difference between isset() and array_key_exists()?"></a>Q9: What’s the difference between isset() and array_key_exists()?</h2><ul>
+<li>array_key_exists will tell you if a key exists in an array and complains when $a does not exist.</li>
+<li>isset will only return true if the key/variable exists and is not null. isset doesn’t complain when $a does not exist.</li>
+</ul>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">array</span>(<span class="string">'key1'</span> =&gt; <span class="string">'Foo Bar'</span>, <span class="string">'key2'</span> =&gt; <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">isset</span>($a[<span class="string">'key1'</span>]);             <span class="comment">// true</span></span><br><span class="line">array_key_exists(<span class="string">'key1'</span>, $a);  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">isset</span>($a[<span class="string">'key2'</span>]);             <span class="comment">// false</span></span><br><span class="line">array_key_exists(<span class="string">'key2'</span>, $a);  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q10-What-is-the-difference-between-var-dump-and-print-r"><a href="#Q10-What-is-the-difference-between-var-dump-and-print-r" class="headerlink" title="Q10: What is the difference between var_dump() and print_r()?"></a>Q10: What is the difference between var_dump() and print_r()?</h2><p>The <code>var_dump</code> function displays structured information about variables/expressions including its type and value. Arrays are explored recursively with values indented to show structure. It also shows which array values and object properties are references.</p>
+<p>The <code>print_r()</code> displays information about a variable in a way that’s readable by humans. array values will be presented in a format that shows keys and elements. Similar notation is used for objects.</p>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$obj = (object) <span class="keyword">array</span>(<span class="string">'qualitypoint'</span>, <span class="string">'technologies'</span>, <span class="string">'India'</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>var_dump($obj)</code>will display below output in the screen:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">object(stdClass)<span class="comment">#1 (3) &#123;</span></span><br><span class="line">[<span class="number">0</span>]=&gt; string(<span class="number">12</span>) <span class="string">"qualitypoint"</span></span><br><span class="line">[<span class="number">1</span>]=&gt; string(<span class="number">12</span>) <span class="string">"technologies"</span></span><br><span class="line">[<span class="number">2</span>]=&gt; string(<span class="number">5</span>) <span class="string">"India"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And, print_r($obj) will display below output in the screen.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stdClass Object (</span><br><span class="line">[<span class="number">0</span>] =&gt; qualitypoint</span><br><span class="line">[<span class="number">1</span>] =&gt; technologies</span><br><span class="line">[<span class="number">2</span>] =&gt; India</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q11-Explain-what-the-different-PHP-errors-are"><a href="#Q11-Explain-what-the-different-PHP-errors-are" class="headerlink" title="Q11: Explain what the different PHP errors are"></a>Q11: Explain what the different PHP errors are</h2><ul>
+<li><p>A <code>notice</code> is a non-critical error saying something went wrong in execution, something minor like an undefined variable.</p>
+</li>
+<li><p>A <code>warning</code> is given when a more critical error like if an include() command went to retrieve a non-existent file. In both this and the error above, the script would continue.</p>
+</li>
+</ul>
+<ul>
+<li>A <code>fatal</code> error would terminate the code. Failure to satisfy a require() would generate this type of error, for example.</li>
+</ul>
+<h2 id="Q12-How-can-you-enable-error-reporting-in-PHP"><a href="#Q12-How-can-you-enable-error-reporting-in-PHP" class="headerlink" title="Q12: How can you enable error reporting in PHP?"></a>Q12: How can you enable error reporting in PHP?</h2><p>Check if “<code>display_errors</code>” is equal “on” in the php.ini or declare “<code>ini_set(&#39;display_errors&#39;, 1)</code>” in your script.</p>
+<p>Then, include “<code>error_reporting(E_ALL)</code>” in your code to display all types of error messages during the script execution.</p>
+<h2 id="Q13-Declare-some-function-with-default-parameter"><a href="#Q13-Declare-some-function-with-default-parameter" class="headerlink" title="Q13: Declare some function with default parameter"></a>Q13: Declare some function with default parameter</h2><p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showMessage</span><span class="params">($hello = false)</span></span>&#123;</span><br><span class="line">  <span class="keyword">echo</span> ($hello) ? <span class="string">'hello'</span> : <span class="string">'bye'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q14-Is-multiple-inheritance-supported-in-PHP"><a href="#Q14-Is-multiple-inheritance-supported-in-PHP" class="headerlink" title="Q14: Is multiple inheritance supported in PHP?"></a>Q14: Is multiple inheritance supported in PHP?</h2><p>PHP supports only single inheritance; it means that a class can be extended from only one single class using the keyword ‘extended’.</p>
+<h2 id="Q15-In-PHP-objects-are-they-passed-by-value-or-by-reference"><a href="#Q15-In-PHP-objects-are-they-passed-by-value-or-by-reference" class="headerlink" title="Q15: In PHP, objects are they passed by value or by reference?"></a>Q15: In PHP, objects are they passed by value or by reference?</h2><p>In PHP, objects passed by value.</p>
+<h2 id="Q16-What-is-the-differences-between-a-b-and-a-b"><a href="#Q16-What-is-the-differences-between-a-b-and-a-b" class="headerlink" title="Q16: What is the differences between $a != $b and $a !== $b?"></a>Q16: What is the differences between $a != $b and $a !== $b?</h2><p><code>!=</code> means inequality (TRUE if $a is not equal to $b) and <code>!==</code> means non-identity (TRUE if $a is not identical to $b).</p>
+<h2 id="Q17-What-is-PDO-in-PHP"><a href="#Q17-What-is-PDO-in-PHP" class="headerlink" title="Q17: What is PDO in PHP?"></a>Q17: What is PDO in PHP?</h2><p><strong>PDO</strong> stands for PHP Data Object.</p>
+<p>It is a set of PHP extensions that provide a core PDO class and database, specific drivers. It provides a vendor-neutral, lightweight, data-access abstraction layer. Thus, no matter what database we use, the function to issue queries and fetch data will be same. It focuses on data access abstraction rather than database abstraction.</p>
+<h2 id="Q18-Explain-how-we-handle-exceptions-in-PHP"><a href="#Q18-Explain-how-we-handle-exceptions-in-PHP" class="headerlink" title="Q18: Explain how we handle exceptions in PHP?"></a>Q18: Explain how we handle exceptions in PHP?</h2><p>When an exception is thrown, code following the statement will not be executed, and PHP will attempt to find the first matching catch block. If an exception is not caught, a PHP Fatal Error will be issued with an “Uncaught Exception”. An exception can be thrown, and caught within PHP.</p>
+<p>To handle exceptions, code may be surrounded in a <code>try</code> block. Each try must have at least one corresponding catch block. Multiple <code>catch</code> blocks can be used to catch different classes of exceptions. Exceptions can be thrown (or re-thrown) within a catch block.</p>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"this is our try block n"</span>;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>();</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"something went wrong, caught yah! n"</span>;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"this part is always executed n"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q19-Differentiate-between-echo-and-print"><a href="#Q19-Differentiate-between-echo-and-print" class="headerlink" title="Q19: Differentiate between echo and print()"></a>Q19: Differentiate between echo and print()</h2><p><code>echo</code> and <code>print</code> are more or less the same. They are both used to output data to the screen.</p>
+<p>The differences are:</p>
+<ul>
+<li>echo has no return value while print has a return value of 1 so it can be used in expressions.</li>
+<li>echo can take multiple parameters (although such usage is rare) while print can take one argument.</li>
+<li>echo is faster than print.</li>
+</ul>
+<h2 id="Q20-When-should-I-use-require-once-vs-require"><a href="#Q20-When-should-I-use-require-once-vs-require" class="headerlink" title="Q20: When should I use require_once vs. require?"></a>Q20: When should I use require_once vs. require?</h2><p>The <code>require_once()</code> statement is identical to <code>require()</code> except PHP will check if the file has already been included, and if so, not include (require) it again.</p>
+<p>My suggestion is to just use <code>require_once</code> 99.9% of the time.</p>
+<p>Using <code>require</code> or <code>include</code> instead implies that your code is not <strong>reusable</strong> elsewhere, i.e. that the scripts you’re pulling in actually execute code instead of making available a class or some function libraries.</p>
+<h2 id="Q21-Check-if-PHP-array-is-associative"><a href="#Q21-Check-if-PHP-array-is-associative" class="headerlink" title="Q21: Check if PHP array is associative"></a>Q21: Check if PHP array is associative</h2><p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">has_string_keys</span><span class="params">(array $array)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> count(array_filter(array_keys($array), <span class="string">'is_string'</span>)) &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>If there is at least one string key, <code>$array</code> will be regarded as an associative array.</p>
+<h2 id="Q22-How-do-I-pass-variables-and-data-from-PHP-to-JavaScript"><a href="#Q22-How-do-I-pass-variables-and-data-from-PHP-to-JavaScript" class="headerlink" title="Q22: How do I pass variables and data from PHP to JavaScript?"></a>Q22: How do I pass variables and data from PHP to JavaScript?</h2><p>There are actually several approaches to do this:</p>
+<ul>
+<li>Use AJAX to get the data you need from the server.<br>Consider <strong>get-data.php</strong>:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> json_encode(<span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Consider <strong>index.html:</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">reqListener</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    console.log(this.responseText);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> oReq = <span class="keyword">new</span> XMLHttpRequest(); <span class="comment">// New request object</span></span><br><span class="line">  oReq.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="comment">// This is where you handle what to do with the response.</span></span><br><span class="line">      <span class="comment">// The actual data is found on this.responseText</span></span><br><span class="line">      alert(this.responseText); <span class="comment">// Will alert: 42</span></span><br><span class="line">  &#125;;</span><br><span class="line">  oReq.open(<span class="string">"get"</span>, <span class="string">"get-data.php"</span>, <span class="keyword">true</span>);</span><br><span class="line">  <span class="comment">//                               ^ Don't block the rest of the execution.</span></span><br><span class="line">  <span class="comment">//                                 Don't wait until the request finishes to</span></span><br><span class="line">  <span class="comment">//                                 continue.</span></span><br><span class="line">  oReq.send();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Echo the data into the page somewhere, and use JavaScript to get the information from the DOM.</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"dom-target"</span> style=<span class="string">"display: none;"</span>&gt;</span><br><span class="line">  <span class="meta">&lt;?php</span></span><br><span class="line">      $output = <span class="string">"42"</span>; <span class="comment">// Again, do some operation, get the output.</span></span><br><span class="line">      <span class="keyword">echo</span> htmlspecialchars($output); <span class="comment">/* You have to escape because the result</span></span><br><span class="line"><span class="comment">                                         will not be valid HTML otherwise. */</span></span><br><span class="line">  <span class="meta">?&gt;</span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">var</span> div = document.getElementById(<span class="string">"dom-target"</span>);</span><br><span class="line">  <span class="keyword">var</span> myData = div.textContent;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Echo the data directly to JavaScript.</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">var</span> data = <span class="meta">&lt;?php</span> <span class="keyword">echo</span> json_encode(<span class="string">"42"</span>, JSON_HEX_TAG); <span class="meta">?&gt;</span>; <span class="comment">// Don't forget the extra semicolon!</span></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q23-Is-there-a-function-to-make-a-copy-of-a-PHP-array-to-another"><a href="#Q23-Is-there-a-function-to-make-a-copy-of-a-PHP-array-to-another" class="headerlink" title="Q23: Is there a function to make a copy of a PHP array to another?"></a>Q23: Is there a function to make a copy of a PHP array to another?</h2><p>In PHP arrays are assigned by copy, while objects are assigned by reference so PHP will copy the array by default. References in PHP have to be explicit:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">array</span>(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">$b = $a; <span class="comment">// $b will be a different array</span></span><br><span class="line">$c = &amp;$a; <span class="comment">// $c will be a reference to $a</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q24-What-will-be-returned-by-this-code"><a href="#Q24-What-will-be-returned-by-this-code" class="headerlink" title="Q24: What will be returned by this code?"></a>Q24: What will be returned by this code?</h2><p>Consider the code:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">new</span> stdClass();</span><br><span class="line">$a-&gt;foo = <span class="string">"bar"</span>;</span><br><span class="line">$b = <span class="keyword">clone</span> $a;</span><br><span class="line">var_dump($a === $b);</span><br></pre></td></tr></table></figure>
+
+<p>What will be echoed to the console?</p>
+<p><strong>Answer:</strong><br>Two instances of the same class with equivalent members do NOT match the <code>===</code> operator. So the answer is:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool(<span class="keyword">false</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q25-What-will-be-returned-by-this-code-Explain-the-result"><a href="#Q25-What-will-be-returned-by-this-code-Explain-the-result" class="headerlink" title="Q25: What will be returned by this code? Explain the result."></a>Q25: What will be returned by this code? Explain the result.</h2><p>Consider the code. What will be returned as a result?</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$something = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">echo</span> (<span class="string">'password123'</span> == $something) ? <span class="string">'true'</span> : <span class="string">'false'</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Answer:</strong><br>The answer is <code>true</code>. You should never use <code>==</code> for string comparison. Even if you are comparing strings to strings, PHP will implicitly cast them to floats and do a numerical comparison if they appear numerical. <code>===</code> is OK.</p>
+<p>For example</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'1e3'</span> == <span class="string">'1000'</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>also returns true.</p>
+<h2 id="Q26-What-exactly-is-the-the-difference-between-array-map-array-walk-and-array-filter"><a href="#Q26-What-exactly-is-the-the-difference-between-array-map-array-walk-and-array-filter" class="headerlink" title="Q26: What exactly is the the difference between array_map, array_walk and array_filter?"></a>Q26: What exactly is the the difference between array_map, array_walk and array_filter?</h2><ul>
+<li><code>array_walk</code> takes an array and a function F and modifies it by replacing every element x with F(x).</li>
+<li><code>array_map</code> does the exact same thing <strong>except</strong> that instead of modifying in-place it will return a new array with the transformed elements.</li>
+<li><code>array_filter</code> with function F, instead of transforming the elements, will remove any elements for which F(x) <strong>is not true</strong></li>
+</ul>
+<h2 id="Q27-Explain-the-difference-between-exec-vs-system-vs-passthru"><a href="#Q27-Explain-the-difference-between-exec-vs-system-vs-passthru" class="headerlink" title="Q27: Explain the difference between exec() vs system() vs passthru()?"></a>Q27: Explain the difference between exec() vs system() vs passthru()?</h2><ul>
+<li><code>exec()</code> is for calling a system command, and perhaps dealing with the output yourself.</li>
+<li><code>system()</code> is for executing a system command and immediately displaying the output - presumably text.</li>
+<li><code>passthru()</code> is for executing a system command which you wish the raw return from - presumably something binary.</li>
+</ul>
+<h2 id="Q28-How-would-you-create-a-Singleton-class-using-PHP"><a href="#Q28-How-would-you-create-a-Singleton-class-using-PHP" class="headerlink" title="Q28: How would you create a Singleton class using PHP?"></a>Q28: How would you create a Singleton class using PHP?</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Singleton class</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">UserFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Call this method to get singleton</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> UserFactory</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Instance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> $inst = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> ($inst === <span class="keyword">null</span>) &#123;</span><br><span class="line">            $inst = <span class="keyword">new</span> UserFactory();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $inst;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Private ctor so nobody else can instantiate it</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>To use:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$fact = UserFactory::Instance();</span><br><span class="line">$fact2 = UserFactory::Instance();</span><br></pre></td></tr></table></figure>
+
+<p>But:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$fact = <span class="keyword">new</span> UserFactory()</span><br></pre></td></tr></table></figure>
+
+<p>Throws an error.</p>
+<h2 id="Q29-What-is-the-difference-between-PDO’s-query-vs-execute"><a href="#Q29-What-is-the-difference-between-PDO’s-query-vs-execute" class="headerlink" title="Q29: What is the difference between PDO’s query() vs execute()?"></a>Q29: What is the difference between PDO’s query() vs execute()?</h2><ul>
+<li><code>query</code> runs a standard SQL statement and requires you to properly escape all data to avoid SQL Injections and other issues.</li>
+<li><code>execute</code> runs a prepared statement which allows you to bind parameters to avoid the need to escape or quote the parameters. execute will also perform better if you are repeating a query multiple times.</li>
+</ul>
+<p>Best practice is to stick with prepared statements and execute for increased security. Aside from the escaping on the client-side that it provides, a prepared statement is compiled on the server-side once, and then can be passed different parameters at each execution.</p>
+<h2 id="Q30-What-is-use-of-Null-Coalesce-Operator"><a href="#Q30-What-is-use-of-Null-Coalesce-Operator" class="headerlink" title="Q30: What is use of Null Coalesce Operator?"></a>Q30: What is use of Null Coalesce Operator?</h2><p>Null coalescing operator returns its first operand if it exists and is not NULL. Otherwise it returns its second operand.</p>
+<p>Example:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$name = $firstName ?? $username ?? $placeholder ?? <span class="string">"Guest"</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q31-Differentiate-between-exception-and-error"><a href="#Q31-Differentiate-between-exception-and-error" class="headerlink" title="Q31: Differentiate between exception and error"></a>Q31: Differentiate between exception and error</h2><ul>
+<li>Recovering from <code>Error</code> is not possible. The only solution to errors is to terminate the execution. Where as you can recover from <code>Exception</code> by using either try-catch blocks or throwing exception back to caller.</li>
+<li>You will not be able to handle the <code>Errors</code> using try-catch blocks. Even if you handle them using try-catch blocks, your application will not recover if they happen. On the other hand, <code>Exceptions</code> can be handled using try-catch blocks and can make program flow normal if they happen.</li>
+<li><code>Exceptions</code> are related to application where as <code>Errors</code> are related to environment in which application is running.</li>
+</ul>
+<h2 id="Q32-What-are-the-exception-class-functions"><a href="#Q32-What-are-the-exception-class-functions" class="headerlink" title="Q32: What are the exception class functions?"></a>Q32: What are the exception class functions?</h2><p>There are following functions which can be used from <code>Exception</code> class.</p>
+<ul>
+<li><code>getMessage()</code> − message of exception</li>
+<li><code>getCode()</code> − code of exception</li>
+<li><code>getFile()</code> − source filename</li>
+<li><code>getLine()</code> − source line</li>
+<li><code>getTrace()</code> − n array of the <code>backtrace()</code></li>
+<li><code>getTraceAsString()</code> − formated string of trace</li>
+<li><code>Exception::__toString</code> gives the string representation of the exception.</li>
+</ul>
+<h2 id="Q33-Differentiate-between-parameterised-and-non-parameterised-functions"><a href="#Q33-Differentiate-between-parameterised-and-non-parameterised-functions" class="headerlink" title="Q33: Differentiate between parameterised and non parameterised functions"></a>Q33: Differentiate between parameterised and non parameterised functions</h2><ul>
+<li><strong>Non parameterised functions</strong> don’t take any parameter at the time of calling.</li>
+<li><strong>Parameterised functions</strong> take one or more arguments while calling. These are used at run time of the program when output depends on dynamic values given at run time There are two ways to access the parameterised function:<br>1.call by value: (here we pass the value directly )<br>2.call by reference: (here we pass the address location where the value is stored)</li>
+</ul>
+<h2 id="Q34-Explain-function-call-by-reference"><a href="#Q34-Explain-function-call-by-reference" class="headerlink" title="Q34: Explain function call by reference"></a>Q34: Explain function call by reference</h2><p>In case of call by reference, actual value is modified if it is modified inside the function. In such case, we need to use <code>&amp;</code> symbol with formal arguments. The <code>&amp;</code> represents reference of the variable.</p>
+<p>Example</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">adder</span><span class="params">(&amp;$str2)</span> </span>&#123;</span><br><span class="line">    $str2 .= <span class="string">'Call By Reference'</span>;</span><br><span class="line">&#125;</span><br><span class="line">$str = <span class="string">'This is '</span>;</span><br><span class="line">adder($str);</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is Call By Reference</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q35-Why-do-we-use-extract"><a href="#Q35-Why-do-we-use-extract" class="headerlink" title="Q35: Why do we use extract()?"></a>Q35: Why do we use extract()?</h2><p>The <code>extract()</code> function imports variables into the local symbol table from an array. This function uses array keys as variable names and values as variable values. For each element it will create a variable in the current symbol table. This function returns the number of variables extracted on success.</p>
+<p>Example:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="string">"Original"</span>;</span><br><span class="line">$my_array = <span class="keyword">array</span>(<span class="string">"a"</span> =&gt; <span class="string">"Cat"</span>,<span class="string">"b"</span> =&gt; <span class="string">"Dog"</span>, <span class="string">"c"</span> =&gt; <span class="string">"Horse"</span>);</span><br><span class="line">extract($my_array);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\$a = $a; \$b = $b; \$c = $c"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$a = Cat; $b = Dog; $c = Horse</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q36-explain-what-is-a-closure-in-PHP-and-why-does-it-use-the-“use”-identifier"><a href="#Q36-explain-what-is-a-closure-in-PHP-and-why-does-it-use-the-“use”-identifier" class="headerlink" title="Q36: explain what is a closure in PHP and why does it use the “use” identifier?"></a>Q36: explain what is a closure in PHP and why does it use the “use” identifier?</h2><p>Consider this code:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTotal</span><span class="params">($tax)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $total = <span class="number">0.00</span>;</span><br><span class="line"></span><br><span class="line">    $callback =</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="params">($quantity, $product)</span> <span class="title">use</span> <span class="params">($tax, &amp;$total)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            $pricePerItem = constant(<span class="keyword">__CLASS__</span> . <span class="string">"::PRICE_"</span> .</span><br><span class="line">                strtoupper($product));</span><br><span class="line">            $total += ($pricePerItem * $quantity) * ($tax + <span class="number">1.0</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    array_walk(<span class="keyword">$this</span>-&gt;products, $callback);</span><br><span class="line">    <span class="keyword">return</span> round($total, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Could you explain why use it?</p>
+<p><strong>Answer:</strong><br>This is how PHP expresses a <strong>closure</strong>. Basically what this means is that you are allowing the anonymous function to “capture” local variables (in this case, <code>$tax</code> and a reference to <code>$total</code>) outside of it scope and preserve their values (or in the case of $total the reference to $total itself) as state within the anonymous function itself.</p>
+<p>A closure is a separate namespace, normally, you can not access variables defined outside of this namespace.</p>
+<ul>
+<li><code>use</code> allows you to access (use) the succeeding variables inside the closure.</li>
+<li><code>use</code> is early binding. That means the variable values are COPIED upon DEFINING the closure. So modifying $tax inside the closure has no external effect, unless it is a pointer, like an object is.</li>
+<li>You can pass in variables as pointers like in case of <code>&amp;$total</code>. This way, modifying the value of <code>$total</code> DOES HAVE an external effect, the original variable’s value changes.</li>
+</ul>
+<h2 id="Q37-What-exactly-are-late-static-bindings-in-PHP"><a href="#Q37-What-exactly-are-late-static-bindings-in-PHP" class="headerlink" title="Q37: What exactly are late static bindings in PHP?"></a>Q37: What exactly are late static bindings in PHP?</h2><p>Basically, it boils down to the fact that the <code>self</code> keyword does not follow the same rules of inheritance. <code>self</code> always resolves to the class in which it is used. This means that if you make a method in a parent class and call it from a child class, <code>self</code> will not reference the child as you might expect.</p>
+<p>Late static binding introduces a new use for the <code>static</code> keyword, which addresses this particular shortcoming. When you use static, it represents the class where you first use it, ie. it ‘binds’ to the runtime class.</p>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">static</span>::getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Car'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Toyota</span> <span class="keyword">extends</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Toyota'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> Car::run(); <span class="comment">// Output: Car</span></span><br><span class="line"><span class="keyword">echo</span> Toyota::run(); <span class="comment">// Output: Toyota</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q38-How-to-measure-execution-times-of-PHP-scripts"><a href="#Q38-How-to-measure-execution-times-of-PHP-scripts" class="headerlink" title="Q38: How to measure execution times of PHP scripts?"></a>Q38: How to measure execution times of PHP scripts?</h2><p>I want to know how many milliseconds a PHP while-loop takes to execute. Could you help me?</p>
+<p><strong>Answer</strong>:<br>You can use the <code>microtime</code> function for this.</p>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$start = microtime(<span class="keyword">true</span>);</span><br><span class="line"><span class="keyword">while</span> (...) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$time_elapsed_secs = microtime(<span class="keyword">true</span>) - $start;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q39-What-is-the-best-method-to-merge-two-PHP-objects"><a href="#Q39-What-is-the-best-method-to-merge-two-PHP-objects" class="headerlink" title="Q39: What is the best method to merge two PHP objects?"></a>Q39: What is the best method to merge two PHP objects?</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//We have this:</span></span><br><span class="line">$objectA-&gt;a;</span><br><span class="line">$objectA-&gt;b;</span><br><span class="line">$objectB-&gt;c;</span><br><span class="line">$objectB-&gt;d;</span><br><span class="line"></span><br><span class="line"><span class="comment">//We want the easiest way to get:</span></span><br><span class="line">$objectC-&gt;a;</span><br><span class="line">$objectC-&gt;b;</span><br><span class="line">$objectC-&gt;c;</span><br><span class="line">$objectC-&gt;d;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Answer</strong>:<br>This works:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$obj_merged = (object) array_merge((<span class="keyword">array</span>) $obj1, (<span class="keyword">array</span>) $obj2);</span><br></pre></td></tr></table></figure>
+
+<p>You may also use <code>array_merge_recursive</code> to have a deep copy behavior.</p>
+<p>One more way to do that is:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>($objectA <span class="keyword">as</span> $k =&gt; $v) $objectB-&gt;$k = $v;</span><br></pre></td></tr></table></figure>
+
+<p>This is faster than the first answer in PHP versions &lt; 7 (estimated 50% faster). But in PHP &gt;= 7 the first answer is something like 400% faster.</p>
+<h2 id="Q40-Compare-mysqli-or-PDO-what-are-the-pros-and-cons"><a href="#Q40-Compare-mysqli-or-PDO-what-are-the-pros-and-cons" class="headerlink" title="Q40: Compare mysqli or PDO - what are the pros and cons?"></a>Q40: Compare mysqli or PDO - what are the pros and cons?</h2><p>Let’s name some:</p>
+<ul>
+<li><p>PDO is the standard, it’s what most developers will expect to use.</p>
+</li>
+<li><p>Moving an application from one database to another isn’t very common, but sooner or later you may find yourself working on another project using a different RDBMS. If you’re at home with PDO then there will at least be one thing less to learn at that point.</p>
+</li>
+<li><p>A really nice thing with PDO is you can fetch the data, injecting it automatically in an object.</p>
+</li>
+</ul>
+<ul>
+<li><p>PDO has some features that help agains SQL injection</p>
+</li>
+<li><p>In sense of speed of execution MySQLi wins, but unless you have a good wrapper using MySQLi, its functions dealing with prepared statements are awful. inserts - almost equal, selects - mysqli is <del>2.5% faster for non-prepared statements/</del>6.7% faster for prepared statements.</p>
+</li>
+</ul>
+<h2 id="Q41-What-is-use-of-Spaceship-Operator"><a href="#Q41-What-is-use-of-Spaceship-Operator" class="headerlink" title="Q41: What is use of Spaceship Operator?"></a>Q41: What is use of Spaceship Operator?</h2><p>This <code>&lt;=&gt;</code> operator will offer combined comparison in that it will:</p>
+<ul>
+<li>Return 0 if values on either side are equal</li>
+<li>Return 1 if value on the left is greater</li>
+<li>Return -1 if the value on the right is greater</li>
+</ul>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Comparing Integers</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">1</span> &lt;= &gt; <span class="number">1</span>; <span class="comment">//outputs 0</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">3</span> &lt;= &gt; <span class="number">4</span>; <span class="comment">//outputs -1</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">4</span> &lt;= &gt; <span class="number">3</span>; <span class="comment">//outputs 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//String Comparison</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"x"</span> &lt;= &gt; <span class="string">"x"</span>; <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"x"</span> &lt;= &gt; <span class="string">"y"</span>; <span class="comment">//-1</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"y"</span> &lt;= &gt; <span class="string">"x"</span>; <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Q42-Does-PHP-have-threading"><a href="#Q42-Does-PHP-have-threading" class="headerlink" title="Q42: Does PHP have threading?"></a>Q42: Does PHP have threading?</h2><p>Standard php does not provide any multithreading but there is an (experimental) extension that actually does - pthreads. The next best thing would be to simply have one script execute another via CLI, but that’s a bit rudimentary. Depending on what you are trying to do and how complex it is, this may or may not be an option.</p>
+<h2 id="Q43-Is-PHP-single-or-multi-threaded"><a href="#Q43-Is-PHP-single-or-multi-threaded" class="headerlink" title="Q43: Is PHP single or multi threaded?"></a>Q43: Is PHP single or multi threaded?</h2><p>PHP is not single threaded by nature. It is, however, the case that the most common installation of PHP on unix systems is a single threaded setup, as is the most common Apache installation, and nginx doesn’t have a thread based architecture whatever. In the most common Windows setup and some more advanced unix setups, PHP can and does operate multiple interpreter threads in one process.</p>
+<p>PHP as an interpreter had support for multi-threading since the year 2000.</p>
+<h2 id="Q44-Provide-some-ways-to-mimic-multiple-constructors-in-PHP"><a href="#Q44-Provide-some-ways-to-mimic-multiple-constructors-in-PHP" class="headerlink" title="Q44: Provide some ways to mimic multiple constructors in PHP"></a>Q44: Provide some ways to mimic multiple constructors in PHP</h2><p>It’s known you can’t put two <code>__construct</code> functions with unique argument signatures in a PHP class but I’d like to do something like this:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">   <span class="keyword">protected</span> $id;</span><br><span class="line">   <span class="keyword">protected</span> $name;</span><br><span class="line">   <span class="comment">// etc.</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($id)</span></span>&#123;</span><br><span class="line">       <span class="keyword">$this</span>-&gt;id = $id;</span><br><span class="line">      <span class="comment">// other members are still uninitialised</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($row_from_database)</span></span>&#123;</span><br><span class="line">       <span class="keyword">$this</span>-&gt;id = $row_from_database-&gt;id;</span><br><span class="line">       <span class="keyword">$this</span>-&gt;name = $row_from_database-&gt;name;</span><br><span class="line">       <span class="comment">// etc.</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>What is the best way to achieve this in PHP?</p>
+<p><strong>Answer</strong>:<br>I’d probably do something like this:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// allocate your stuff</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">withID</span><span class="params">( $id )</span> </span>&#123;</span><br><span class="line">        $instance = <span class="keyword">new</span> <span class="keyword">self</span>();</span><br><span class="line">        $instance-&gt;loadByID( $id );</span><br><span class="line">        <span class="keyword">return</span> $instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">withRow</span><span class="params">( array $row )</span> </span>&#123;</span><br><span class="line">        $instance = <span class="keyword">new</span> <span class="keyword">self</span>();</span><br><span class="line">        $instance-&gt;fill( $row );</span><br><span class="line">        <span class="keyword">return</span> $instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">loadByID</span><span class="params">( $id )</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do query</span></span><br><span class="line">        $row = my_awesome_db_access_stuff( $id );</span><br><span class="line">        <span class="keyword">$this</span>-&gt;fill( $row );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">fill</span><span class="params">( array $row )</span> </span>&#123;</span><br><span class="line">        <span class="comment">// fill all properties from array</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then if i want a Student where i know the ID:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$student = Student::withID( $id );</span><br></pre></td></tr></table></figure>
+
+<p>Technically you’re not building multiple constructors, just static helper methods, but you get to avoid a lot of spaghetti code in the constructor this way.</p>
+<p>Another way is to use <strong>the mix of factory and fluent style:</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $firstName;</span><br><span class="line">    <span class="keyword">protected</span> $lastName;</span><br><span class="line">    <span class="comment">// etc.</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructor</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// allocate your stuff</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Static constructor / factory</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $instance = <span class="keyword">new</span> <span class="keyword">self</span>();</span><br><span class="line">        <span class="keyword">return</span> $instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * FirstName setter - fluent style</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setFirstName</span><span class="params">( $firstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;firstName = $firstName;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * LastName setter - fluent style</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setLastName</span><span class="params">( $lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;lastName = $lastName;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create instance</span></span><br><span class="line">$student= Student::create()-&gt;setFirstName(<span class="string">"John"</span>)-&gt;setLastName(<span class="string">"Doe"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Q45: How could we implement method overloading in PHP?<br>You cannot overload PHP functions. Function signatures are based only on their names and do not include argument lists, so you cannot have two functions with the same name.</p>
+<p>You can, however, declare a <code>variadic function</code> that takes in a variable number of arguments. You would use <code>func_num_args()</code> and <code>func_get_arg()</code> to get the arguments passed, and use them normally.</p>
+<p>Consider:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; func_num_args(); $i++) &#123;</span><br><span class="line">        printf(<span class="string">"Argument %d: %s\n"</span>, $i, func_get_arg($i));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Argument 0: a</span></span><br><span class="line"><span class="comment">Argument 1: 2</span></span><br><span class="line"><span class="comment">Argument 2: 3.5</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">myFunc(<span class="string">'a'</span>, <span class="number">2</span>, <span class="number">3.5</span>);</span><br></pre></td></tr></table></figure>
+</section>
+    
+        
+        <h2 class="footline">
+            <a href="/tags/php/#php">php</a>
+        </h2>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="//about">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">LK</span>
+            <span></span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/11/19/php-baisc-interview-questions/ - php-baisc-interview-questions @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "php-baisc-interview-questions",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+  <div id="social">
+    <p class="small">
+      © LK| Powered by Hexo &
+      <a href="https://github.com/littlekign" target="_blank" rel="noopener"> Lights</a>
+    </p>
+  </div>
+</footer>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=UA-152788210-1"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-152788210-1");
+</script>
+
+</section>
+
+<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+<script data-no-instant>
+  //   
+  InstantClick.init("mousedown");
+</script>
+  
