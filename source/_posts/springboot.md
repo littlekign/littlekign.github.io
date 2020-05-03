@@ -1,7 +1,7 @@
 ---
 title: springboot启动
 date: 2020-05-03 14:12:56
-tags: spring-boot
+tags:spring-boot
 ---
 
 [TOC]

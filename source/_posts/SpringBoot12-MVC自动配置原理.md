@@ -1,7 +1,7 @@
 ---
 title: SpringBoot12-MVC自动配置原理
 date: 2020-05-03 15:44:25
-tags: springboot
+tags:springboot
 ---
 
 ![TOC]
