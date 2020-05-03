@@ -1,7 +1,7 @@
 ---
 title: springboot-yaml
 date: 2020-05-03 14:37:37
-tags:springboot yaml
+tags: springboot yaml
 ---
 
 ![TOC]

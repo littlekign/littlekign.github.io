@@ -1,7 +1,7 @@
 ---
 title: springboot05-自动配置原理
 date: 2020-05-03 15:00:31
-tags:springboot 自动配置原理
+tags: springboot 自动配置原理
 ---
 
 ![TOC]

@@ -1,7 +1,7 @@
 ---
 title: SpringBoot09-整合MyBatis
 date: 2020-05-03 15:18:12
-tags:springboot
+tags: springboot
 ---
 
 # 整合MyBatis

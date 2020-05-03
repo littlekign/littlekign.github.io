@@ -98,4 +98,4 @@ deploy:
   type: "git"
   repository: git@github.com:littlekign/littlekign.github.io.git
   # branch: source
-  branch: source
+  branch: master
